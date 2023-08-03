@@ -244,10 +244,10 @@ Construisons maintenant un autre programme "Paradoxe" qui  prend en entrée un p
 
 Analysons ce qui se passe :
 
-- Si le programme "Paradoxe" en entrée est un programme qui s'arrête, alors  "Arrêt?" répond "True", donc  "Paradoxe" tombe dans une boucle infinie, donc "Paradoxe"  ne s'arrête pas... ce qui est une contradiction
--	Si "Paradoxe" en entrée est un programme qui ne s'arrête pas, alors "Arrêt?" répond "False", donc "Paradoxe"  s'arrête...ici aussi nous avons une contradiction !
+- Si le programme "Paradoxe" en entrée est un programme qui s'arrête, alors "Arrêt?" répond "True", donc  "Paradoxe" tombe dans une boucle infinie, donc "Paradoxe"  ne s'arrête pas. C'est une contradiction !
+-	Si "Paradoxe" en entrée est un programme qui ne s'arrête pas, alors "Arrêt?" répond "False", donc "Paradoxe"  s'arrête. C'est aussi une contradiction !
 
-Dans les 2 cas, nous avons une contradiction, nous pouvons donc en conclure que le programme "Paradoxe"  ne peut pas exister. Mais du coup, si le programme "Paradoxe"  ne peut pas exister, cela signifie que le programme "Arrêt?" ne peut pas exister (puisque le « Paradoxe » se base sur le programme "Arrêt?").
+Dans les deux cas, nous avons une contradiction, nous pouvons donc en conclure que le programme "Paradoxe"  ne peut pas exister. Et si le programme "Paradoxe" ne peut pas exister, cela signifie que le programme "Arrêt?" ne peut pas exister non plus (puisque « Paradoxe » se base sur "Arrêt?").
 
 Nous venons donc bien de démontrer que le programme "Arrêt?" ne peut pas exister. Le **problème de l'arrêt est donc indécidable**.
 
