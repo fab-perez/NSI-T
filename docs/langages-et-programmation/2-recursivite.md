@@ -294,12 +294,13 @@ def fib(n):
 
     for i in range (11):
         for j in range(i+1):
-            print (C(i, j), end=" ")
+            print (C(i, j), end="\t")
         print ('')
     ```
 
     2 )
-    ```
+
+    ``` py
     def C(n, k):
         if (n, k) in memoire:
             return memoire[n, k]
@@ -309,8 +310,13 @@ def fib(n):
             c =  C(n-1, k) + C(n-1, k-1)
         memoire[n, k] = c
         return c
+
     memoire={}
-    print(C(30,14))
+    for i in range (11):
+        for j in range(i+1):
+            print (C(i, j), end="\t")
+        print ('')
+    ```
 
 Note : La mémoisation est un exemple classique d’utilisation des décorateurs Python (hors programme)[^2.9]. On pourra aussi explorer le décorateur @functools.lru_cache(). 
 
