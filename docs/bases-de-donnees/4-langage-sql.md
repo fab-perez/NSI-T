@@ -324,9 +324,9 @@ DELETE FROM Auteur WHERE Num_auteur = 2;
 !!! abstract "Cours"
     Contrainte d’intégrité référentielle : Il n'est pas possible de supprimer une ligne dans une table si elle est référencée par la clé étrangère d'une autre table. 
 
-##	Interroger des données avec `SELECT`
+##	Sélectionner des données avec `SELECT`
 
-Une façon simple de connaître tous les livres de la base de données est la commande (ou **requête** pour une interrogation de la base de données) suivante :
+Une façon simple de connaître tous les livres de la base de données est la commande (ou **requête**) SQL suivante :
 
 ``` sql
 SELECT * FROM Livre ;
@@ -340,7 +340,7 @@ SELECT Titre, Editeur FROM Livre;
 
 
 !!! abstract "Cours"
-    La commande (ou **requête**) SQL pour intérroger des données est :
+    La commande (ou **requête**) SQL pour sélectionner des données est :
 
     ``` sql
     SELECT * FROM nom_table
@@ -490,7 +490,9 @@ FROM Pays
 WHERE Population = (SELECT MIN(Population) FROM Pays);
 ```
 
-:warning: SQLite est particulièrment flexible avec les fonctions d'aggregation et permettait d’écrire directement :
+:warning: SQLite est particulièrment flexible avec les fonctions d'aggregation et permettait d’écrire directement[^4.1] :
+
+[^4.1]: Voir [https://sqlite.org/lang_select.html#bare_columns_in_an_aggregate_query](https://sqlite.org/lang_select.html#bare_columns_in_an_aggregate_query).
 
 ``` sql
 SELECT Pays, MIN(Population) 
@@ -613,3 +615,22 @@ Il existe d’autres types de jointures, `LEFT JOIN`, `RIGHT JOIN`, `FULL OUTER 
 
 ![Une jointure FULL OUTER JOIN](assets/4-full-outer-join-light-mode.png#only-light){width="80%"}
 ![Une jointure FULL OUTER JOIN](assets/4-full-outer-join-dark-mode.png#only-dark){width="80%"}
+
+## Résumé des requêtes SQL
+
+Les commandes SQL suivantes sont à connaître par cœur :
+
+|Action|Commande SQL|
+|:--|:--|
+|Ajouter des lignes dans une table|```INSERT  INTO nom_table```<br>```VALUES (valeur1,  valeur2, …);```|
+|Ajouter des lignes dans une table<br> en précisant les colonnes|```INSERT  INTO nom_table(nom_colonne1,  nom_colonne2, ...)```<br>```VALUES (valeur1,  valeur2, …);```|
+|Mettre à jour une ligne|```UPDATE  nom_table```<br>```SET  nom_colonne1 = valeur1,  nom_colonne2 = valeur2, …```<br>```WHERE  certainesColonnes = certainesValeurs;```|
+|Supprimer une ligne|```DELETE  FROM nom_table```<br>```WHERE   nom_colonne = valeur;```|
+|Sélectionner toutes les données dans une table|```SELECT  *  FROM  nom_table;```|
+|Sélectionner certaines colonnes|```SELECT  nom_colonne1,  nom_colonne2,  ...```<br>```FROM  nom_table```|
+|Sélectionner certaines lignes<br>avec `WHERE`|```SELECT  ...```<br>```FROM  nom_table```<br>```WHERE nom_colonne = valeur```|
+|Sélectionner sans répétition<br>avec `DISTINCT`|```SELECT  DISTINCT nom_colonne```<br>```FROM  nom_table```|
+|Sélectionner en triant les lignes<br>avec `ORDER BY`|```SELECT  ...```<br>```FROM  nom_table```<br>```ORDER BY nom_colonne [DESC]```|
+|Sélectionner avec les fonctions d'aggregat<br> `MIN()`, `MAX()`, `COUNT()`, `SUM()`, `AVG()`|```SELECT  MIN(nom_colonne)```<br>```FROM  nom_table```|
+|Afficher une jointure entre tables|```SELECT  nom_table1.nom_col1, nom_table2.nom_col2, ```<br>```FROM  nom_table1```<br>```JOIN  nom_table2```<br>```ON nom_table1.cle1 = nom_table2.cle2```|
+
