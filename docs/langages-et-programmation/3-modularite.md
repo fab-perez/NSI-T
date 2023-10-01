@@ -1,11 +1,11 @@
 #	Modularité
 
 !!! abstract "Cours" 
-    La **modularité** permet de découper un projet en plus petit programmes afin de :
+    La **modularité** consiste à découper un projet en plus petit programmes afin de :
 
-    - Faciliter la réutilisation de bouts de codes sans avoir à les réécrire  ou dupliquer
-    - Faciliter la réalisation d’un gros projet en sous projets plus simples
-    - Donner une structure pour faciliter la compréhension du code et sa maintenance
+    - Faciliter la réutilisation de bouts de codes sans avoir à les réécrire  ou dupliquer.
+    - Faciliter la réalisation d’un gros projet en sous projets plus simples.
+    - Donner une structure pour faciliter la compréhension du code et sa maintenance.
 
 
 ##	Modules et bibliothèques (rappels de 1ère)
@@ -243,7 +243,7 @@ cos(...)
     ![Schéma d'une API entre logiciels](assets/3-API-dark-mode.png#only-dark){width=70%}
 
 
-En d'autres termes, une API permet à deux applications informatiques distinctes de se parler et de partager des informations de manière standardisée et sécurisée. Elle agit comme un pont entre les applications en exposant certaines fonctionnalités ou données spécifiques tout en cachant les détails internes de leur mise en œuvre.
+Il existe de nombreux types d'API mais le principe de base est toujours le même : deux applications informatiques peuvent intéragir sans que l'une ne connaîsse le fonctionnement interne de l'autre. Il suffit que la documentation décrive précisément les règles d'utilisation de l'API.Par exemple, en Python, pour utiliser une fonction d'un module externe, il suffit de connaître sa spécification (son nom, les paramètres et ce qu'elle retourne), il est inutile de savoir comment elle fonctionne.
 
 Une API peut prendre différentes formes, telles que:
 
@@ -253,13 +253,13 @@ Une API peut prendre différentes formes, telles que:
 
 3. API de bibliothèque: Les bibliothèques logicielles fournissent des API qui permettent aux développeurs d'utiliser certaines fonctionnalités ou fonctionnalités spécifiques sans avoir à comprendre les détails internes de leur mise en œuvre.
 
-4. API matériel: Certains matériels, comme les imprimantes, offrent également des API qui permettent aux logiciels d'interagir avec eux de manière standardisée.
+4. API de matériel: Certains matériels, comme les imprimantes, offrent également des API qui permettent aux logiciels d'interagir avec eux de manière standardisée.
 
 Les API jouent un rôle essentiel dans le développement de logiciels car elles facilitent l'intégration de différentes parties d'une application ou de différents services pour créer des systèmes plus complexes et puissants.
 
 ![Documentation de l'API du studio Ghibli](assets/3-API-ghibli.png){align=right width=50%}
 
-Prenons pour exemple l'utilisation de l'API Web fournie par le Studio Ghibli pour récupérer des données sur ses films : [https://ghibliapi.vercel.app/](https://ghibliapi.vercel.app/). 
+Prenons pour exemple l'utilisation de l'API Web fournie par le Studio Ghibli pour récupérer des données sur ses films : [https://ghibliapi.vercel.app/ ](https://ghibliapi.vercel.app/ ). 
 
 Observons la documentation : La section FILMS fournit l'URL du point d’accès à l’API, [https://ghibliapi.vercel.app/films](https://ghibliapi.vercel.app/films) et trois exemples de requêtes faites en curl, Ruby et Python.
 
@@ -279,7 +279,7 @@ Commençons par importer ces données dans un fichier (noter que la fonction `ur
 
 ``` py
 >>> import urllib.request
->>> url = 'https://ghibliapi.herokuapp.com/films'
+>>> url = 'https://ghibliapi.vercel.app/films'
 >>> request = urllib.request.urlopen(url).read()
 ```
 
@@ -288,7 +288,7 @@ Les données sont importées dans un fichier binaire (en python un fichier binai
 ``` py
 >>> type(request)
 <class 'bytes'>
->>> print(rquest)
+>>> print(request)
 b'[\n  {\n    "id": "2baf70d1-42bb-4437-b551-e5fed5a87abe",\n    "title": "Castle in the Sky",\n    "description": "The orphan Sheeta inherited a mysterious crystal that links her to the mythical ...
 ```
 
@@ -298,7 +298,7 @@ On peut maintenant utiliser le module json pour manipuler ces données dans un f
 import urllib.request
 import json
 
-url = 'https://ghibliapi.herokuapp.com/films'
+url = 'https://ghibliapi.vercel.app/films'
 request = urllib.request.urlopen(url).read()
 data = json.loads(request.decode())
 print(data)
