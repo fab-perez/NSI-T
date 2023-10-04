@@ -19,29 +19,22 @@ Le fonctionnement est donc celui d'une **pile d'assiettes** : on ajoute des assi
 ![Empiler et dépiler un élement dans une pile](assets/4-empiler-depiler-dark-mode.png#only-dark){width="70%"}
 
 
-
-On retrouve dans les piles une partie des propriétés vues sur les listes.
-
-
-Les piles trouvent de nombreuses applications en informatique :
+Les piles trouvent de nombreuses applications en informatique, par exemple :
 
 -   Dans un navigateur web, une pile sert à mémoriser les pages Web visitées. L'adresse de chaque nouvelle page visitée est empilée et l'utilisateur dépile l'adresse de la page précédente en cliquant le bouton « Afficher la page précédente ».
 
 -   La fonction « Annuler la frappe » (en anglais « Undo ») d'un traitement de texte mémorise les modifications apportées au texte dans une pile.
 
--   Un algorithme de recherche en profondeur utilise une pile pour mémoriser les noeuds visités.
-
--   etc.
 
 ##	Interface
 
-Voici les opérations communément utilisées pour manipuler des piles :
+Les principales primitives d'une pile sont :
 
-- `creer() → pile` : constructeur d’une pile vide.
-- `est_vide() → bool` : vérification si une pile est vide ou non.
+- `creer() → pile` : construire une pile vide.
+- `est_vide() → bool` : vérifier si une pile est vide ou non.
 - `empiler(element)` : ajouter un élément sur la pile (*Push* en anglais).
-- `dépiler() → element` : enlèver un élément de la pile et le renvoie (*Pop* en anglais).
-- `taille() → int` : nombre d'éléments dans la pile.
+- `dépiler() → element` : enlèver un élément de la pile et le renvoyer (*Pop* en anglais).
+- `taille() → int` : renvoyer le nombre d'éléments dans la pile.
 
 Exemple :
 
@@ -55,7 +48,7 @@ Soit une pile `P` composée des éléments suivants : 12, 14, 8, 7, 19 et 22 (le
 
 La pile est un type abstrait, son implémentation peut se faire sous différentes formes.
 
-###	en utilisant une liste chaînée
+###	avec une liste chaînée
 
 Sur la même idée que la classe `ListeChainee` vue précédemment, il est possible de peut créer une classe `Pile` de toute pièce basée sur la class `Cellule`.
 
@@ -104,7 +97,7 @@ Créons maintenant une instance de `Pile` :
 >>> p.taille()
 4
 ```
-###	en utilisant le type `list` Python
+###	avec le type `list` de Python
 
 Il est aussi possible de créer très facilement une classe `Pile` en utilisant le type `list` avec les méthodes `pop()` et `append()` :
 

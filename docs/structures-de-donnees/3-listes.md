@@ -1,19 +1,19 @@
 # Structures linéaires : Listes
 
 !!! abstract "Cours"
-    Une **liste**[^3.1] est une structure abstraite de données constituée d’éléments d’un même type, chacun possédant une position (ou rang). 
+    Une **liste**[^3.1] est une structure abstraite de données constituée d'éléments d'un même type, chacun possédant une position (ou rang) dans la liste. 
 
-    Une liste peut être **éventuellement vide**. Une liste est évolutive: on peut  **ajouter** ou **supprimer** n’importe lequel de ses éléments. 
+    Une liste peut être **éventuellement vide**.  Une liste est évolutive : on peut  **ajouter** ou **supprimer** n'importe lequel de ses éléments. 
     
     Une liste non vide comprend de 2 parties :
 
     -	La **tête** (notée *car*[^3.2]), qui est le **dernier élément ajouté** à la liste;
     -   La **queue** (note *cdr*[^3.3] ), qui contient le reste de la liste, elle-même une liste .
 
-    La **longueur** de la liste est le nombre d’éléments composant la liste. Une liste de longueur zéro est une liste vide.
+    La **longueur** de la liste est le nombre d'éléments composant la liste. Une liste de longueur zéro est une liste vide.
 
 
-À noter le caractère récursif de la définition où la queue d'une liste est une liste.
+Notons ici le caractère récursif de cette définition où la queue d'une liste est elle-même une liste ! 
 
 
 [^3.1]: Le langage de programmation Lisp (inventé par John McCarthy en 1958) a été un des premiers langages de programmation à introduire cette notion de liste (Lisp signifie "list processing").
@@ -24,43 +24,48 @@
 
 
 ## Interface 
-Les principales primitives  sur les listes :
+Les principales primitives d'une liste sont :
 
--	`creer() → liste` : constructeur d’une liste vide.
--	`est_vide() → bool` : vérification si une liste est vide ou non.
--	`inserer_tete(element)` : insertion d'un élément en tête.
--	`supprimer_tete() →  element` : suppression de l’élément de tête.
--	`taille() → int` : nombre d'éléments dans la pile.
--	`tete() →  element` : lire le premier élément de la liste.
--	`queue() → liste` : accès au reste de la liste.
+-	`creer() → liste` : construire une liste vide.
+-	`est_vide() → bool` : vérifier si une liste est vide ou non.
+-	`inserer_tete(element)` : insérer un élément en tête de la la liste.
+-	`supprimer_tete() →  element` : supprimer l'élément de tête.
+-	`taille() → int` : renvoyer le nombre d'éléments de la liste.
+-	`tete() →  element` : lire le premier élément (la tête) de la liste.
+-	`queue() → liste` : accéder au reste de la liste (la queue).
 
-Eventuellement on trouve aussi :
+Il est possible d'ajouter quelques primitives supplémentaires, par exemple :
 
--   `insérer(element, i)` : insertion d'un élément en ième position.
--   `lire(i) → element` : accès au ième élément de la liste (get).
+-   `insérer(element, i)` : insérer un élément en ième position de la liste.
+-   `lire(i) → element` : accéder au ième élément de la liste (get).
 
 
 ##	Implémentation
 
 La liste est un type abstrait, son implémentation peut se faire sous différentes formes, en particulier les tableaux et les listes chaînées.
 
-:warning: **Ne pas confondre type abstrait de données liste avec le type `list` de Python**. Le type `list` Python est en réalité un **tableau dynamique**, ce n’est qu’une forme d’implémentation particulière de la structure de données abstraite liste mais ce n’est pas la seule.
+:warning: **Attention à ne pas confondre type abstrait de données liste avec le type `list` de Python**. Le type `list` Python est en réalité un **tableau dynamique**, ce n'est qu'une forme d'implémentation particulière de la structure de données abstraite liste mais ce n'est pas la seule.
 
-###	Implémentation récursive avec des tuples imbriqués
+###	Récursive avec des tuples imbriqués
 
-Une liste peut être définie comme :
+Une liste peut être implémentée sous la forme :
 
--	soit un tuple vide : () si la liste est vide ;
--	soit un couple  formé de la tête de la liste et de sa queue : (car, cdr)
+-	d'un tuple vide `()`, si la liste est vide ; ou sinon
+-	d'un couple composé de la tête de la liste et de sa queue : `(car, cdr)`.
 
-Exemple : une liste avec les éléments 'd', 'c', 'b', 'a'  s’écrit en Python `('d', ('c',( 'b',( 'a', ()))))`. `'d'` est la tête et `(('c', ('b', ('a', ())))` est la queue, c’est-à-dire la liste 'c', 'b', 'a'.
+Prenons par exemple une liste vide implémentée par le tuple `()`, et insérons l'élément `'a'` en tête, la nouvelle liste obtenue est `('a', ())`, sa tête est `'a'` et sa queue `()`. Insérons maintenant un élément `'b'` dans cette liste, la nouvelle liste obtenue est `('b', ('a', ()))`, sa tête est `'b'` et sa queue `('a', ())`. Puis insérons succéssivement les éléments `'c'` et `'d'`, la nouvelle liste  est `('d', ('d', ('b', ('a', ()))))`, la tête est `'d'` et la queue `('d', ('b', ('a', ())))`.
 
-Commençons par les primitives pour créer une liste vide et insérer des éléments en tête de liste :
+Ecrivons en Python ces premières primitives de liste qui permettent de créer une liste vide puis d'insérer un élément en tête de liste :
 
 ``` py
-def creer(): return ()  # renvoie une tuple vide
-def est_vide(L): return L == ()
-def inserer_tete(L, e): return (e, L)  
+def creer():
+    return ()  # renvoie une tuple vide
+
+def est_vide(L):
+    return L == ()
+
+def inserer_tete(L, e):
+    return (e, L)
 
 L = creer()
 L = inserer_tete(L, 'a')
@@ -72,69 +77,82 @@ L = inserer_tete(L, 'd')
 Ajoutons quelques primitives supplémentaires :
 
 ``` py
-def tete(L): return L[0]
-def queue(L): return L[1]
+def tete(L):
+    return L[0]
+
+def queue(L):
+    return L[1]
 ```
 
-La taille est calculée de façon récursive :
+La taille de la liste est calculée de façon récursive :
+
 ``` py
 def taille(L):
-    if est_vide(L): return 0
-    else: return 1 + taille(queue(L))
+    if est_vide(L):
+        return 0
+    else:
+        return 1 + taille(queue(L))
 ```
 
-l'affichage est aussi récursif :
+L'affichage est aussi récursif :
+
 ``` py
 def afficher(L):
-    if est_vide(L): print('')     
+    if est_vide(L):
+        print('')     
     else:
         print(tete(L), end=' - ' ) 
         afficher(queue(L))
 ```
 
-ainsi que la recherche calculéé de façon récursive :
+ainsi que la recherche d'un élément dans la liste :
 
 ``` py
 def chercher(L, e):
-    if est_vide(L): return False 
-    elif tete(L) == e: return True 
-    else: return chercher(queue(L) , e) 
+    if est_vide(L):
+        return False 
+    elif tete(L) == e:
+        return True 
+    else:
+        return chercher(queue(L) , e) 
 ```
 
-###	Implémentation avec un tableau de taille fixe
+###	Avec un tableau de taille fixe
 
-Un **tableau** en informatique est en général représenté par une suite de "cases mémoire" de mêmes tailles contenant les différents éléments du tableau.  Une plage d'adresses mémoire est réservée afin de stocker tous les éléments.
+Un **tableau** en informatique est en général représenté par une suite de "cases mémoire", toutes de mêmes tailles, contenant les différents éléments du tableau.  Une plage d'adresses mémoire est réservée afin de stocker tous les éléments.
 
 ![Cases memoire d'un tableau](assets/3-liste-tableau-cases-memoire-light-mode.png#only-light){width="50%"}
 ![Cases memoire d'un tableau](assets/3-liste-tableau-cases-memoire-dark-mode.png#only-dark){width="50%"}
 
-Cette représentation présente 2 avantages :
+Cette représentation présente deux avantages :
 
 -	pour un tableau sans case vide, elle est très compacte, puisqu'elle se contente de stocker les données ;
+
 -	l'accès un élément du tableau par son $indice$ s'effectue relativement rapidement en temps constant. Son  adresse se calcule facilement:
     $adresseElement = adresseTableau + indice \times  tailleCase$
 
-On peut créer en Python une liste sous forme d’un tableau de taille fixe n+1 en utilisant une variable de type `list`:
-•	la première case du tableau contient le nombre d’éléments de la liste ;
-•	les cases suivantes (d’indice `1` à `n`) contiennent les éléments de la liste ou `None`.
+Implémentons en Python une liste sous forme d'un tableau de taille fixe $n + 1$ en utilisant une variable de type `list` :
+
+-   la première case du tableau contient le nombre d'éléments de la liste ;
+-	les cases suivantes (d'indice `1` à `n`) contiennent les éléments de la liste ou `None`.
 
 Exemple : une liste de taille 5 avec les éléments `'c'`, `'b'`, `'a'`  se présentera sous la forme  `[3, 'c', 'b', 'a', None, None]`.
 
-Créons l’interface d’une telle liste :
+Créons l'interface d'une telle liste :
 
 ``` py
 def creer_liste(longueur):
     '''(int) - > list
     Cree une liste sous forme de tableau de taille fixe
-    La première case du tableau contient le nombre d’éléments de la liste
-    Les cases suivantes (d’indice 1 à n) contiennent les éléments de la liste ou None
+    La première case du tableau contient le nombre d'éléments de la liste
+    Les cases suivantes (d'indice 1 à n) contiennent les éléments de la liste ou None
     '''
     L = [None] * (longueur + 1)
     L[0] = 0
     return L
 ```
 
-On peut définir une fonction pour insérer un élément en tête de liste (***U**pdate*) :
+La primitive pour insérer un élément en tête de liste est alors :
 
 ``` py
 def inserer_tete(L, elem):
@@ -152,7 +170,7 @@ def inserer_tete(L, elem):
         L[0] += 1
 ```
 
-A noter qu’il est inutile de renvoyer la valeur de `L` car c’est une variable de type `list`, donc muable.
+A noter qu'il est inutile de renvoyer la valeur de `L` car c'est une variable de type `list`, donc muable.
 
 ``` py
 inserer_tete(L, 'a')
@@ -171,7 +189,7 @@ def afficher(L):
     print("")
 ```
 
-On peut rajouter une fonction pour supprimer la tête de la liste :
+Ajoutons une primitive permettant de supprimer la tête de la liste :
 
 ``` py
 def supprimer_tete(L):
@@ -186,6 +204,7 @@ def supprimer_tete(L):
         L[L[0]] = None
         L[0] -= 1
 ```
+
 Testons le résultat :
 
 ``` py
@@ -202,52 +221,46 @@ supprimer_tete(L)
 afficher(L)
 ```
 
-On peut aussi ajouter des méthodes pour :
+Il est aussi possible de rajouter quelques primitives pour :
 
 -	accéder au ième élément de la liste (get) ; 
--	insérer un élément en tête d’une liste ;
+-	insérer un élément en tête d'une liste ;
 - 	insére un élément en ième position ;
 -	etc.
 
-Pour aller plus loin,  on peut écrire une classe d’objet Liste avec des méthodes similaire.
+Pour aller plus loin,  on peut écrire une classe `Liste` avec des méthodes similaire.
 
+###  Avec le type `list` de Python
 
+Dans de nombreux langages informatiques, un tableau est une structure de données de taille fixe[^3.4]. Pour insérer des données supplémentaires, il faut créer un nouveau tableau plus grand et déplacer les éléments du premier tableau vers le second tout en ajoutant la donnée au bon endroit.  C'est la notion de **tableau dynamique**, c'est à dire un tableau dont la taille peut varier. 
 
-### Implémentation avec un tableau dynamique (type `list`)
-
-Un tableau a une taille fixe. Si l'on veut insérer des données supplémentaires, on doit créer un nouveau tableau plus grand et déplacer les éléments du premier tableau vers le second tout en ajoutant la donnée au bon endroit.
-
-C’est la notion de **tableau dynamique** : un tableau dont la taille peut varier. 
+[^3.4]:
+    Par exemple pour déclarer un tableau de 4 entiers en C, il faut écrire `int myNumbers[4];`.
 
 !!! abstract "Cours"
-    En Python le **type `list`** est en réalité un **tableau dynamique**. C’est une forme d’implémentation particulière de la structure de données abstraite de liste (mais ce n’est pas la seule). :warning: Attention de ne pas confondre les deux termes.
+    En Python le **type `list`** est un **tableau dynamique**. C'est une forme d'implémentation particulière de la structure de données abstraite de liste (mais ce n'est pas la seule). :warning: Attention de ne pas confondre les deux termes.
 
-Les variables de type `list` en Python offrent toutes les primitives de base d’une liste (notons qu'ici la tête est à la dernière position de la variable `L`) :
+Le type `list` en Python offre toutes les primitives de base d'une liste (notons qu'ici la tête est à la dernière position de la variable `L`) :
 
 |Primitive d'une liste| Type `list` en Python|
 |:--|:--|
-|`creer() → liste` : constructeur d’une liste vide|`L = []`|
+|`creer() → liste` : constructeur d'une liste vide|`L = []`|
 |`est_vide() → bool` : vérification si une liste est vide ou non|`L == []  ou len(L) ==0`|
 |`inserer_tete(element)` : insertion d'un élément en tête|`L.append('a')`|
-|`supprimer_tete() →  element` : suppression de l’élément de tête|`L.pop()`|
+|`supprimer_tete() →  element` : suppression de l'élément de tête|`L.pop()`|
 |`taille() → int` : nombre d'éléments dans la pile|`len(L)`|
 |`tete() →  element` : lire le premier élément de la liste|`L[-1]`|
 |`queue() → liste` : accès au reste de la liste|`L[:-1]`|
 
 
-Mais elles proposent bien d'autres opérateurs que les listes : extraction d'une sous-liste, remplacement d'un élément, tri, retournement, effacement, suppression d'un élément, filtrage, application d'une fonction, réduction, union, intersection, différence, ...
+Le type `list` propose bien d'autres opérateurs que les listes : extraction d'une sous-liste (`L[debut:fin]`), remplacement d'un élément (`L[i] = nouvelle_valeur`), tri (`L.sort()`), retournement (`L.reverse()`), suppression d'un élément (`L.pop(i)`), application d'une fonction (`map(fonction, L`), etc.
 
-S'ils peuvent paraitre la solution miracle à de nombreux besoins, les tableaux dynamiques ne sont pas efficaces pour insérer ou supprimer un élément en plein milieu du tableau.
-
+Néanmoins, s'il peut sembler la solution miracle à de nombreux besoins, les tableaux dynamiques ne sont pas efficaces pour insérer ou supprimer un élément en plein milieu du tableau.
 
 ![Insérer un élement dans un tableau de type list Python](assets/3-inserer-tableau-list-python-light-mode.png#only-light){width="25%" align=right}
 ![Insérer un élement dans un tableau de type list Python](assets/3-inserer-tableau-list-python-dark-mode.png#only-dark){width="25%" align=right}
 
-Prenons un exemple qui consiste à insérer la valeur `'e'` en queue de liste, c'est-à-dire à la première position de notre tableau :
-
-
-
-En Python avec le type `list` on peut le faire facilement avec la fonction `insert()` : 
+Par exemple pour insérer la valeur `'e'` en queue d'une liste implémentée par un tableau Python `['d', 'c', 'b', 'a']`, c'est-à-dire à la première position de ce tableau, la méthode `insert()` semble tout à fait adaptée :
 
 ``` py
 >>> L = ['d', 'c', 'b', 'a']
@@ -259,10 +272,11 @@ En Python avec le type `list` on peut le faire facilement avec la fonction `inse
 Cette opération est néanmoins très couteuse car elle consiste à :
 
 1. agrandir le tableau ; 
-2. déplacer tous les éléments du tableau d’une case vers la droite, en commençant par la fin ; 
+2. déplacer tous les éléments du tableau d'une case vers la droite, en commençant par la fin ; 
 3. et enfin écrire la valeur `'e'` dans la première case.
 
-C’est exactement comme si on avait écrit :
+C'est donc la même chose que d'écrire :
+
 ``` py
 >>> L = ['d, 'c', 'b', 'a']
 >>> L.append(None)
@@ -273,9 +287,9 @@ C’est exactement comme si on avait écrit :
 ['e', 'd', 'b', 'c', 'a']
 ```
 
-On a réalisé un nombre d’opérations proportionnel à la taille du tableau. Si on doit ajouter ou supprimer un premier élément à un tableau d’un million d’éléments, on fera un million d’opérations. C’est donc une complexité en $O(n)$[^3.4].
+Le nombre d'opérations est proportionnel à la taille du tableau. Ajouter ou supprimer le premier élément d'un tableau d'un million d'éléments nécessite près d'un million d'opérations. C'est donc une complexité en $O(n)$ [^3.5].
 
-[^3.4]: 
+[^3.5]: 
     On peut facilement observer que le coût d'insérer un élement en début de tableau est proportionnel à la taille du tableau avec le module `time`: 
     ``` py
     import time
@@ -291,9 +305,9 @@ On a réalisé un nombre d’opérations proportionnel à la taille du tableau. 
 
 
 
-### En utilisant une liste chaînée 
+### Avec une liste chaînée 
 
-La liste chainée apporte une solution au problème de coût d’insertion et suppression d’éléments des tableaux dynamique.  Elle servira aussi de brique de base aux structures de données vues par la suite (Piles et Files).
+La liste chainée apporte une solution au problème de coût d'insertion et suppression d'éléments des tableaux dynamiqus.  Elle servira aussi de brique de base aux structures de données de piles et de files étudiées dans la suite de ce chapitre.
 
 Dans une liste chaînée, chaque élément de la liste est stocké dans une **cellule** contenant :
 
@@ -301,7 +315,7 @@ Dans une liste chaînée, chaque élément de la liste est stocké dans une **ce
 - 	un **pointeur** (ou référence) sur la cellule suivante ;
 - 	éventuellement (pour les listes doublement chaînées), un pointeur sur la cellule précédente.
 
-Voilà ce que ça donne pour représenter la liste `['c', 'b', 'a']` :
+Voilà ce que ça donne pour représenter la liste `'c'`, `'b'`, `'a'` :
 
 ![Liste chaînée c, b, a](assets/3-liste-chainee-1-light-mode.png#only-light){width="60%"}
 ![Liste chaînée c, b, a](assets/3-liste-chainee-1-dark-mode.png#only-dark){width="60%"}
@@ -309,7 +323,7 @@ Voilà ce que ça donne pour représenter la liste `['c', 'b', 'a']` :
 
 L'usage d'une liste est souvent préconisé pour des raisons de rapidité de traitement, lorsque les insertions et les suppressions d'éléments quelconques sont plus fréquentes que les accès. En effet, les insertions et les suppressions se font en temps constant car elles ne demandent au maximum que deux écritures. 
 
-Voici par exemple comment insérer l'élément 'z' entre 'c' et 'b' :
+Voici par exemple comment insérer l'élément `'z'` entre les éléments `'c'` et `'b'` :
 
 
 ![Liste chaînée c, z, b, a](assets/3-liste-chainee-2-light-mode.png#only-light){width="80%"}
@@ -323,7 +337,7 @@ En revanche, la structure de liste chaînée présente deux inconvénients :
 
 - l'accès à un élément est relativement long et est proportionnel à l'indice de l'élément, puisqu'il faut parcourir la liste depuis le début (ou la fin) pour atteindre l'élément voulu.
 
-Utilisons la POO pour créer une classe d’objet `Cellule` avec les deux attributs : `valeur` et `suivante`. `suivante` désigne la cellule suivante ou `None` pour la dernière cellule de la liste.
+Créons l'interface d'une telle liste chaînée en programmation orientée objet. Nous commençons par créer une classe d'objet `Cellule` avec les deux attributs : `valeur` et `suivante`. `suivante` désigne la cellule suivante ou `None` pour la dernière cellule de la liste.
 
 ``` py
 class Cellule:
@@ -335,7 +349,7 @@ class Cellule:
         self.suivante = s 
 ```
 
-On peut directement construire une première liste 'c', 'b', 'a' :
+Il est déjà possible de construire la liste `'c'`, `'b'`, `'a'` :
 
 ``` py
 lst = Cellule('c', Cellule('b', Cellule('a', None)))
@@ -348,14 +362,14 @@ lst = Cellule('c', Cellule('b', Cellule('a', None)))
 ![Trois cellules 'c', 'b', 'a'](assets/3-liste-chainee-3-light-mode.png#only-light){width="50%" align=right}
 ![Trois cellules 'c', 'b', 'a'](assets/3-liste-chainee-3-dark-mode.png#only-dark){width="50%" align=right}
 
-Comme on le voit ici, une liste est représentée par :
+Ici une liste est donc implémentée par :
 
-- soit la valeur `None` (liste vide),
-- soit un objet `Cellule` (la tête) dont l’attribut `suivant` contient une liste (la queue).
+- `None` si la liste est vide ; sinon
+-  une instance de `Cellule` qui contient la tête avec un attribut `suivant` qui pointe vers une autre liste, la queue.
 
-C’est encore une **définition récursive** de la notion de liste.
+C'est encore une **définition récursive** de liste.
 
-Ajoutons une méthode pour afficher la valeur d’une cellule en utilisant `__str__()` qui renvoie une chaine de caractère permettant d’afficher un objet avec la fonction `print()`. 
+Ajoutons une méthode pour afficher la valeur d'une cellule en utilisant `__str__()` qui renvoie une chaine de caractère permettant d'afficher un objet avec la fonction `print()`. 
 
 ``` py
     def __str__(self):
@@ -396,7 +410,7 @@ Maintenant ajoutons une méthode pour ajouter une `Cellule` en tête de liste :
         self.tete= Cellule(v, self.tete)
 ```
 
-On remarque que la liste n’est plus vide : 
+On remarque que la liste n'est plus vide : 
 
 ```
 >>> lst = ListeChainee()
@@ -412,7 +426,7 @@ Ajoutons les deux autres éléments :
 >>> lst.ajoute_tete('c')
 ```
 
-On peut ajouter un attribut privé pour la longueur de la liste et l’accesseur :
+On peut ajouter un attribut privé pour la longueur de la liste et l'accesseur :
 
 ``` py
 class ListeChainee:
@@ -432,7 +446,7 @@ On peut déjà afficher la tête de liste :
 valeur:c
 ```
 
-Mais comment afficher l’élément à une position `n` ?
+Mais comment afficher l'élément à une position `n` ?
 
 ``` py
     def get_element(self, n):
@@ -442,7 +456,7 @@ Mais comment afficher l’élément à une position `n` ?
         return cellule
 ```
 
-En moyenne, si on peut trouver immédiatement l’élément de tête, il faut $n$ opérations pour trouver le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$, la complexité est en $O(n)$ ce qui est très couteux en comparaison d’un tableau dynamique.  
+En moyenne, si on peut trouver immédiatement l'élément de tête, il faut $n$ opérations pour trouver le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$, la complexité est en $O(n)$ ce qui est très couteux en comparaison d'un tableau dynamique.  
 
 Que se passe-t-il si `n` est supérieur à `_longueur` ? On peut rajouter une assertion sur la valeur de `n` :
 ``` py
@@ -454,7 +468,7 @@ Ou sinon renvoyer un code erreur,  `-1` par exmple :
         if n >= self._longueur: return -1
 ```
 
-On peut facilement parcourir toute la liste pour l’afficher avec la méthode `__str__()` :
+On peut facilement parcourir toute la liste pour l'afficher avec la méthode `__str__()` :
 
 ``` py
     def __str__(self):
@@ -468,7 +482,7 @@ On peut facilement parcourir toute la liste pour l’afficher avec la méthode `
 print (lst)
 ```
 
-On peut définir une méthode pour ajouter un élément en position `n`, (comme l’élément `'z'` entre `'c'` et `'b'` dans l’exemple ci-dessus) :
+On peut définir une méthode pour ajouter un élément en position `n`, (comme l'élément `'z'` entre `'c'` et `'b'` dans l'exemple ci-dessus) :
 
 ``` py
     def add_element(self, v, n):
@@ -481,7 +495,7 @@ On peut définir une méthode pour ajouter un élément en position `n`, (comme 
         self._longueur += 1
 ```
 
-En moyenne, comme pour la recherche on peut ajouter immédiatement l’élément de tête, il faut $n$ opérations pour ajouter le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$,  la complexité est en $O(n)$ est comparable au tableau dynamique, mais le nombre d’écritures est grandement réduit.
+En moyenne, comme pour la recherche on peut ajouter immédiatement l'élément de tête, il faut $n$ opérations pour ajouter le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$,  la complexité est en $O(n)$ est comparable au tableau dynamique, mais le nombre d'écritures est grandement réduit.
 
 
-Une caractéristique intéressante de notre implémentation est qu’on obtient des listes muables (mutable en anglais)   ce qui permet par exemple d’insérer un élément en tête de liste ou même au milieu. Pour aller plus loin,  on peut définir une méthode pour supprimer l’élément en position `n`, vérifier la présence d’une valeur dans la liste, trier une liste, concaténer deux listes, etc.
+Une caractéristique intéressante de notre implémentation est qu'on obtient des listes muables (mutable en anglais)   ce qui permet par exemple d'insérer un élément en tête de liste ou même au milieu. Pour aller plus loin,  on peut définir une méthode pour supprimer l'élément en position `n`, vérifier la présence d'une valeur dans la liste, trier une liste, concaténer deux listes, etc.

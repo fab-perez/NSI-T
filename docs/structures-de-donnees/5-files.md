@@ -5,33 +5,31 @@
     
     En informatique, une **file** (en anglais ***queue***) est un type abstrait de données sur le principe « dernier arrivé, premier sorti » (ou **FIFO** pour ***First In, First Out***).
 
-    Les premiers éléments ajoutés à la pile, ou **enfilés**, sont les premiers qui seront sortis, ou **défilés**.
+    Les premiers élément ajoutés à la file, ou **enfilés**, seront les premiers sortis, ou **défilés**.
 
 
-Le fonctionnement ressemble à une file d'attente : les premières personnes qui arrivent dans la file sont les premières personnes qui en sortent. 
+Le fonctionnement est celui d'une file d'attente : les premières personnes qui arrivent dans la file sont ensuite les premières qui en sortiront. 
 
 
-Ici aussi, les files trouvent de nombreuses applications en informatique :
+Ici aussi, les files trouvent de nombreuses applications en informatique, par exemple :
 
 -	En général, on utilise des files pour mémoriser temporairement des transactions qui doivent attendre pour être traitées.
 
--	Les serveurs d'impression, qui doivent traiter les requêtes dans l'ordre dans lequel elles arrivent, et les insèrent dans une file d'attente (ou une queue).
+-	Les imprimantes qui traitent les demandes dans l'ordre dans lequel elles arrivent, et les insèrent dans une file d'attente.
 
--	Certains moteurs multitâches, dans un système d'exploitation, qui doivent accorder du temps machine à chaque tâche, sans en privilégier aucune.
+-	L'ordonnanceur d'un système d'exploitation qui accorde du temps machine à chaque processus dans l'ordre où il arrive, sans en privilégier aucun.
 
--	Un algorithme de parcours en largeur utilise une file pour mémoriser les nœuds visités.
 
--   etc.
 
 ## Interface
 
-Voici les opérations communément utilisées pour manipuler des files :
+Les principales primitives d'une file sont :
 
-- `creer() → file` : constructeur d’une file vide.
-- `est_vide() → bool` : vérification si une file est vide ou non.
+- `creer() → file` : construire d'une file vide.
+- `est_vide() → bool` : vérifier si une file est vide ou non.
 - `enfiler(element)` : ajouter un élément sur la file (*enqueue* en anglais).
-- `défiler() → element` : enlèver un élément de la file et le renvoie (*dequeue* en anglais).
-- `taille() → int` : nombre d'éléments dans la file.
+- `défiler() → element` : enlèver un élément de la file et le renvoier (*dequeue* en anglais).
+- `taille() → int` : renvoyer le nombre d'éléments dans la file.
 
 Exemples :
 
@@ -43,7 +41,10 @@ Soit une file `F` composée des éléments suivants : 12, 14, 8, 7, 19 et 22 (le
 
 
 ## Implémentation
-La liste est un type abstrait, son implémentation peut se faire sous différentes formes,  par exemple en reprenant l’implémentation d’une Pile avec une variable de type list il suffit de modifier `pop()` en `pop(0)` pour écrire la méthode `defiler()`.
+
+###	avec le type `list` de Python
+
+La liste est un type abstrait, son implémentation peut se faire sous différentes formes, par exemple en reprenant l'implémentation d'une Pile avec une variable de type `list` il suffit de modifier `pop()` en `pop(0)` pour écrire la méthode `defiler()`.
 
 ``` py
     def defiler(self):
@@ -51,6 +52,6 @@ La liste est un type abstrait, son implémentation peut se faire sous différent
         return self.pile.pop(0)
 ```
 
-###	Implémentation en utilisant deux piles
+###	avec deux piles
 
 Ici on propose une autre approche, en utilisant deux piles.
