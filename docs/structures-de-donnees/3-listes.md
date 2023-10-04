@@ -24,7 +24,8 @@ Notons ici le caractère récursif de cette définition où la queue d'une liste
 
 
 ## Interface 
-Les principales primitives d'une liste sont :
+
+Les principales primitives constitant l'interface d'une liste sont :
 
 -	`creer() → liste` : construire une liste vide.
 -	`est_vide() → bool` : vérifier si une liste est vide ou non.
@@ -37,7 +38,7 @@ Les principales primitives d'une liste sont :
 Il est possible d'ajouter quelques primitives supplémentaires, par exemple :
 
 -   `insérer(element, i)` : insérer un élément en ième position de la liste.
--   `lire(i) → element` : accéder au ième élément de la liste (get).
+-   `lire(i) → element` : accéder au ième élément de la liste (*get*).
 
 
 ##	Implémentation
@@ -223,7 +224,7 @@ afficher(L)
 
 Il est aussi possible de rajouter quelques primitives pour :
 
--	accéder au ième élément de la liste (get) ; 
+-	accéder au ième élément de la liste (*get*) ; 
 -	insérer un élément en tête d'une liste ;
 - 	insére un élément en ième position ;
 -	etc.
@@ -321,23 +322,24 @@ Voilà ce que ça donne pour représenter la liste `'c'`, `'b'`, `'a'` :
 ![Liste chaînée c, b, a](assets/3-liste-chainee-1-dark-mode.png#only-dark){width="60%"}
 
 
-L'usage d'une liste est souvent préconisé pour des raisons de rapidité de traitement, lorsque les insertions et les suppressions d'éléments quelconques sont plus fréquentes que les accès. En effet, les insertions et les suppressions se font en temps constant car elles ne demandent au maximum que deux écritures. 
+L'usage d'une liste chaînée est souvent préconisé pour des raisons de rapidité de traitement, lorsque les insertions et les suppressions d'éléments quelconques sont plus fréquentes que les accès. En effet, les insertions et les suppressions se font en temps constant car elles ne demandent au maximum que deux écritures. 
 
 Voici par exemple comment insérer l'élément `'z'` entre les éléments `'c'` et `'b'` :
-
 
 ![Liste chaînée c, z, b, a](assets/3-liste-chainee-2-light-mode.png#only-light){width="80%"}
 ![Liste chaînée c, z, b, a](assets/3-liste-chainee-2-dark-mode.png#only-dark){width="80%"}
 
 
+En revanche, la liste chaînée présente deux inconvénients :
 
-En revanche, la structure de liste chaînée présente deux inconvénients :
-
-- elle prend beaucoup de place, puisqu'il faut rajouter 1 (ou 2 pointeurs) pour chaque élément ;
+- elle prend beaucoup de place, puisqu'il faut rajouter un pointeur pour chaque élément ;
 
 - l'accès à un élément est relativement long et est proportionnel à l'indice de l'élément, puisqu'il faut parcourir la liste depuis le début (ou la fin) pour atteindre l'élément voulu.
 
-Créons l'interface d'une telle liste chaînée en programmation orientée objet. Nous commençons par créer une classe d'objet `Cellule` avec les deux attributs : `valeur` et `suivante`. `suivante` désigne la cellule suivante ou `None` pour la dernière cellule de la liste.
+
+Implémentons une telle liste chaînée en programmation orientée objet.
+
+Commençons par la classe d'objets `Cellule` dont les instances ont deux attributs `valeur` et `suivante`. `suivante` pointe sur la cellule suivante d'une cellule ou sur `None` pour la dernière cellule de la liste chaînée.
 
 ``` py
 class Cellule:
@@ -362,12 +364,6 @@ lst = Cellule('c', Cellule('b', Cellule('a', None)))
 ![Trois cellules 'c', 'b', 'a'](assets/3-liste-chainee-3-light-mode.png#only-light){width="50%" align=right}
 ![Trois cellules 'c', 'b', 'a'](assets/3-liste-chainee-3-dark-mode.png#only-dark){width="50%" align=right}
 
-Ici une liste est donc implémentée par :
-
-- `None` si la liste est vide ; sinon
--  une instance de `Cellule` qui contient la tête avec un attribut `suivant` qui pointe vers une autre liste, la queue.
-
-C'est encore une **définition récursive** de liste.
 
 Ajoutons une méthode pour afficher la valeur d'une cellule en utilisant `__str__()` qui renvoie une chaine de caractère permettant d'afficher un objet avec la fonction `print()`. 
 
@@ -376,8 +372,13 @@ Ajoutons une méthode pour afficher la valeur d'une cellule en utilisant `__str_
         return 'valeur:' + self.valeur
 ```
 
+Créons maintenant la classe `ListeChainee` pour représenter une liste chaînée par :
 
-Créons maintenant la classe `ListeChainee` :
+- `None` si la liste est vide ; ou 
+-  une instance de `Cellule` qui contient la tête avec un attribut `suivant` qui pointe vers une autre liste, la queue.
+
+On retrouve la défintion **récursive** d'une liste.
+
 
 ``` py
 class ListeChainee:
@@ -395,7 +396,7 @@ et une première instance de liste chainée vide :
 lst = ListeChainee()
 ```
 
-On peut immédiatement ajouter une première méthode qui vérifie si une liste est vide ou non :
+Ajoutons immédiatement la première primitive qui vérifie si une liste est vide ou non :
 
 ``` py
     def est_vide(self):
@@ -403,30 +404,30 @@ On peut immédiatement ajouter une première méthode qui vérifie si une liste 
         else: return False
 ```
 
-Maintenant ajoutons une méthode pour ajouter une `Cellule` en tête de liste :
+Maintenant ajoutons une primitive pour insérer une `Cellule` en tête de liste :
 
 ``` py
-    def ajoute_tete(self, v):
+    def inserer_tete(self, v):
         self.tete= Cellule(v, self.tete)
 ```
 
-On remarque que la liste n'est plus vide : 
+Comme attendu, la liste n'est plus vide : 
 
-```
+``` py
 >>> lst = ListeChainee()
->>> lst.ajoute_tete('a')
+>>> lst.inserer_tete('a')
 >>> lst.est_vide()
 False
 ```
 
-Ajoutons les deux autres éléments :
+Ajoutons les deux autres éléments à cette liste :
 
 ``` py 
->>> lst.ajoute_tete('b')
->>> lst.ajoute_tete('c')
+>>> lst.inserer_tete('b')
+>>> lst.inserer_tete('c')
 ```
 
-On peut ajouter un attribut privé pour la longueur de la liste et l'accesseur :
+La longueur de la liste peut constituer un attribut privé de la classe avec un accesseur pour l'obtenir :
 
 ``` py
 class ListeChainee:
@@ -439,36 +440,36 @@ class ListeChainee:
         return self._longueur
 ```
 
-On peut déjà afficher la tête de liste :
+Affichons la tête de liste :
 
 ``` py
 >>> print(lst.tete)
 valeur:c
 ```
 
-Mais comment afficher l'élément à une position `n` ?
+Une primitive `get` permet de lire l'élément en position `n` :
 
 ``` py
-    def get_element(self, n):
+    def get(self, n):
         cellule = self.tete
         for i in range(n):
             cellule = cellule.suivante
         return cellule
 ```
 
-En moyenne, si on peut trouver immédiatement l'élément de tête, il faut $n$ opérations pour trouver le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$, la complexité est en $O(n)$ ce qui est très couteux en comparaison d'un tableau dynamique.  
+En moyenne, s'il est immédiat de trouver l'élément de tête, il faut $n$ opérations pour trouver le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$, la complexité est en $O(n)$ ce qui est très couteux en comparaison d'un tableau dynamique.  
 
-Que se passe-t-il si `n` est supérieur à `_longueur` ? On peut rajouter une assertion sur la valeur de `n` :
+Ajoutons une assertion sur la valeur de `n` dans le cas où `n` est supérieur à `_longueur`  :
 ``` py
         assert n < self._longueur, "n doit être inférieur à la taille de la liste"
 ```
-Ou sinon renvoyer un code erreur,  `-1` par exmple :
+Ou alors la primitive peut renvoyer un code erreur, `-1` par exmple :
 
 ``` py
         if n >= self._longueur: return -1
 ```
 
-On peut facilement parcourir toute la liste pour l'afficher avec la méthode `__str__()` :
+La méthode `__str__()` permet d'afficher toute la liste avec `print()` en parcourant toute la liste :
 
 ``` py
     def __str__(self):
@@ -482,10 +483,10 @@ On peut facilement parcourir toute la liste pour l'afficher avec la méthode `__
 print (lst)
 ```
 
-On peut définir une méthode pour ajouter un élément en position `n`, (comme l'élément `'z'` entre `'c'` et `'b'` dans l'exemple ci-dessus) :
+Complétons l'interface avec une primitive pour ajouter un élément en position `n`, (comme l'élément `'z'` entre `'c'` et `'b'` dans l'exemple ci-dessus) :
 
 ``` py
-    def add_element(self, v, n):
+    def inserer(self, v, n):
         if n > self._longueur: return -1
         if n == 0: self.tete = Cellule(v,self.tete)
         else:
@@ -495,7 +496,10 @@ On peut définir une méthode pour ajouter un élément en position `n`, (comme 
         self._longueur += 1
 ```
 
-En moyenne, comme pour la recherche on peut ajouter immédiatement l'élément de tête, il faut $n$ opérations pour ajouter le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$,  la complexité est en $O(n)$ est comparable au tableau dynamique, mais le nombre d'écritures est grandement réduit.
+En moyenne, comme pour la recherche on peut ajouter immédiatement l'élément de tête, il faut $n$ opérations pour ajouter le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$, la complexité est en $O(n)$ est comparable au tableau dynamique, mais le nombre d'écritures est grandement réduit.
+
+Pour aller plus loin,  on peut définir une méthode pour supprimer l'élément en position `n`, vérifier la présence d'une valeur dans la liste, trier une liste, concaténer deux listes, etc.
+
+A noter que cette implémentation permet de créer une liste muable (*mutable* en anglais) ce qui permet par exemple d'insérer un élément en tête de liste ou même au milieu.
 
 
-Une caractéristique intéressante de notre implémentation est qu'on obtient des listes muables (mutable en anglais)   ce qui permet par exemple d'insérer un élément en tête de liste ou même au milieu. Pour aller plus loin,  on peut définir une méthode pour supprimer l'élément en position `n`, vérifier la présence d'une valeur dans la liste, trier une liste, concaténer deux listes, etc.
