@@ -8,7 +8,7 @@
     Les premiers élément ajoutés à la file, ou **enfilés**, seront les premiers sortis, ou **défilés**.
 
 
-Le fonctionnement est celui d'une file d'attente : les premières personnes qui arrivent dans la file sont ensuite les premières qui en sortiront. 
+Le fonctionnement est celui d'une **file d'attente** : les premières personnes qui arrivent dans la file sont ensuite les premières qui en sortiront. 
 
 
 Ici aussi, les files trouvent de nombreuses applications en informatique, par exemple :
@@ -23,7 +23,7 @@ Ici aussi, les files trouvent de nombreuses applications en informatique, par ex
 
 ## Interface
 
-Les principales primitives d'une file sont :
+Les principales primitives constitant l'interface d'une file sont :
 
 - `creer() → file` : construire d'une file vide.
 - `est_vide() → bool` : vérifier si une file est vide ou non.

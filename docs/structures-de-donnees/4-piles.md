@@ -28,7 +28,8 @@ Les piles trouvent de nombreuses applications en informatique, par exemple :
 
 ##	Interface
 
-Les principales primitives d'une pile sont :
+Les principales primitives constitant l'interface d'une pile sont :
+
 
 - `creer() → pile` : construire une pile vide.
 - `est_vide() → bool` : vérifier si une pile est vide ou non.
@@ -46,9 +47,9 @@ Soit une pile `P` composée des éléments suivants : 12, 14, 8, 7, 19 et 22 (le
 
 ##	Implémentation 
 
-La pile est un type abstrait, son implémentation peut se faire sous différentes formes.
+La pile est un type abstrait, son implémentation peut se faire sous différentes formes, par exemple avec une liste chaînée ou un tableau dynamique de type `list` Python.
 
-###	avec une liste chaînée
+###	Avec une liste chaînée
 
 Sur la même idée que la classe `ListeChainee` vue précédemment, il est possible de peut créer une classe `Pile` de toute pièce basée sur la class `Cellule`.
 
@@ -97,7 +98,7 @@ Créons maintenant une instance de `Pile` :
 >>> p.taille()
 4
 ```
-###	avec le type `list` de Python
+###	Avec le type `list` de Python
 
 Il est aussi possible de créer très facilement une classe `Pile` en utilisant le type `list` avec les méthodes `pop()` et `append()` :
 
