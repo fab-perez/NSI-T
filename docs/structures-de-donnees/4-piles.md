@@ -5,7 +5,9 @@
     ![Animation sur empiler et dépiler un élement dans une pile](assets/4-empiler-depiler-dark-mode.gif#only-dark){width="30%" align=right}
     En informatique, une **pile** (en anglais ***stack***) est un type abstrait de données sur le principe « dernier arrivé, premier sorti » (ou **LIFO** pour ***Last In, First Out***).
 
-    Les derniers éléments ajoutés à la pile, ou **empilés**, sont les premiers qui seront sortis, ou **dépilés**.
+    Le dernier élément ajouté à la pile, ou **empilé**, est le premier qui sera sorti, ou **dépilé**.
+
+    Le dernier élément empilé est le **sommet** de la pile.
 
 
 

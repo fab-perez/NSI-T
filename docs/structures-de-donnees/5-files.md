@@ -5,7 +5,7 @@
     
     En informatique, une **file** (en anglais ***queue***) est un type abstrait de données sur le principe « dernier arrivé, premier sorti » (ou **FIFO** pour ***First In, First Out***).
 
-    Les premiers élément ajoutés à la file, ou **enfilés**, seront les premiers sortis, ou **défilés**.
+    Le premier élément ajouté à la file, ou **enfilé**, est le premier qui sera sorti, ou **défilé**.
 
 
 Le fonctionnement est celui d'une **file d'attente** : les premières personnes qui arrivent dans la file sont ensuite les premières qui en sortiront. 
@@ -34,10 +34,14 @@ Les principales primitives constitant l'interface d'une file sont :
 Exemples :
 
 Soit une file `F` composée des éléments suivants : 12, 14, 8, 7, 19 et 22 (le premier élément rentré dans la file est 22 ; le dernier élément rentré dans la file est 12). Pour chaque exemple ci-dessous on repart de la file d'origine :
-•	`enfiler(F,42)` la file `F` est maintenant composée des éléments suivants : 42, 12, 14, 8, 7, 19 et 22 (le premier élément rentré dans la file est 22 ; le dernier élément rentré dans la file est 42)
-•	`défiler(F)` la file F est maintenant composée des éléments suivants : 12, 14, 8, 7, et 19 (le premier élément rentré dans la file est 19 ; le dernier élément rentré dans la file est 12)
-•	si on applique `défiler(F)` 6 fois de suite, `est_vide(F)` renvoie vrai.
-•	après avoir appliqué `défiler(F)` une fois, `taille(F)` renvoie 5.
+
+-	`enfiler(F,42)` la file `F` est maintenant composée des éléments suivants : 42, 12, 14, 8, 7, 19 et 22 (le premier élément rentré dans la file est 22 ; le dernier élément rentré dans la file est 42)
+
+-	`défiler(F)` la file F est maintenant composée des éléments suivants : 12, 14, 8, 7, et 19 (le premier élément rentré dans la file est 19 ; le dernier élément rentré dans la file est 12)
+
+-	si on applique `défiler(F)` 6 fois de suite, `est_vide(F)` renvoie vrai.
+
+-	après avoir appliqué `défiler(F)` une fois, `taille(F)` renvoie 5.
 
 
 ## Implémentation
