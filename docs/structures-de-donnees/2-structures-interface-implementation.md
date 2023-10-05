@@ -10,7 +10,7 @@ Par exemples, les entiers relatifs avec les opérations: +, *, /, etc. ou les bo
 !!! abstract "Cours"
     L'**interface** d'une structure de données est l'ensemble des opérateurs nécessaires à la manipulation de cette structure. 
 
-L'utilisateur d'une structure de données n'a besoin de connaître que son interface, comme la partie visible d'un iceberg. L'interface le renseigne sur toutes les opérations possibles sur cette structure de données, sans en connaître l'ensemble du fonctionnement interne qui lui est caché, comme la partie immergée de cet iceberg,.
+L'utilisateur d'une structure de données n'a besoin de connaître que son interface, comme la partie visible d'un iceberg. L'interface le renseigne sur toutes les opérations possibles sur cette structure de données, sans en connaître l'ensemble du fonctionnement interne qui lui est caché, comme la partie immergée de cet iceberg.
 
 
 ![L'interface comme partie emergée d'un iceberg](assets/2-interface-iceberg.png){width="50%"}
