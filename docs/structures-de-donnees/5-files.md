@@ -2,13 +2,23 @@
 
 
 !!! abstract "Cours"
-    
+    ![Animation sur enfiler et défiler un élement dans une file](assets/5-enfiler-defiler-light-mode.gif#only-light){width="45%" align=right}
+
+    ![Animation sur enfiler et défiler un élement dans une file](assets/5-enfiler-defiler-dark-mode.gif#only-dark){width="45%" align=right}
+
+
     En informatique, une **file** (en anglais ***queue***) est un type abstrait de données sur le principe « dernier arrivé, premier sorti » (ou **FIFO** pour ***First In, First Out***).
 
     Le premier élément ajouté à la file, ou **enfilé**, est le premier qui sera sorti, ou **défilé**.
 
+    Le premier élément enfilé est en **sortie** de la file, le dernier est en **entrée**.
+
+
 
 Le fonctionnement est celui d'une **file d'attente** : les premières personnes qui arrivent dans la file sont ensuite les premières qui en sortiront. 
+
+![Enfiler et défiler un élement dans une file](assets/5-enfiler-defiler-light-mode.png#only-light){width="70%"}
+![Enfiler et défiler un élement dans une file](assets/5-enfiler-defiler-dark-mode.png#only-dark){width="70%"}
 
 
 Ici aussi, les files trouvent de nombreuses applications en informatique, par exemple :
