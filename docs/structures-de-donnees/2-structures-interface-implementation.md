@@ -1,31 +1,27 @@
 # Structures de données, interface et implémentation 
 
 !!! abstract "Cours"
-    Une **structure de données** ou type abstrait de données (TAD ) est un ensemble de données organisées et d’opérations sur ces données.
+    Une **structure de données** ou type abstrait de données (TAD ) est un ensemble de données organisées et d'opérations sur ces données.
 
-On parle de type abstrait car c’est une  "vue de l'esprit" permettant la manipulation de ces données par un algorithme sans rentrer dans les détails d'implémentation.  
+On parle de type abstrait car c'est une  "vue de l'esprit" permettant la manipulation de ces données par un algorithme sans rentrer dans les détails d'implémentation.  
 
-Par exemple, on connait déjà les structures de données : 
-- des entiers relatifs, munis des opérations: +, *, /, etc. ;
-- des booléens, munis des opérations:  AND, OR ;
-- des chaînes de caractères, munies des opérations: insertion, concaténation, etc.
+Par exemples, les entiers relatifs avec les opérations: +, *, /, etc. ou les booléens avec AND, OR et NOT constituent des structures de données bien connues.
 
 !!! abstract "Cours"
-    L'**interface** d'une structure de données abstraite est l'ensemble des opérateurs nécessaires à la manipulation de cette structure. 
+    L'**interface** d'une structure de données est l'ensemble des opérateurs nécessaires à la manipulation de cette structure. 
 
-
-
-L’utilisateur d’une structure de données n’a besoin de connaître que son interface, comme la partie visible d'un iceberg, qui lui offre toutes les opérations qu’il lui est possible de faire sur ces données, sans en connaître l'ensemble du fonctionnement interne qui lui est caché.
+L'utilisateur d'une structure de données n'a besoin de connaître que son interface, comme la partie visible d'un iceberg. L'interface le renseigne sur toutes les opérations possibles sur cette structure de données, sans en connaître l'ensemble du fonctionnement interne qui lui est caché, comme la partie immergée de cet iceberg,.
 
 
 ![L'interface comme partie emergée d'un iceberg](assets/2-interface-iceberg.png){width="50%"}
  
 !!! abstract "Cours"
-    L’interface d’une structure de données comporte un ensemble de fonctions de bases (appelées **primitives**) qui permettent entre autres de créer (***C**reate* ), lire (***R**ead*), écrire (***U**pdate*) ou supprimer (***D**elete*) (***CRUD*** en abrégé) une donnée. 
+    L'interface d'une structure de données comporte un ensemble de fonctions de bases (appelées **primitives**), les principales permettant de **créer** (*Create*), **lire** (*Read*), **écrire** (*Update*) ou **supprimer** (*Delete*) (*CRUD* en abrégé) des données. 
 
-Pour une même interface, on peut avoir diverses implémentations de la structure de données, qui peuvent par exemple dépendre des choix ou du langage de programmation. 
+Pour une même interface, il peut y avoir diverses implémentations de la même structure de données, qui dépendent par exemple du langage de programmation utilisé. 
 
 !!! abstract "Cours"
-    L’**implémentation** d’une  structure de données consiste à le "traduire"  dans un langage informatique (Python, Java). 
+    L'**implémentation** d'une  structure de données consiste à la "traduire" dans un langage informatique. 
 
-Certains types abstraits ne sont pas forcément implémentés dans un langage donné, si le programmeur veut utiliser ce type abstrait, il faudra qu'il le programme par lui-même en utilisant les "outils" fournis par son langage de programmation.
+Toutes les structures de données ne sont pas implémentées dans tous les langages informatiques, il faut parfois les programmer pour les utiliser dans certaines langages.
+

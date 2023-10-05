@@ -5,7 +5,7 @@
 
     Une liste peut être **éventuellement vide**.  Une liste est évolutive : on peut  **ajouter** ou **supprimer** n'importe lequel de ses éléments. 
     
-    Une liste non vide comprend de 2 parties :
+    Une liste non vide comprend de deux parties :
 
     -	La **tête** (notée *car*[^3.2]), qui est le **dernier élément ajouté** à la liste;
     -   La **queue** (note *cdr*[^3.3] ), qui contient le reste de la liste, elle-même une liste .
