@@ -18,10 +18,10 @@ L'utilisateur d'une structure de données n'a besoin de connaître que son inter
 !!! abstract "Cours"
     L'interface d'une structure de données comporte un ensemble de fonctions de bases (appelées **primitives**), les principales permettant de **créer** (*Create*), **lire** (*Read*), **écrire** (*Update*) ou **supprimer** (*Delete*) (*CRUD* en abrégé) des données. 
 
-Pour une même interface, il peut y avoir diverses implémentations de la même structure de données, qui dépendent par exemple du langage de programmation utilisé. 
+Pour une même interface, il peut y avoir diverses implémentations de la même structure de données, qui dépendent par exemple de contraintes du langage de programmation utilisé ou de choix de programmation. 
 
 !!! abstract "Cours"
     L'**implémentation** d'une  structure de données consiste à la "traduire" dans un langage informatique. 
 
-Toutes les structures de données ne sont pas implémentées dans tous les langages informatiques, il faut parfois les programmer pour les utiliser dans certaines langages.
+Toutes les structures de données ne sont pas toutes implémentées dans tous les langages informatiques et il faut parfois les programmer pour les utiliser.
 
