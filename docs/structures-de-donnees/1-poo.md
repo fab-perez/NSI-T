@@ -3,18 +3,18 @@
 !!! abstract "Cours" 
     La **programmation orientée objet**, ou **POO**, est un paradigme de programmation informatique. Elle consiste à définir des briques logicielles appelées objets et à décrire leurs comportements et interactions.  
     
-    Un **objet** en programmation orientée objet représente souvent un concept, une idée ou toute entité du monde physique comme une voiture, une personne ou encore une page d'un livre.
+    Un **objet** en programmation orientée objet représente souvent un concept, une idée ou toute entité du monde physique (une voiture, une personne, une page d'un livre, etc.).
 
 Exemple de langages orientés objets : Java, Javascript C++, Python, PHP
 
 !!! abstract "Cours" 
-    La **classe** est comme un "moule" à partir duquel des objets d'un même type peuvent être créés. ELle définit pour chaque objet de cette classe : 
+    La **classe** est comme un "moule" à partir duquel des objets d'un même type peuvent être créés. Elle définit pour chaque objet de cette classe : 
 
     - des **attributs** comportant les informations concernant chaque objet ; 
 
     - des **méthodes** décrivant le comportement d'un objet.
 
-    Une fois une classe d'objet définie, il est possible de créer des objets sur le modèle de cette classe, c'est  **l'instanciation**. **Un objet est une instance de classe**. 
+    Une fois une classe d'objet définie, il est possible de créer des objets sur le modèle de cette classe, c'est  **l'instanciation**. **Les objets sont des instances de la classe**. 
 
 Prenons l'exemple d'un programme pour aider un collectionneur de vielles voitures qui possède une Citroen 2CV avec 152 856 km (`voiture_1`), une Peugeot Dauphine avec 75 254 km (`voiture_2`), etc.
 
@@ -24,15 +24,16 @@ Prenons l'exemple d'un programme pour aider un collectionneur de vielles voiture
 ##	Les classes et objets
 
 Commençons par créer la classe `Voiture` qui décrit les caractéritiques d'une voiture de collection :   
-!!! tip "PEP 8" 
-    Les noms de classes s'écrivent en CamelCase [https://www.python.org/dev/peps/pep-0008/#class-names(https://www.python.org/dev/peps/pep-0008/#class-names)
+
+!!! tip inline end "PEP 8" 
+    Les noms de classes s'écrivent en [CamelCase](https://fr.wikipedia.org/wiki/Camel_case) : [https://www.python.org/dev/peps/pep-0008/#class-names](https://www.python.org/dev/peps/pep-0008/#class-names)
   
 ``` py
 class Voiture:
     pass
 ```
 
-La classe `Voiture` n'est pas une voiture, c'est une sorte « d'usine à créer des voitures » ! Elle permet de créer des d'objets sur le modèle de cette classe.
+La classe `Voiture` n'est pas une voiture, c'est une sorte « d'usine à créer des voitures » ! Elle permet de créer par la suite des d'objets, des instances de la classe `Voiture`, sur le modèle de cette classe.
 
 Créons les deux premières voitures du collectionneur, c'est-à-dire deux **instances** de la classe `Voiture` :
 
@@ -41,9 +42,15 @@ voiture_1 = Voiture()
 voiture_2 = Voiture()
 ```
 
+!!! abstract "Cours" 
+    Pour créer un objet, ou **instancier**, `nom_objet` depuis la classe `NomClasse`, il faut écrire :
+    ```nom_objet = NomClasse()```
+    
+
+
 ##	Les attributs
 
-Pour l'instant notre classe est une coquille vide, les objets créés ne décrivent pas grand chose. Il est possible de rajouter des caractéristiques à une instance lui ajoutant des **attributs**, par exemple : 
+Pour l'instant notre classe `Voiture` est une coquille vide, les deux objets instanciés à partir de cette classe, `voiture_1` et `voiture_2`, ne décrivent pas grand chose sur les voitures. Il est possible de leur rajouter des caractéristiques les décrivant en leur ajoutant des **attributs**, par exemple les attributs `marque`, `modele` et `km` : 
 
 ``` py
 >>> voiture_1 = Voiture()
@@ -59,7 +66,7 @@ et ensuite de lire les attributs d'un objet ainsi :
 'Citroen'
 ```
 
-Mais l'attribut `marque` a été créé pour l'objet `voiture_1`, il n'existe pas pour `voiture_2` : 
+Mais les attributs `marque`, `modele` et `km`  ont été créés pour l'objet `voiture_1`, ils n'existent pas pour les autres instances de `Voiture`, par exemple pour l'objet `voiture_2` : 
 
 ``` py
 >>> voiture_2.marque
@@ -67,6 +74,9 @@ Traceback (most recent call last):
   File "<interactive input>", line 1, in <module>
 AttributeError: 'Voiture' object has no attribute 'marque'
 ```
+
+!!! abstract "Cours" 
+    Pour utiliser l'attribut  `nom_attribut` d'un objet `nom_objet`, il faut écrire : ```nom_objet.nom_attribut```
 
 ##	Constructeur
 
@@ -81,7 +91,7 @@ class Voiture:
         self.km = 0
 ```
 
-Noter le paramètre `self` représente l'objet qui est instancié par la méthode `__init__`.
+Noter le paramètre `self` de la fonction qui représente l'objet qui est instancié par la méthode `__init__`.
 
 Toutes les instances de `Voiture` possèderont ces attributs, mais les valeurs seront différentes pour chaque instance qui pourra évoluer de façon indépendante.
 
@@ -91,6 +101,7 @@ Toutes les instances de `Voiture` possèderont ces attributs, mais les valeurs s
 ''
 >>> voiture_1.modele = "2 CV"
 >>> voiture_1.modele 
+'2 CV'
 ```
 
 Avec ce constructeur, tous les objets sont créés avec les attributs initiés à la même valeur (`""` ou `0`). Ce n'est pas pratique. La méthode `__init__` est une méthode comme les autres, elle peut avoir des paramètres, par exemple la marque et le modèle de la voiture, ainsi que le nombre de km qui reste par défaut à 0 s'il n'est pas renseigné.
@@ -112,7 +123,7 @@ class Voiture:
         self.km = k
 ```
 
-L'instruction `Voiture('Citroen', '2 CV')` appelle le constructeur  `__init__`  créant ainsi un nouvel objet `Voiture` en lui donnat les valeurs de ses attributs `'Citroen'` et `'2 CV'`.
+L'instruction `Voiture('Citroen', '2 CV')` appelle le constructeur  `__init__`  créant ainsi un nouvel objet `Voiture` en lui donnant les valeurs de ses attributs `'Citroen'` et `'2 CV'`.
 
 ``` py
 >>> voiture_1 = Voiture('Citroen', '2 CV')
@@ -129,7 +140,7 @@ Définir une classe c'est aussi définir les comportements communs aux objets de
 !!! abstract "Cours" 
     Les méthodes prennent toujours comme **premier paramètre le mot réservé `self`** de façon à désigner l'objet sur lequel va s'appliquer la méthode.
 
-Par exemple une méthode `roule(k)` permettant d'ajouter `k` kilomètres quand un voiture roule s'écrit  :
+Par exemple une méthode `roule(k)`, permettant d'ajouter `k` kilomètres quand un voiture, roule s'écrit  :
 
 ``` py
 class Voiture:
@@ -257,11 +268,13 @@ Et par conséquent une modification de l'un modifie l'autre :
 
 ##	Variable de classe
 
-Nous avons défini une classe comportant des attributs et des méthodes. Les attributs sont déclarés à l'intérieur du constructeur et sont donc propres à chaque objet instancié de la classe. Ils sont sur le même moule mais ont des états différents. On appelle cela des **variables d'instance**. 
+Nous avons défini une classe comportant des attributs et des méthodes. Les attributs sont déclarés à l'intérieur du constructeur de l'objet et prennent donc une valeur qui est propre à chaque objet instancié de la classe. Deux objets différents appartenant à la même classe ont des valeurs d'attributs qui peuvent être différents. C'est pourquoi les attributs sont aussi appelé des **variables d'instance**. 
 
-Dans certains cas, on veut qu'une variable soit commune à toutes les instances de la même classe. C'est une **variable de classe**, elle permet de définir un même attribut partagé par toutes les instances de la classe.
+Dans notre exemple, la classe  `Voiture` définit les attributs et les méthodes qui s'appliquent à chaque voiture, c'est-à-dire à chaque instance de cette classe. Mais comment connaître le nombre total d'instances qui ont été créées à partir ce cette classe ?  Ce n'est pas une valeur qui est propre à une instance en particulier. Elle concerne plutôt toute la classe.
 
-Une variable de classe est déclarée en dehors du constructeur,  on accède à sa valeur par `NomClasse.NomVariable` :
+À l'opposé de ces variables d'instance, il est utile dans certains cas d'avoir des variables dont la valeur est commune à toutes les instances de la même classe. Ces variables sont des **variables de classe**. La valeur d'une variable de classe est partagée par toutes les instances de cette classe. Chacune des instances de la classe peut la lire ou la modifier.
+
+Une variable de classe est déclarée en dehors du constructeur de la classe. Noter qu'à la différence d'une variable d'instance, elle ne commence pas par `self.` puisqu'elle ne s'applique pas à une instance en particulier :
 
 ``` py
 class Voiture:
@@ -273,15 +286,16 @@ class Voiture:
         self.km = k
         Voiture.total_voiture += 1
 ```
-puis :
+puis `NomClasse.nom_variable_de_classe` permet d'utiliser cette variable de classe (en opposition à `nom_objet.nom_variable_d_instance` pour une variable d'instance) :
+
 
 ``` py
 >>> Voiture.total_voiture
 0
->>> v=Voiture('PEUGEOT','DAUPHINE')
+>>> voiture_1 = Voiture('PEUGEOT','DAUPHINE')
 >>> Voiture.total_voiture
 1
->>> w= Voiture('Citroen', '2 CV')
+>>> voiture_2 = Voiture('Citroen', '2 CV')
 >>> Voiture.total_voiture
 2
 >>>
@@ -289,7 +303,7 @@ puis :
 
 ##	Encapsulation 
 
-Une nouvelle variable de classe permet de garder en mémoire le total des kilomètres parcourus par toutes les instances de `Voiture` :
+Ajoutons maintenant une nouvelle variable de classe `total_km` qui garde en mémoire le total des kilomètres parcourus par toutes les instances de `Voiture` :
 
 ``` py
 class Voiture:
@@ -308,14 +322,14 @@ class Voiture:
         Voiture.total_km += k
 ```
 
-puis :
+puis créons deux voiture et faisons rouler une des deux :
 
 ``` py
 >>> Voiture.total_km
 0
->>> v = Voiture('Peugeot','Dauphine', 20000)
->>> w = Voiture('Citroen', '2 CV')
->>> w.roule(30000)
+>>> voiture_1 = Voiture('Peugeot','Dauphine', 20000)
+>>> voiture_2 = Voiture('Citroen', '2 CV')
+>>> voiture_2.roule(30000)
 >>> Voiture.total_km
 50000
 ```
@@ -323,25 +337,32 @@ puis :
 Jusqu'ici tout va bien. Mais que se passe-t-il si on change les kilomètres d'une instance de `Voiture` directement ?
 
 ``` py
->>> v.km = 30000
+>>> voiture_1.km = 30000
 >>> Voiture.total_km
 50000
 ```
 
-La valeur de la variable de classe `total_km` n'est plus correcte ! Pour éviter ce problème, un objet ne devrait jamais permettre à ses utilisateurs de modifier son état (ses attributs) autrement que par des méthodes. 
+La valeur de la variable de classe `total_km` n'est plus correcte ! C'est un problème. 
+
+Pour éviter ce genre de problème, il faut « protéger » la variable `total_km` pour que sa valeur ne soit pas modifiée directement. La variable `total_km` doit être gardée à « l'intérieur » d'une sorte de boîte interne à l'objet, cachée de « l'exterieur », afin qu'elle ne soit lue et modifiée qu'à travers des méthodes qui garantissent que sa valeur reste correcte. C'est l'encapsulation.
 
 
 !!! abstract "Cours" 
-    Avec ses attributs et ses méthodes, toutes valeurs des variables et fonctionnalités d'un objet sont « enfermées » à l'intérieur d'un objet. On appelle cela l'**encapsulation**. 
+    L'**encapsulation** consiste à « enfermer » certains attributs et certaines méthodes à l'intérieur d'un objet pour qu'ils ne soient pas accessibles depuis « l'extérieur » de cet objet. 
 
-    **L'encapsulation** crée une sorte de boîte noire contenant en interne un mécanisme protégé (les attributs et méthodes sont dit **privés**) et en externe un ensemble de commandes qui vont permettre de la manipuler (dit **publics**), de telle sorte qu'il sera impossible d'altérer le mécanisme protégé en cas de mauvaise utilisation. 
+    Les attributs et méthodes qui ne sont pas accessibles depuis l'extérieur de l'objet sont des **attributs et méthodes privés**.
+    Ceux qui restent accessibles sont des **attributs et méthodes publics**.
+
+       
 
 
-En Python, un **simple blanc souligné** au début de nom de variable indique qu'un attribut est privépar exemple dans notre exemple `self._km`.
+En Python, un **simple blanc souligné** au début d'un nom de variable indique qu'un attribut est privé, par exemple dans notre exemple `self._km`.
 
 ``` py
 class Voiture:
-    ...
+    total_voiture = 0
+    total_km = 0
+
     def __init__(self,ma, mo, k=0):
         self.marque = ma
         self.modele = mo
@@ -355,12 +376,12 @@ class Voiture:
     ...
 ```
 
-Pour respecter le principe de l'encapsulation, il faut éviter de lire ou écrire la valeur de l'attribut `_km` d'un objet `Voiture` directement hors d'une instance'. 
+Pour respecter le principe de l'encapsulation, il faut éviter de lire ou écrire la valeur de l'attribut `_km` d'une instance de `Voiture` directement depuis « l'exterieur » de l'objet. 
 
 !!! abstract "Cours" 
-    Une classe doit fournir des méthodes (publiques) dédiées qui font l'interface avec l'extérieur :
-    -	**accesseurs** (ou **getters** par convention leur nom commence par ***get**) les méthodes permettant d'obtenir la valeur d'un attribut, et
-    -	**mutateurs** (ou **setters**, par convention leur nom commence par **set**) pour en modifier la valeur.
+    Une classe doit fournir des méthodes (publiques) qui font l'**interface** avec l'extérieur :
+    -	**accesseurs** (ou ***getters*** par convention leur nom commence par **get**) les méthodes permettant d'obtenir la valeur d'un attribut, et
+    -	**mutateurs** (ou ***setters***, par convention leur nom commence par **set**) pour en modifier la valeur.
 
 ``` py 
 class Voiture:
@@ -387,10 +408,10 @@ class Voiture:
         Voiture.total_km += k
 ```
 
-Noter que ce **simple blanc souligné** au début de nom de variable n'est une convention d'écriture entre programmeurs, elle n'est pas prise en compte par l'interpréteur et on peut toujours lire et modifier l'attribut. 
+Noter que ce **simple blanc souligné** au début de nom de variable n'est une convention d'écriture entre programmeurs, elle n'est pas prise en compte par l'interpréteur et oil est toujours possible de lire et modifier l'attribut. 
 
 ```
->>> v._km = 30000
+>>> voiture_1._km = 30000
 ```
 Certains utilisent un **double blanc souligné** au début de nom de variable.  
 
@@ -409,13 +430,13 @@ Mais cette variable pourra toujours être lue ou modifiée par `nomobjet.__nomva
 
 
 ```
->>> v = Voiture('Peugeot','Dauphine', 20000)
->>> v.get_km())
+>>> voiture_1 = Voiture('Peugeot','Dauphine', 20000)
+>>> voiture_1.get_km())
 20000
->>> v.__km = 30000
->>> v.__km
+>>> voiture_1.__km = 30000
+>>> voiture_1.__km
 30000
->>> v.get_km())
+>>> voiture_1.get_km())
 20000
 ```
 
@@ -479,14 +500,14 @@ class VoitureElectrique(Voiture):
 Créons une instance de `VoitureElectrique` : 
 
 ``` py
->>> t = VoitureElectrique('TESLA', 'S', kwh=18)
+>>> voiture_3 = VoitureElectrique('TESLA', 'S', kwh=18)
 ```
 
 Toutes les méthodes de la classe mère s'appliquent à la fille :
 
 ``` py
->>> t.roule(1000)
->>> t.getKm()
+>>> voiture_3.roule(1000)
+>>> voiture_3.get_km()
 1000
 ```
 
@@ -504,9 +525,9 @@ class Epave(Voiture):
         pass
 
 
->>> e = Epave('Trabant','601', 150000)
->>> e.roule(10000)
->>> e.get_km()
+>>> voiture_4 = Epave('Trabant','601', 150000)
+>>> voiture_4.roule(10000)
+>>> voiture_4.get_km()
 150000
 >>>
 ```
