@@ -10,7 +10,7 @@ Noter que les tableaux ne peuvent pas être les clés d'un dictionnaire car ils 
 
 ##	Interface
 
-Les principales primitives constitant l'interface d'un dictionnaire sont :
+Les principales primitives constituant l'interface d'un dictionnaire sont :
 
 - `creer() → dict` : construire d'un dictionnaire vide.
 - `est_vide() → bool` : vérifier si un dictionnaire est vide ou non.
@@ -23,7 +23,7 @@ Les principales primitives constitant l'interface d'un dictionnaire sont :
 
 ##	Implémentation
 
-Prenons l'exemple d'une situation dans laquelle il est necessaire de stocker des informations concernant les pays du monde : la capitale, la superficie, le nombre d'habitant, etc. Ni les listes chaînées, ni les tableaux, ne semblent offrir une solution efficace pour manipuler ces données :
+Prenons l'exemple d'une situation dans laquelle il est nécessaire de stocker des informations concernant les pays du monde : la capitale, la superficie, le nombre d'habitant, etc. Ni les listes chaînées, ni les tableaux, ne semblent offrir une solution efficace pour manipuler ces données :
 
 - Les pays ne sont pas classés dans un ordre particulier, un tableau ne permettrait donc pas d'accéder facilement aux informations concernant un pays identifié par son nom.
 - Une liste chaînée aurait l'inconvénient de devoir parcourir toute la liste pour accéder aux informations concernant un pays donné.
@@ -163,7 +163,7 @@ et si la clé associée à une valeur n'existe pas, alors elle est créée :
 {'France': 66, 'Allemagne': 83, 'Italie': 59}
 ```
 
-Comme pour les tableaux, on peut utiliser les methodes `pop()` et `clear()` (mais pas `remove()`) :
+Comme pour les tableaux, on peut utiliser les méthodes `pop()` et `clear()` (mais pas `remove()`) :
 
 ||||
 |:-:|:--|:--|
@@ -229,7 +229,7 @@ print("dictionnaire=", dico)
 ###	Avec un tableau et une fonction de hachage
 
 
-Commençons par créér une classe `dico`, stockant les valeurs d'un dictionnaire dans un tableau de 100 valeurs :
+Commençons par créer une classe `dico`, stockant les valeurs d'un dictionnaire dans un tableau de 100 valeurs :
 ``` py
 class dico:
 

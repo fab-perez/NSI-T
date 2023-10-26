@@ -25,7 +25,7 @@ Notons ici le caractère récursif de cette définition où la queue d'une liste
 
 ## Interface 
 
-Les principales primitives constitant l'interface d'une liste sont :
+Les principales primitives constituant l'interface d'une liste sont :
 
 -	`creer() → liste` : construire une liste vide.
 -	`est_vide() → bool` : vérifier si une liste est vide ou non.

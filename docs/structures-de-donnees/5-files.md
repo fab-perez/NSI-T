@@ -33,7 +33,7 @@ Ici aussi, les files trouvent de nombreuses applications en informatique, par ex
 
 ## Interface
 
-Les principales primitives constitant l'interface d'une file sont :
+Les principales primitives constituant l'interface d'une file sont :
 
 - `creer() → file` : construire d'une file vide.
 - `est_vide() → bool` : vérifier si une file est vide ou non.
