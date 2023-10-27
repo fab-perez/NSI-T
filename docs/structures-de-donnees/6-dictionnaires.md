@@ -4,9 +4,9 @@
 !!! abstract "Cours"
     
     Un dictionnaire est un type abstrait de données formé de couples **clé-valeur**. Chaque couple est une **entrée** du dictionnaire.
-    Un dictionnaire n’a **pas d’ordre**, on accède à **chaque valeur par sa clé** qui peut être un mot ou un entier, un p-uplet, etc. 
+    Un dictionnaire n'a **pas d'ordre**, on accède à **chaque valeur par sa clé**. 
 
-Noter que les tableaux ne peuvent pas être les clés d'un dictionnaire car ils sont de type muable.
+La clé d'un dictionnaire peut être un mot (de type `str`), un nombre (de type `int` ou `float`), un p-uplet, etc., mais pas un tableau (type `list`) car c'est un type muable.
 
 ##	Interface
 
@@ -30,12 +30,12 @@ Prenons l'exemple d'une situation dans laquelle il est nécessaire de stocker de
 
 Dans ce cas, un dictionnaire est la structure de donnée la mieux adaptée à cette situation.
 
-Plusieurs implémentations de dictionnaires sont possibles, par exemple en utilisant une fonction de hachage. Python possède naturellement cette structure avec le type `dict`, mais ce  n’est pas le cas dans tous les langages.  
+Plusieurs implémentations de dictionnaires sont possibles, par exemple en utilisant une fonction de hachage. Python possède naturellement cette structure avec le type `dict`, mais ce  n'est pas le cas dans tous les langages.  
 
 
 ###	Avec le type `dict` de Python
 
-Un dictionnaire Python est déclaré par une série d’éléments sous la forme couples clés-valeurs (*key-value* en anglais) séparés par des virgules, et le tout encadré par des accolades “{ }”.
+Un dictionnaire Python est déclaré par une série d'éléments sous la forme couples clés-valeurs (*key-value* en anglais) séparés par des virgules, et le tout encadré par des accolades “{ }”.
 
 ``` py
 >>> capitale = {'France': 'Paris', 'Allemagne': 'Berlin', 'Italie': 'Rome'}
@@ -96,7 +96,7 @@ La méthode `get()` permet aussi de récupérer une valeur associée à une clé
 Non défini
 ```
 
-Pour vérifier si une clé est présente dans un dictionnaire ou parcourir les éléments d’un dictionnaire on utilise le mot clé `in`.
+Pour vérifier si une clé est présente dans un dictionnaire ou parcourir les éléments d'un dictionnaire on utilise le mot clé `in`.
 
 
 ``` py
@@ -105,7 +105,7 @@ True
 >>> "Espagne" in capitale
 False
 ```
-:warning: Les mot clé `in` s’applique seulement aux clés d’un dictionnaire, pas à ses valeurs :
+:warning: Les mot clé `in` s'applique seulement aux clés d'un dictionnaire, pas à ses valeurs :
 ``` py
 >>> "Paris" in capitale
 False
@@ -170,7 +170,7 @@ Comme pour les tableaux, on peut utiliser les méthodes `pop()` et `clear()` (ma
 |`dico.pop(clé)`|Supprime du dictionnaire `dico` le couple clé-valeur associé à `clé` et le renvoie la valeur|`>>> d = {'one': 1, 'two': 2, 'three': 3}`<br>`>>> d.pop('two')`<br>`2`<br>`>>> d`<br>`{'one': 1, 'three': 3}`|
 |`dico.clear()`|Supprime tous les éléments du dictionnaire `dico`|`>>> d = {'one': 1, 'two': 2, 'three': 3}`<br>`>>> d.clear()`<br>`>>> d`<br>`{}`|
 
-et comme pour les tableaux, le mot clé “del” permet de supprimer un élément d’un dictionnaire :
+et comme pour les tableaux, le mot clé “del” permet de supprimer un élément d'un dictionnaire :
 
 ``` py
 >>> population
@@ -180,9 +180,9 @@ et comme pour les tableaux, le mot clé “del” permet de supprimer un éléme
 {'France': 66, 'Italie': 59}
 ```
 
-Ou encore le dictionnaire entier avec l’instruction `del population`, alors la variable `population` n’existe plus.
+Ou encore le dictionnaire entier avec l'instruction `del population`, alors la variable `population` n'existe plus.
 
-Les dictionnaires, comme les tableaux, sont muables donc les mêmes limites que pour copier un tableau ou passer un tableau en argument d’une fonction s’appliquent pour les dictionnaires.
+Les dictionnaires, comme les tableaux, sont muables donc les mêmes limites que pour copier un tableau ou passer un tableau en argument d'une fonction s'appliquent pour les dictionnaires.
 
 ``` py
 >>> d1 = {'one':1, 'two':2, 'three':3}
