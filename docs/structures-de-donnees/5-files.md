@@ -64,44 +64,50 @@ La liste est un type abstrait, son implémentation peut se faire sous différent
 
 Voici une autre approche d'implémentation d'une file, en utilisant deux piles : une pile « entrante » et une pile « sortante ».
 
-![Une file avec deux piles](assets/5-file-2-piles.png#only-light){width="60%"}
-![Une file avec deux piles](assets/5-file-2-piles.png#only-dark){width="60%"}
+![Une file avec deux piles](assets/5-file-2-piles-light-mode.png#only-light){width="60%"}
+![Une file avec deux piles](assets/5-file-2-piles-dark-mode.png#only-dark){width="60%"}
 
 1.  **Enfiler** : Chaque fois qu'un nouvel élément est enfilé dans la file, il est empilé dans la pile entrante.
     Pour commencer enfilons trois nouveaux éléments `'a'`, `'b'` et `'c'`.
 
-    - `'a'` est enfilé dans la file et empilé dans la pile entrante :
-    ![Enfiler l'élément 'a' et l'empiler dans la pile entrante](assets/5-file-2-piles-0.png#only-light){width="60%"}
-    ![Enfiler l'élément 'a' et l'empiler dans la pile entrante](assets/5-file-2-piles-0.png#only-dark){width="60%"}
+    -   `'a'` est enfilé dans la file et empilé dans la pile entrante :
 
-    - `'b'` est enfilé dans la file et empilé dans la pile entrante :
-    ![Enfiler l'élément 'b' et l'empiler dans la pile entrante](assets/5-file-2-piles-1.png#only-light){width="60%"}
-    ![Enfiler l'élément 'b' et l'empiler dans la pile entrante](assets/5-file-2-piles-1.png#only-dark){width="60%"}
+        ![Enfiler l'élément 'a' et l'empiler dans la pile entrante](assets/5-file-2-piles-0-light-mode.png#only-light){width="60%"}
+        ![Enfiler l'élément 'a' et l'empiler dans la pile entrante](assets/5-file-2-piles-0-dark-mode.png#only-dark){width="60%"}
 
-    - `'c'` est enfilé dans la file et empilé dans la pile entrante :
-    ![Enfiler l'élément 'c' et l'empiler dans la pile entrante](assets/5-file-2-piles-2.png#only-light){width="60%"}
-    ![Enfiler l'élément 'c' et l'empiler dans la pile entrante](assets/5-file-2-piles-2.png#only-dark){width="60%"}
+    -   `'b'` est enfilé dans la file et empilé dans la pile entrante :
 
-    - Les trois éléments `'a'`, `'b'` et `'c'` sont présents dans la file et dans la pile entrante.
-    ![Les trois éléments 'a', 'b' et 'c' dans la file et dans la pile entrante](assets/5-file-2-piles-3.png#only-light){width="60%"}
-    ![Les trois éléments 'a', 'b' et 'c' dans la file et dans la pile entrante](assets/5-file-2-piles-3.png#only-dark){width="60%"}
+        ![Enfiler l'élément 'b' et l'empiler dans la pile entrante](assets/5-file-2-piles-1-light-mode.png#only-light){width="60%"}
+        ![Enfiler l'élément 'b' et l'empiler dans la pile entrante](assets/5-file-2-piles-1-dark-mode.png#only-dark){width="60%"}
+
+    -   `'c'` est enfilé dans la file et empilé dans la pile entrante :
+
+        ![Enfiler l'élément 'c' et l'empiler dans la pile entrante](assets/5-file-2-piles-2-light-mode.png#only-light){width="60%"}
+        ![Enfiler l'élément 'c' et l'empiler dans la pile entrante](assets/5-file-2-piles-2-dark-mode.png#only-dark){width="60%"}
+
+    -   Les trois éléments `'a'`, `'b'` et `'c'` sont présents dans la file et dans la pile entrante. Noter comment l'élément `'a'` qui est en tête de file se trouve tout en bas de la pile.
+
+        ![Les trois éléments 'a', 'b' et 'c' dans la file et dans la pile entrante](assets/5-file-2-piles-3-light-mode.png#only-light){width="60%"}
+        ![Les trois éléments 'a', 'b' et 'c' dans la file et dans la pile entrante](assets/5-file-2-piles-3-dark-mode.png#only-dark){width="60%"}
 
 2.  **Défiler** _quand la pile sortante est vide_ : Il n'y a pas aucun élément prêt à être dépilé de la pile sortante, il faut d'abord la « remplir » avec **tous** les éléments présents dans la pile entrante, puis dépiler le sommet de la pile sortante. 
-    Défilons l'élément `'a'` qui se trouve en tête de la file. 
+    Défilons l'élément `'a'` qui se trouve en tête de la file :
 
-    - **Tous** les éléments présents dans la pile entrante, `'a'`, `'b'` et `'c'`, sont dépilés et empilés à la suite dans la pile sortante.
-    ![La pile entrante est entièrement dépilée dans la pile sortante](assets/5-file-2-piles-4.png#only-light){width="60%"}
-    ![La pile entrante est entièrement dépilée dans la pile sortante](assets/5-file-4-piles-4.png#only-dark){width="60%"}
+    -   **Tous** les éléments présents dans la pile entrante, `'a'`, `'b'` et `'c'`, sont dépilés et empilés à la suite dans la pile sortante.
 
-    - L'élément `'a'` en tête de file est défilé. Il se trouve au sommet de la pile sortante, il est dépilé.
-    ![Défiler l'élément 'a' et le dépiler de la pile sortante](assets/5-file-2-piles-5.png#only-light){width="60%"}
-    ![Défiler l'élément 'a' et le dépiler de la pile sortante](assets/5-file-4-piles-5.png#only-dark){width="60%"}
+        ![La pile entrante est entièrement dépilée dans la pile sortante](assets/5-file-2-piles-4-light-mode.png#only-light){width="60%"}
+        ![La pile entrante est entièrement dépilée dans la pile sortante](assets/5-file-2-piles-4-dark-mode.png#only-dark){width="60%"}
+
+    -   L'élément `'a'` en tête de file est défilé. Il se trouve au sommet de la pile sortante, il est dépilé.
+
+        ![Défiler l'élément 'a' et le dépiler de la pile sortante](assets/5-file-2-piles-5-light-mode.png#only-light){width="60%"}
+        ![Défiler l'élément 'a' et le dépiler de la pile sortante](assets/5-file-2-piles-5-dark-mode.png#only-dark){width="60%"}
 
 
-3.	**Défiler** _quand la pile sortante n'est pas vide_ : Il suffit de dépiler le sommet de la pile sortante. Défilons l'élément `'b'` qui se trouve maintenant en tête de la file.
+3.	**Défiler** _quand la pile sortante n'est pas vide_ : Il suffit de dépiler le sommet de la pile sortante. Défilons l'élément `'b'` qui se trouve maintenant en tête de la file :
 
-    ![Défiler l'élément 'b' et le dépiler de la pile sortante](assets/5-file-2-piles-6.png#only-light){width="60%"}
-    ![Défiler l'élément 'b' et le dépiler de la pile sortante](assets/5-file-4-piles-6.png#only-dark){width="60%"}
+    ![Défiler l'élément 'b' et le dépiler de la pile sortante](assets/5-file-2-piles-6-light-mode.png#only-light){width="60%"}
+    ![Défiler l'élément 'b' et le dépiler de la pile sortante](assets/5-file-2-piles-6-dark-mode.png#only-dark){width="60%"}
 
 Transcrivons cela en Python en créant un nouveau fichier « file.py » dans le même répertoire que « pile.py »  et importons ce module `pile`.
 
