@@ -15,18 +15,19 @@
     -   L'**étiquette** est la valeur donnée à chaque nœud (ici les noms de langages informatiques).
 
 
-Les arbres trouvent de nombreuses applications en informatique, par exemple une arborescence de fichiers ou des stratégies dans des jeux.
+Les arbres trouvent de nombreuses applications en informatique, par exemple dans une arborescence de fichiers ou pour des stratégies de jeux.
 
 
 !!! abstract "Cours"
-    Les mesures de d'un arbre sont les suivantes :
     
-    -   La **taille** de l'arbre est son **nombre de nœuds**, 
-    -   La **profondeur** d'un nœud est le **nombre d'arêtes de la racine au nœud**. La **profondeur de la racine est donc 0**.
-    -   La **hauteur** d'un arbre est la plus **grande profondeur d'une feuille de l'arbre**. **Un arbre réduit à la racine a une hauteur de 0, un arbre vide a une hauteur de -1 (par convention)**.
+    -   La **taille** d'un arbre est son **nombre de nœuds**.
+
+    -   La **profondeur** d'un nœud est le **nombre d'arêtes entre la racine le nœud**. La **profondeur de la racine est donc 0**.
+
+    -   La **hauteur** d'un arbre est la plus **grande profondeur d'une feuille de l'arbre**.  **Un arbre réduit à la racine a une hauteur de 0, un arbre vide a une hauteur de -1 (par convention)**.
 
 
-    :warning: Il n'existe pas de définition universelle pour la hauteur d'un arbre et la profondeur d'un nœud dans un arbre. Dans certains cas la profondeur des nœuds est comptée à partir de 1, la **hauteur de l'arbre réduit à la racine est 1 et  la hauteur de l'arbre vide est 0**.
+    :warning: Il n'existe pas de définition universelle pour la hauteur d'un arbre et la profondeur d'un nœud dans un arbre. Dans certains cas la profondeur des nœuds est comptée à partir de 1, la **hauteur de l'arbre réduit à la racine est 1 et la hauteur de l'arbre vide est 0**.
 
 
 ## Interface 
@@ -37,12 +38,11 @@ Les principales primitives constituant l'interface d'un arbrete sont :
 -	`creer() → arbre` : construire un  arbre vide.
 -	`est_vide() → bool` : vérifier si un arbre est vide ou non.
 -	`taille() → int` : renvoyer la taille d'un arbre.
--	`hauteur() → int` : renvoyer la taille d'un arbre.
+-	`hauteur() → int` : renvoyer la hauteur d'un arbre.
 -	`profondeur(nœud) → int` : renvoyer la profondeur d'un nœud.
-
 -	`tete() →  element` : lire le premier élément (la tête) de la liste.
 -	`queue() → liste` : accéder au reste de la liste (la queue).
--	`est_feuille(noeud) → bool` : renvoyer True si le nœud est une feuille.
+-	`est_feuille(noeud) → bool` : vérifier si un nœud est une feuille ou pas.
 -	`branche(noeud) → arbre` : renvoyer un sous-arbre de racine nœud.
  
 
@@ -97,7 +97,7 @@ ajouter_fils(a, 'A', 'D')
 # etc.
 ```
 
-Pour aller plus loin on peut rajouter les primitives de profondeur,  hauteur,  branche, etc.
+Il est aussi possible de rajouter quelques primitives de profondeur, hauteur, etc. :
 
 ``` py
 def pere(arbre, n):
@@ -373,7 +373,7 @@ Ajoutons des méthodes propres aux ABR :
 ![Recherche du min dans un ABR](assets/7-abr-1-light-mode.png#only-light){width="30%" align="right"}
 ![Recherche du min dans un ABR](assets/7-abr-1-dark-mode.png#only-dark){width="30%" align="right"}
 
-Pour accéder à la plus petite clé d'un ABR, il suffit de descendre sur le fils gauche autant que possible. Le dernier nœud visité qui n'a pas de fils gauche porte la plus petite de l'ABR. De la mêm façon, pour trouver la plus grande valeur il suffir de descendre à droite.
+Pour accéder à la plus petite clé d'un ABR, il suffit de descendre sur le fils gauche autant que possible. Le dernier nœud visité qui n'a pas de fils gauche porte la plus petite de l'ABR. De la même façon, pour trouver la plus grande valeur il suffit de descendre sur les fils à droite.
 
 La classe `ABR` n'étant pas récursive, il faut définir une **méthode récursive** au niveau de la classe `Noeud` qui descend le plus à gauche[^7.3] :
 
