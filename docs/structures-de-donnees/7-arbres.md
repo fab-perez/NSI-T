@@ -2,7 +2,7 @@
 
 
 !!! abstract "Cours"
-    Un arbre (ou arbre enraciné) est un type abstrait de données constitué d'un ensemble de **nœuds**, reliés entre eux par des **arêtes** et organisés de manière **hiérarchique** :
+    Un **arbre** est un type abstrait de données constitué d'un ensemble de **nœuds**, reliés entre eux par des **arêtes** et organisés de manière **hiérarchique** :
 
     ![Exemple d'arbre représentant l'évolution des langages informatiques](assets/7-arbre-langages-informatiques-light-mode.png#only-light){width="30%" align="right"}
     ![Exemple d'arbre représentant l'évolution des langages informatiques](assets/7-arbre-langages-informatiques-dark-mode.png#only-dark){width="30%" align="right"}
@@ -26,7 +26,7 @@ Les arbres trouvent de nombreuses applications en informatique, par exemple une 
     -   La **hauteur** d'un arbre est la plus **grande profondeur d'une feuille de l'arbre**. **Un arbre réduit à la racine a une hauteur de 0, un arbre vide a une hauteur de -1 (par convention)**.
 
 
-    :waring: Il n'existe pas de définition universelle pour la hauteur d'un arbre et la profondeur d'un nœud dans un arbre. Dans certains cas la profondeur des nœuds est comptée à partir de 1, la **hauteur de l'arbre réduit à la racine est 1 et  la hauteur de l'arbre vide est 0**.
+    :warning: Il n'existe pas de définition universelle pour la hauteur d'un arbre et la profondeur d'un nœud dans un arbre. Dans certains cas la profondeur des nœuds est comptée à partir de 1, la **hauteur de l'arbre réduit à la racine est 1 et  la hauteur de l'arbre vide est 0**.
 
 
 ## Interface 
@@ -88,7 +88,7 @@ def est_feuille(arbre, noeud) :
 
 puis pour créer notre arbre :
 
-```py
+``` py
 a = creer()
 ajouter_noeud(a, 'A')
 ajouter_fils(a, 'A', 'B')
@@ -167,7 +167,7 @@ Il en résulte certaines propriétés sur la taille $n$  et la hauteur $h$ d’u
 
 ### Implémentation avec des p-uplets imbriqués
 
-Les arbres binaires ont au plus deux fils, on peut donc utiliser des triplés imbriqués, contenant pour chaque nœud : sa valeur, son fils de gauche et son fils de droite (dans cet ordre).
+Les arbres binaires ont au plus deux fils, il est donc possible d'utiliser des triplés imbriqués contenant pour chaque nœud : sa valeur, son fils de gauche et son fils de droite (dans cet ordre).
 
 ![Exemple d'arbre binaire contenant des chiffres](assets/7-ab-2-light-mode.png#only-light){width="30%" align="right"}
 ![Exemple d'arbre binaire contenant des chiffres](assets/7-ab-2-dark-mode.png#only-dark){width="30%" align="right"}
@@ -209,7 +209,7 @@ class Noeud:
         self.droite = d   # None ou un Noeud
 ```
 
-et créons un arbre non vide (un arbre vide est `None`):
+et créons un arbre non vide (un arbre vide est `None`) :
 
 ![Exemple d'arbre binaire contenant des chiffres](assets/7-ab-2-light-mode.png#only-light){width="30%" align="right"}
 ![Exemple d'arbre binaire contenant des chiffres](assets/7-ab-2-dark-mode.png#only-dark){width="30%" align="right"}
@@ -278,8 +278,11 @@ puis la taille et la hauteur de l'arbre :
 ![classes AB et Noeud](assets/7-ab-et-noeud-light-mode.png#only-light){width="30%" align="right"}
 ![classes AB et Noeud](assets/7-ab-et-noeud-dark-mode.png#only-dark){width="30%" align="right"}
 
-On peut reprocher à cette structure de ne pas représenter correctement les arbres vides, puisqu'un arbre vide est `None`, ce n'est pas un objet de la classe `Noeud`. La solution est de l'encapsuler dans une nouvelle classe (sur le modèle des `Cellules` et `ListeChainees`).
-Ajoutons à notre structure une classe `AB` avec un attribut racine qui est de type `Noeud` ou `None` pour un arbre vide.
+On peut reprocher à cette structure de ne représenter correctement que les arbres qui ne sont pas vide et ont une racine -- appelés « arbres **enracinés** », mais pas les arbres vides qui sont représentés par `None`, ce qui n'est pas un objet de la classe `Noeud`. 
+
+Une solution est de créer une nouvelle classe d'arbre qui pointe sur la racine quand l'arbre est enraciné ou sur `None` sinon, sur le même modèle des listes chainées avec les classes `Cellules` et `ListeChainees`.
+
+Ajoutons à notre structure cette classe `AB` avec un attribut racine qui est de type `Noeud` ou `None` pour un arbre vide.
 
 ``` py
 class AB:
@@ -291,7 +294,8 @@ Il est maintenant possible d'implémenter un arbre vide comme un objet de la cla
 ``` py
 arbre = AB()
 ```
-un arbre racine ainsi :
+
+un arbre enraciné ainsi :
 
 ``` py
 arbre = AB(Noeud(1))
@@ -336,10 +340,14 @@ class AB:
 
 Note : « supérieur » et   « inférieur » peuvent être au sens strict ou large en fonction de la définition donnée.
  
-Considèrons l'arbre binaire de recherche précédent qui servira comme support pour illustrer la suite :
-Plutôt que de dupliquer la classe `AB` précédente en `ABR` et de la modifier, nous allons créer une sous-classe par héritage[^7.2] et lui ajouter les spécificités d'un ABR. Inutile de réécrire le constructeur.
+Considèrons l'arbre binaire de recherche précédent qui servira comme support pour illustrer la suite.
+
+Plutôt que de dupliquer la classe `AB` précédente en `ABR` et de la modifier, nous allons créer une sous-classe par héritage[^7.2] et lui ajouter les spécificités d'un ABR. 
+
 
 [^7.2]: L'héritage est un des grands principes de la programmation orientée objet (POO) permettant de créer une nouvelle classe à partir d'une classe existante. La sous classe hérite des attributs et des méthodes de la classe mère et en ajoute de nouveaux.
+
+Inutile de réécrire le constructeur :
 
 ``` py
 class ABR(AB):
@@ -349,6 +357,7 @@ a = ABR(Noeud(7, Noeud(4, Noeud(2), Noeud(6)), Noeud(11, Noeud(9, Noeud(8), Noeu
 ```
 
 Toutes les méthodes de la classe `AB` fonctionnent par héritage pour un objet de la classe `ABR` :
+
 ``` py
 >>> a.taille()
 9
@@ -364,9 +373,7 @@ Ajoutons des méthodes propres aux ABR :
 ![Recherche du min dans un ABR](assets/7-abr-1-light-mode.png#only-light){width="30%" align="right"}
 ![Recherche du min dans un ABR](assets/7-abr-1-dark-mode.png#only-dark){width="30%" align="right"}
 
-Pour accéder à la plus petite clé d'un ABR, il suffit de descendre sur le fils gauche autant que possible. Le dernier nœud visité qui n'a pas de fils gauche porte la plus petite de l'ABR. 
-
-Pour trouver la plus grande valeur, il suffir de descendre à droite.
+Pour accéder à la plus petite clé d'un ABR, il suffit de descendre sur le fils gauche autant que possible. Le dernier nœud visité qui n'a pas de fils gauche porte la plus petite de l'ABR. De la mêm façon, pour trouver la plus grande valeur il suffir de descendre à droite.
 
 La classe `ABR` n'étant pas récursive, il faut définir une **méthode récursive** au niveau de la classe `Noeud` qui descend le plus à gauche[^7.3] :
 
@@ -405,8 +412,8 @@ puis renvoyer sa valeur dans la classe ABR pour obtenir le min d'un arbre :
 
 Pour vérifier qu'un arbre est un ABR, il faut vérifier que :
 
-    - La clé de chaque nœud est plus grande que le max de son sous-arbre de gauche, et plus petite que le min de son sous-arbre de droite.
-	- Les sous-arbres de droites et de gauches sont des ABR.
+- La clé de chaque nœud est plus grande que le max de son sous-arbre de gauche, et plus petite que le min de son sous-arbre de droite.
+- Les sous-arbres de droites et de gauches sont des ABR.
 
 Implémentons cette vérification de façon récursive au niveau de la classe `Nœud` :
 
@@ -425,9 +432,12 @@ class Noeud:
 ```
 
 Rajoutons une méthode au niveau de la classe `ABR` :
+
 ``` py
     def verif_ABR(self):
         """ Renvoie True si self est bien un ABR """
         if self.racine is None: return True
         return self.racine.verif_noeud()
-``` 
+```
+
+
