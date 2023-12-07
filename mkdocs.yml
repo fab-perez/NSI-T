@@ -1,11 +1,11 @@
 site_name: "Ressources de Terminale NSI"
 site_author: Fabrice Perez
-site_url: https://fab-perez.github.io/NSI-T/
+site_url: https://eipaca.github.io/NSI-T/
 
 site_description: >-
   Ressources pour le cours de Terminale NSI de l'Ecole Internationale PACA
 
-repo_url: https://github.com/fab-perez/NSI-T
+repo_url: https://github.com/eipaca/NSI-T
 
 copyright: |
   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a> Mise à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International</a>.
@@ -67,7 +67,24 @@ theme:
       example: octicons/beaker-16
       quote: octicons/quote-16
 
-
+plugins:
+  # An Mkdocs plugin to generate a PDF file for each MkDocs
+  # https://github.com/brospars/mkdocs-page-pdf
+  - page-to-pdf:
+      disableOnServe: true
+      displayHeaderFooter: true
+      printBackground: true
+      scale: 1.0
+      headerTemplate: '<header style="width:100%;font-size:10px;font-weight:600;color:white;background:#4051b5;margin-top:-20px;padding:10px;-webkit-print-color-adjust: exact">
+                        <span style="display:inline-block;vertical-align:middle;margin-top:-4px;margin-left:40px;">Cours de Terminale NSI</span>
+                     </header>'
+      footerTemplate: '<footer style="position:relative;width:100%;font-size:6px;color:#999999;margin:10px 20px 0px 50px;-webkit-print-color-adjust: exact">
+                        <span> 
+                        Ecole Internationale PACA | CC-BY-NC-SA 4.0</span>
+                        <span class="page" style="position:absolute;bottom:0;right:0;">
+                          <span class="pageNumber"></span>/<span class="totalPages"></span>
+                        </span>
+                      </footer>'
 
 
 extra_css:
@@ -90,8 +107,9 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   # enables native support for Mermaid.js diagrams
   - pymdownx.superfences:
       custom_fences:
