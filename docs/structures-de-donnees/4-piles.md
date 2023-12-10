@@ -154,6 +154,10 @@ False
 'c''
 >>>
 ```
+
+Enregistons cette classe de `Pile` dans un fichier "pile.py", elle nous sera utile par la suite.
+
+
 Pour faire encore plus simple, programmons une pile avec la même idée, mais sans utiliser la POO : 
 
 ``` py
