@@ -156,7 +156,7 @@ Quand cette lettre est un 'T', on fait toujours un saut de 1 caractère :
 ![Saut quand la lettre est T](assets/5-horspool-saut-T.png){height="10%"}
 
 
-quand c’est un 'C' on saute 2 caractères :
+quand c’est un 'C', on saute 2 caractères :
 
 ![Saut quand la lettre est T](assets/5-horspool-saut-C.png){height="10%"}
 
@@ -181,7 +181,7 @@ Ce prétraitement peut s’écrire en Python de la façon suivante :
 def table_sauts(motif):
     dico = {}
     m = len(motif)
-    for i in range(m - 1):  # on exclus la derniere lettre du motif
+    for i in range(m - 1):  # on exclut la derniere lettre du motif
         dico[motif[i]] = m - i - 1
     return dico
 
