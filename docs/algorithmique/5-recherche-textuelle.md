@@ -116,16 +116,16 @@ Dans la recherche naïve, lorsque que le dernier caractère ne correspond pas à
 
 ![Recherche Horspool - étape 1](assets/5-horspool-1.png)
 
-Le `C` ne correspond pas au `G` de la chaine. Plutôt que de décaler le motif d’une seule position vers la droite, on voit qu’il y n’y a pas de  `G`  dans le motif, on peut donc décaler de toute la longueur du motif, et gagner beaucoup de temps :
+Le `C` ne correspond pas au `G` de la chaine. Plutôt que de décaler le motif d’une seule position vers la droite, on voit qu’il y n’y a pas de  `G`  dans le motif, on peut donc « sauter »  de toute la longueur du motif, et gagner beaucoup de temps :
 
 ![Recherche Horspool - étape 2](assets/5-horspool-2.png)
 
-Le `C` ne correspond pas au `A` de la chaine, mais il y a un `A` dans la chaîne 5 caractères  à gauche  du dernier caractère du motif et un autre 3 caractères à gauche. On peut aligner ce dernier `A` du motif en décalant de 3 caractères :
+Le `C` ne correspond pas au `A` de la chaine, mais il y a un `A` dans la chaîne 3 caractères à gauche du dernier caractère du motif, on peut donc aligner immédiatement ce dernier `A` du motif en « sautant »  de 3 caractères :
 
 
 ![Recherche Horspool - étape 3](assets/5-horspool-3.png)
 
-Le `C` et le `T` correspondent, mais pas le `C` avec le `T` de la chaine. Il y a un autre `C` dans le motif 4 caractères à gauche du dernier caractère du motif et un autre 2 caractères à gauche. On peut aligner ce dernier `C` du motif en décalant de 2 caractères :
+Le `C` ne correspond pas au `T` de la chaine.  Il y a un `T`dans le motif 5 caractères à gauche du dernier caractère du motif et un autre 1 caractère à gauche. On peut aligner ce dernier  `T` du motif en « sautant » de 1 caractère. 
 
 
 ![Recherche Horspool - étape 4](assets/5-horspool-4.png)
@@ -134,22 +134,22 @@ Le `C` ne correspond pas au `T` de la chaine, mais il y a un `T` dans la chaîne
 
 ![Recherche Horspool - étape 5](assets/5-horspool-5.png)
 
-Le `C` et le `T`  correspondent à la chaine, mais ensuite le  `C` ne correspond pas au `G`, on décale de 2 caractères pour aligner les `C` :
+Le `C` et le `T`  correspondent à la chaine, mais ensuite le  `C` ne correspond pas au `G`, on « saute » de 2 caractères pour aligner les `C` :
 
 ![Recherche Horspool - étape 6](assets/5-horspool-6.png)
 
-Le `C`, le `T` et le `C` correspondent, mais pas le `A` au `T` de la chaine, on décale de 2 caractères pour aligner les `C` :
+Le `C`, le `T` et le `C` correspondent, mais pas le `A` au `T` de la chaine, on « saute » de 2 caractères pour aligner les `C` :
 
 ![Recherche Horspool - étape 7](assets/5-horspool-7.png)
 
-Le `C` correspond, mais pas le `T` avec le `A` de la chaine , on décale de 2 caractères pour aligner les `C` :
+Le `C` correspond, mais pas le `T` avec le `A` de la chaine , on « saute » de 2 caractères pour aligner les `C` :
 
 ![Recherche Horspool - étape 8](assets/5-horspool-8.png)
 
 Tous les caractères correspondent. On a trouvé le motif en 8 étapes, au lieu de 18 avec l’algorithme naïf !
 
-On a vu qu’on ne se contente pas de comparer un caractère de la chaine seulement avec le dernier caractère du motif, mais avec l’ensemble des caractères du motif pour déterminer un décalage que l’on peut faire : un saut. Mais ce saut est toujours le même pour une même lettre de la chaine placée à la position du dernier caractère du motif.
-
+On a vu qu’on ne se contente pas de comparer un caractère de la chaine seulement avec le dernier caractère du motif, mais avec l’ensemble des caractères du motif pour déterminer combien de caractères il est possible de faire « glisser » le motif  : un **saut**. 
+Mais ce saut est toujours le même pour une même lettre de la chaine que l’on compare au dernier caractère du motif.
 
 Quand cette lettre est un 'T', on fait toujours un saut de 1 caractère :
 
