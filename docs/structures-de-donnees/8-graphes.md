@@ -283,7 +283,7 @@ Avantages et Inconvénients de cette structure :
 
 -	La dimension de la matrice est égale au carré du nombre de sommets ($n \times n$), ce qui peut représenter un important espace en mémoire.
 
--	Pour obtenir les voisins d'un sommet, il faut une utiliser une fonction de coût d'ordre $O(n)$.
+-	Le fonction pour obtenir les voisins d'un sommet a un coût d'ordre $O(n)$.
 
 
 ### Liste ou dictionnaire d'adjacence
