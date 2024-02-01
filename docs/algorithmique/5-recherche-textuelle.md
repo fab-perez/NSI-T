@@ -5,7 +5,7 @@
 
 C'est un problème très fréquent, par exemple quand on fait CTRL+F pour chercher un mot dans un fichier ou sur une page web.  En Python, la recherche textuelle est nativement présente avec les instructions `motif in chaine` ou `chaine.index(motif)` et `chaine.find(motif)`. 
 
-Il existe de nombreux algorithmes de recherche textuelle, on étudie dans ce chapitre l'algorithme de Boyer-Moore et sa version simplifiée de Horpsool sur un exemple de bio-informatique: rechercher les occurrences d'une séquence `TCACTC` (le motif) dans un brin d'ADN `CTTCCGCTCGTATTCGTCTCACTCG` (la chaine).
+Il existe de nombreux algorithmes de recherche textuelle, on étudie dans ce chapitre l'algorithme de Boyer-Moore et sa version simplifiée de Horpsool sur un exemple de bio-informatique: chercher la séquence `TCACTC` (le motif) dans un brin d'ADN `CTTCCGCTCGTATTCGTCTCACTCG` (la chaine).
 
 ##	 Recherche naïve par « force brute »
 
@@ -33,7 +33,7 @@ L'opération se répète jusqu'à trouver tous les caractères du motif qui corr
 
 ![Recherche naïve - étape 5](assets/5-naive-5.png)
 
-Le traitement est très long car il faut parcourir toute la chaîne, caractère par caractère, et à chaque fois comparer avec un ou plusieurs caractères du motif jusqu'à trouver un caractère qui ne coïncide pas.  Dans le pire des cas, le motif n'est pas présent dans la chaine,  le coût est donc en $O(n \times m)$, où $n$ est la longueur de la chaine et $m$ celle du motif.
+Le recherche naïve est très longue car il faut parcourir toute la chaîne, caractère par caractère, et à chaque fois comparer avec un ou plusieurs caractères du motif jusqu'à trouver un caractère qui ne coïncide pas.  Dans le pire des cas, le motif et la chaine contiennent tous les deux une seule et même lettre, le coût est donc en $O(n \times m)$, où $n$ est la longueur de la chaine et $m$ celle du motif. Et dans le meilleur des cas, le premier caractère du motif n'est pas présent dans la chaine, le coût est en $O(n)$.
 
 Traduit en Python, on obtient le programme suivant :
 
@@ -160,8 +160,6 @@ On voit que le saut est déterminé par le caractère de la chaine qui est align
 
 
 
-
-
 On voit aussi que si un caractère apparaît plusieurs fois dans le motif, on ne garde que celui qui est le plus à droite.  Par exemple, ici `T` apparaît plusieurs fois dans le motif, on calcule le saut pour `T` en considérant celui qui est le plus à droite du motif, c'est-à-dire 1.
 
 ![Saut quand la lettre est T](assets/5-horspool-saut-T.png){height="10%"}
@@ -170,10 +168,10 @@ Enfin, on voit que le dernier caractère du motif  n'est pas pris en compte pour
 
 ![Un exemple de saut quand la lettre est C (en ignorant le dernier caractére)](assets/5-horspool-saut-C-2.png){height="10%" }
 
-Plutôt que de recalculer ces sauts à chaque différence trouvée, on peut donc faire un prétraitement de l'algorithme en calculant au début une seule fois tous les sauts associés à chaque lettre du motif. 
+Plutôt que de recalculer ces sauts à chaque fois qu'une différence est trouvée, on peut donc faire un prétraitement de l'algorithme de Horspool en calculant au début une seule fois tous les sauts associés à chaque lettre du motif. 
 
 !!! abstract "Cours" 
-    Prétraitement : Pour chaque lettre du motif (sauf la dernière), le saut à effectuer est égal à l'écart entre la dernière occurrence de cette lettre dans le motif et la fin du motif. On ne calcule pas de saut pour le dernier caractère.
+    Prétraitement :  Pour chaque lettre du motif (sauf la dernière), le saut à effectuer est égal à l'écart entre la dernière occurrence de cette lettre dans le motif et la fin du motif. On ne calcule pas de saut pour le dernier caractère.
 
 
 Dans notre exemple, la table des sauts pour le motif  `'TCACTC'` est donc la suivante :
@@ -188,11 +186,11 @@ Ecrivons le prétraitement en Python :
 
 ``` py
 def table_sauts(motif):
-    dico = {}
+    d = {}
     m = len(motif)
     for i in range(m - 1):  # on exclut la derniere lettre du motif
-        dico[motif[i]] = m - i - 1
-    return dico
+        d[motif[i]] = m - i - 1
+    return d
 
 ```
 
@@ -224,14 +222,18 @@ def horspool(motif, chaine):
     return positions
 ```
 
+L'algorithme de Horspool n'améliore pas le pire des cas de la recherche naïve, si le motif et la chaine contiennent tous les deux une seule et même lettre, le coût est toujours en $O(n \times m)$, où $n$ est la longueur de la chaine et $m$ celle du motif. Par contre dans le meilleur des cas, si le dernier caractère du motif n'est pas présent dans la chaine, les sauts permettent d'améliorer fortement le coût en $O(n/m)$.
+
 
 ## L'algorithme de Boyer-Moore 
 
-### La règle du mauvais caractère (*bad caractere*)
+### La règle du mauvais caractère (*bad character*)
 
 On peut généraliser l'idée du saut calculé sur la lettre alignée avec le dernier caractère du motif en calculant le saut sur le premier mauvais caractère.
 
-Comme avec Horspool, quand on trouve un caractère qui n'est pas présent dans le motif, on peut « sauter »  derrière celui-ci :
+Comme avec Horspool[^5.1], quand on trouve un caractère qui n'est pas présent dans le motif, on peut « sauter »  derrière celui-ci :
+
+[^5.1]:[https://webhome.cs.uvic.ca/~nigelh/Publications/stringsearch.pdf](https://webhome.cs.uvic.ca/~nigelh/Publications/stringsearch.pdf)
 
 ![Recherche Boyer-Morre - étape 1](assets/5-boyer-moore-1.png)
 
@@ -349,7 +351,7 @@ Le `C` et le `T` correspondent, mais pas le `C`  avec le `T` de la chaine. Plut�
 
 ![Recherche Boyer-Morre avec la règle du bon suffixe - étape 4](assets/5-boyer-moore-4-bs.png)
 
-Ici, le mauvais caractère est `T`, la règle du « mauvais caractère » nous permet d’aligner ce `T` avec le `T` du motif à gauche, c’est-à-dire de « sauter » d'1 caractère. 
+Ici, le mauvais caractère est `T`, la règle du « mauvais caractère » nous permet d'aligner ce `T` avec le `T` du motif à gauche, c'est-à-dire de « sauter » d'1 caractère. 
 
 ![Recherche Boyer-Morre avec la règle du bon suffixe - étape 5](assets/5-boyer-moore-5-bs.png)
 
@@ -371,7 +373,7 @@ La règle du « bon suffixe » consiste à calculer une seconde table :
 |`CACTC`|4||
 
 
-L’algorithme de Boyer Moore consiste à prendre le plus grand saut entre les deux tables à chaque étape.
+L'algorithme de Boyer Moore consiste à prendre à chaque étape le plus grand saut entre les deux tables .
 
 
 
