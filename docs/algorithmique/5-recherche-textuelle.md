@@ -235,15 +235,15 @@ Comme avec Horspool[^5.1], quand on trouve un caractère qui n'est pas présent 
 
 [^5.1]:[https://webhome.cs.uvic.ca/~nigelh/Publications/stringsearch.pdf](https://webhome.cs.uvic.ca/~nigelh/Publications/stringsearch.pdf)
 
-![Recherche Boyer-Morre - étape 1](assets/5-boyer-moore-1.png)
+![Recherche Boyer-Moore - étape 1](assets/5-horspool-1.png)
 
 Le `C` ne correspond pas au `G` de la chaine. Il y n'y a pas de `G`  dans le motif, on « saute »  de toute la longueur du motif :
 
-![Recherche Boyer-Morre - étape 2](assets/5-boyer-moore-2.png)
+![Recherche Boyer-Moore - étape 2](assets/5-horspool-2.png)
 
 Le `C` ne correspond pas au `A` de la chaine, mais il y a un `A` dans la chaîne 3 caractères à droite du dernier caractère du motif. On peut aligner ce dernier `A` du motif en « sautant » de 3 caractères.
 
-![Recherche Boyer-Morre - étape 3](assets/5-boyer-moore-3.png)
+![Recherche Boyer-Moore - étape 3](assets/5-boyer-moore-3.png)
 
 Le `C` et le `T` correspondent, mais pas le `C`  avec le `T` de la chaine. Plutôt que de calculer le saut en fonction du `C` comme avec Horspool, c'est-à-dire un saut de 2 caractères,  on utilise le premier mauvais caractère, ici `T`. Il y a un `T` dans le motif à gauche du mauvais caractère, on peut aligner ces `T` et  sauter de 3 caractères.  Attention, on ne prend pas en compte le `T` dans le motif à droite du mauvais caractère.
 
@@ -255,15 +255,15 @@ C'est comme si on calculait la table des sauts pour un motif réduit `TCAC` :
 
 
 
-![Recherche Boyer-Morre - étape 4](assets/5-boyer-moore-4.png)
+![Recherche Boyer-Moore - étape 4](assets/5-boyer-moore-4.png)
 
 Le `C`  et le `T` correspondent, mais pas le `C` avec le `G` de la chaine.  Il n'y a pas de `G` dans la partie droit du motif,  (il n'y en a pas du tout), on « saute » de 4 caractères après ce `G` .
 
-![Recherche Boyer-Morre - étape 5](assets/5-boyer-moore-5.png)
+![Recherche Boyer-Moore - étape 5](assets/5-boyer-moore-5.png)
 
 Le `C` correspond, mais  pas le  `T` avec le `A`. Le mauvais caractère est un `A` et il y a un `A` à droite du mauvais caractère, on « saute » de 2 caractères pour aligner les `A`. 
 
-![Recherche Boyer-Morre - étape 6](assets/5-boyer-moore-6.png)
+![Recherche Boyer-Moore - étape 6](assets/5-boyer-moore-6.png)
 
 Tous les caractères correspondent. On a trouvé le motif en 6 étapes, au lieu de 8 avec Horspool !
 
