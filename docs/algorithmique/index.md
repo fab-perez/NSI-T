@@ -1,5 +1,7 @@
+
 # Algorithmique
 
-Le travail de compréhension et de conception d’algorithmes se poursuit en terminale notamment via l’introduction des structures d’arbres et de graphes montrant tout l’intérêt d’une approche récursive dans la résolution algorithmique de problèmes.
+Le concept de méthode algorithmique est introduit ; de nouveaux exemples seront vus en terminale. Quelques algorithmes classiques sont étudiés. L’étude de leurs coûts respectifs prend tout son sens dans le cas de données nombreuses, qui peuvent être préférentiellement des données ouvertes.
+Il est nécessaire de montrer l’intérêt de prouver la correction d’un algorithme pour lequel on dispose d’une spécification précise, notamment en mobilisant la notion d’invariant sur des exemples simples. La nécessité de prouver la terminaison d’un programme est mise en évidence dès qu’on utilise une boucle non bornée (ou, en terminale, des fonctions récursives) grâce à la mobilisation de la notion de variant sur des exemples simples.
 
-On continue l’étude de la notion de coût d’exécution, en temps ou en mémoire et on montre l’intérêt du passage d’un coût quadratique en $n^2$ à $n.log_2n$ ou de $n$ à $log_2.n$. Le logarithme en base 2 est ici manipulé comme simple outil de comptage (taille en bits d’un nombre entier).
+*cours à suivre...*
