@@ -116,7 +116,7 @@ Ce programme contient une boucle `while`, il faut donc s'assurer qu'il se termin
 
 Tant qu'on est dans la boucle, le variant de boucle `fin - debut` décroit strictement, la boucle `while debut <= fin:` se terminera donc.
 
-Pour prouver la correction de cet algorithme, on va utiliser la technique de l’invariant de boucle. Ici, un invariant de boucle est : si x est dans T alors `T[debut] < x < T[fin]`. Si l'invariant est vrai quand on entre dans la boucle, alors il y a les mêmes trois possibilités :
+Pour prouver la correction de cet algorithme, on va utiliser la technique de l’invariant de boucle. Ici, un invariant de boucle est : si x est dans T alors `T[debut] <= x <= T[fin]`. Si l'invariant est vrai quand on entre dans la boucle, alors il y a les mêmes trois possibilités :
 
 - `x < T[milieu]` : alors la recherche se poursuit dans `T[debut:milieu - 1]`, l'invariant est encore vrai quand on retourbne dans la boucle; 
 - `x > T[milieu]` : alors la recherche se poursuit dans `T[milieu + 1:fin]`, l'invariant est encore vrai quand on retourbne dans la boucle ;  
@@ -180,8 +180,8 @@ On a vu en classe de première plusieurs algorithmes de tri simples comme le tri
             elt = T[i]
             j = i
             while j > 0 and elt < T[j-1]:
-            T[j] = T[j-1]
-            j = j - 1
+                T[j] = T[j-1]
+                j = j - 1
             T[j] = elt
         return T	
     ```
@@ -287,9 +287,9 @@ Etudions la complexité temporelle pour un tableau de taille n.  Comme pour l'al
 !!! abstract "Cours" 
     La complexité en temps de l'algorithme de tri fusion est donc linéarithmique en  $O(n \times log_2(n))$.
 
-Avec un tableau d'un milliard de valeurs, l'algorithme naïf en $O(n^2)$ demande de l'ordre de $10^18$ opérations. Avec des ordinateurs effectuant $10^9$ opérations par secondes, il faut de l'ordre de $10^9$ secondes, soit environ 30 ans.
+Avec un tableau d'un milliard de valeurs, l'algorithme naïf en $O(n^2)$ demande de l'ordre de $10^{18}$ opérations. Avec des ordinateurs effectuant $10^9$ opérations par secondes, il faut de l'ordre de $10^9$ secondes, soit environ 30 ans.
 
-La complexité du tri fusion est de l'ordre de $10^9 × log_2(10^9) ≈ 30 × 10^9$ opérations, ce qui se fait en 30 secondes. 
+La complexité du tri fusion est de l'ordre de $10^9 × log_2(10^9) \simeq 10^9 \times 30$ opérations, ce qui se fait en 30 secondes. 
 
 
 ## 	Rotation d'une image d'un quart de tour
