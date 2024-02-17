@@ -1,4 +1,4 @@
-# Méthode « diviser pour régner »
+﻿# Méthode « diviser pour régner »
 
 !!! abstract "Cours" 
 
@@ -160,9 +160,9 @@ On a vu en classe de première plusieurs algorithmes de tri simples comme le tri
     ``` py
     def tri_selection(T):
         n = len(T)
-        for i in range(n - 1):
+        for i in range(n-1):
             mini = i
-            for j in range(i + 1, n):
+            for j in range(i+1, n):
             if T[j] < T[mini]:
                 mini = j
             T[i], T[mini] = T[mini], T[i]
@@ -196,16 +196,13 @@ On a vu en classe de première plusieurs algorithmes de tri simples comme le tri
         for i in range(n):
             for j in range(n-i-1):
             if T[j] > T[j+1]:
-                T[j],T[j+1] = T[j+1],T[j]
+                T[j], T[j+1] = T[j+1], T[j]
         return T
     ```
 
-Ces algorithmes sont considérés comme inefficaces car d'une **complexité quadratique en $O(n^2)$**.
+Ces algorithmes sont considérés comme inefficaces car d'une **complexité quadratique en $O(n^2)$**. 
 
-Le principe du tri fusion consiste à réunir deux tableaux triés en un seul (leur « fusion »). L'efficacité de l'algorithme vient du fait que deux tableaux triés peuvent être fusionnées en temps linéaire.
-
-À partir de réunir deux tableaux triés, on peut facilement construire un nouveau tableau trié comportant les éléments issus de ces deux tableaux. En effet, le plus petit élément du tableau à construire est soit le plus petit élément du premier tableau, soit le plus petit élément du deuxième.
-
+L'efficacité du tri fusion repose sur la facilité de réunir deux tableaux triés en un seul (leur « fusion »). En effet, pour construire le nouveau tableau élément par élément, il suffit de choisir à chaque fois le plus petit entre le premier élément du premier tableau et le premier élément du second tableau. Inutile de regarder les éléments suivants de chaque tableau puisqu'ils seront plus grands que les premiers. De cette façon, la fusion entre deux tableaux triés se fait en temps linéaire.
 
 Tri Fusion d'un tableau  `T[1, .. n]` :
 
@@ -219,24 +216,28 @@ Tri Fusion d'un tableau  `T[1, .. n]` :
 ![Exemple de tri fusion. Source wikipedia](assets/3-tri-fusion-light-mode.png#only-light){width="30%" align=right}
 ![Exemple de tri fusion. Source wikipedia](assets/3-tri-fusion-dark-mode.png#only-dark){width="30%" align=right}
 
-Commençons par écrire une fonction qui fusionne deux tableaux triés T1 et T2. On construit le nouveau tableau élément par élément en retirant tantôt le premier élément du premier tableau, tantôt le premier élément du deuxième tableau (en fait, le plus petit des deux, à supposer qu'aucune des deux tableaux ne soit vide, sinon la réponse est immédiate).
+Commençons par écrire une fonction qui fusionne deux tableaux triés T1 et T2. On construit le nouveau tableau élément par élément en retirant tantôt le premier élément du premier tableau, tantôt le premier élément du deuxième tableau, en prenant à chaque fois le plus petit des deux (à supposer qu'aucun des deux tableaux ne soit vide, sinon la réponse est immédiate).
 
 En voici une version itérative[^3.1] : 
-``` py
+
+``` py linenums="1"
 def fusion(T1: list, T2: list) -> list:
     """ (list, list) -> list
     T1 et T2 sont des tableaux triés
-    renvoie le tableau trié des éléments de T1 et T2 ensembles
+    Renvoie le tableau trié des éléments de T1 et T2 ensembles
     """
     T = []
-    i1, i2 = 0, 0
+    i1, i2 = 0, 0     # Indices des éléments à comparer de T1 et T2
+    # Tant qu'il reste des éléments dans les deux tableaux
     while i1 < len(T1) and i2 < len(T2):
+        # On ajoute le plus petit des deux éléments dans T
         if T1[i1] <= T2[i2]:
             T.append(T1[i1])
             i1 += 1
         else:
             T.append(T2[i2])
             i2 += 1
+    # Un des deux tableaux et vide, on transfère tous les élements restants dans T
     while i1 < len(T1):
         T.append(T1[i1])
         i1 += 1
@@ -247,7 +248,7 @@ def fusion(T1: list, T2: list) -> list:
 
 ```
 
-[^3.1]: Il existe aussi une version recursive en utilisant les tranches de tableau :
+[^3.1]: Il existe aussi une version récursive en utilisant les tranches de tableau :
     ``` py
     def fusion(T1: list, T2: list) -> list:
         """ (list, list) -> list
@@ -262,35 +263,44 @@ def fusion(T1: list, T2: list) -> list:
             return [T2[0]] + fusion(T1, T2[1:])
     ```
 
-Le tri-fusion est naturellement décrit de façon récursive.
+A partir de là, le tri-fusion se construit naturellement de façon récursive :
 
 1.	Si le tableau n'a qu'un élément, il est déjà trié.
-2.	Sinon, séparer le tableau en deux parties à peu près égales.
+2.	Sinon, "diviser" le tableau en deux parties à peu près égales.
 3.	Trier récursivement les deux parties avec l'algorithme du tri fusion.
 4.	Fusionner les deux tableaux triés en un seul tableau trié.
 
-``` py
+``` py linenums="1"
 def tri_fusion(T: list) -> list:
     """ (list) -> list
-    renvoie le tableau trié (tri-fusion) des éléments de T
+    Renvoie le tableau trié (tri-fusion) des éléments de T
     """
-    if len(T) <= 1:
+    if len(T) <= 1:            # Si le tableau n'a qu'un élément, il est déjà trié
         return T
     else:
-        T1 = T[:len(T)//2]
+        # On divise en deux parties à peu près égales
+        T1 = T[:len(T)//2]     
         T2 = T[len(T)//2:]
+        # Et on fusionne les deux tableaux après les avoir triés
         return fusion(tri_fusion(T1), tri_fusion(T2))
 ``` 
 
-Etudions la complexité temporelle pour un tableau de taille n.  Comme pour l'algorithme du tri par dichotomie, à chaque itération de la boucle de fusion on divise la taille du tableau par 2, C'est une complexité en $log_2(n)$. Mais à l'intérieur de chaque boucle, il faut effectuer une fusion qui necessite de faire entre $k/2$ et $k$ comparaisons, où $k$ est la taille des sous-tableaux, c'est de l'ordre de $n$. 
+Etudions la complexité temporelle pour un tableau de taille $n$.  Comme pour l'algorithme du tri par dichotomie, à chaque itération de la boucle de fusion on divise la taille du tableau par 2, on a donc une complexité en $log_2(n)$. Mais à l'intérieur de chaque boucle, il faut effectuer une fusion qui necessite de faire entre $k/2$ et $k$ comparaisons, où $k$ est la taille des sous-tableaux, c'est donc de l'ordre de $O(n)$.  La complexité du tri fusion est donc de l'ordre  $O(n \times log_2(n))$
 
 !!! abstract "Cours" 
     La complexité en temps de l'algorithme de tri fusion est donc linéarithmique en  $O(n \times log_2(n))$.
 
 Avec un tableau d'un milliard de valeurs, l'algorithme naïf en $O(n^2)$ demande de l'ordre de $10^{18}$ opérations. Avec des ordinateurs effectuant $10^9$ opérations par secondes, il faut de l'ordre de $10^9$ secondes, soit environ 30 ans.
 
-La complexité du tri fusion est de l'ordre de $10^9 × log_2(10^9) \simeq 10^9 \times 30$ opérations, ce qui se fait en 30 secondes. 
+Avec le tri fusion est, le nombre d'opérations est de l'ordre de $10^9 × log_2(10^9) \simeq 10^9 \times 30$, ce qui s'exécute en 30 secondes sur les ordinateurs précédants[^3.2]. 
 
+
+[^3.1]:
+    ``` py
+    >>> import math
+    >>> math.log(10**9,2)
+    29.897352853986263
+    ``` 
 
 ## 	Rotation d'une image d'un quart de tour
 
