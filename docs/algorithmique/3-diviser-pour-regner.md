@@ -429,10 +429,11 @@ Essayons d'estimer la complexité de cette rotation d'un quart de tour. La fonct
 ##	Tri Rapide (*quicksort*)
 
 
-La méthode consiste à placer un élément du tableau, souvent choisi au hasard, (appelé pivot) à sa place définitive, en permutant tous les éléments de telle sorte que tous ceux qui lui sont inférieurs soient à sa gauche et que tous ceux qui lui sont supérieurs soient à sa droite (le « partitionnement »). 
+La méthode consiste à choisir, souvent au hasard, un élément appelé **pivot** pour le mettre à sa place définitive en plaçant tous les éléments du tableau qui lui sont inférieurs dans un sous-tableau à sa gauche et tous ceux qui lui sont supérieurs dans un autre sous-tableau à sa droite. 
 
-Pour chacun des sous-tableaux, on définit un nouveau pivot et on répète l'opération de partitionnement. Ce processus est répété récursivement, jusqu'à ce que l'ensemble des éléments soit trié.
+L'algorithme est récursif, pour chacun des sous-tableaux on définit un nouveau pivot et on répète l'opération jusqu'à ce que tous les sous-tableaux soient vides. Il ne reste plus qu'à réunir tous les sous-tableaux et l'ensemble sera trié.
 
+Voyons un exemple dans lequel le pivot choisi est toujours le dernier élément du tableau :
 
 ![Exemple de tri rapide, le pivot est le dernier élément ](assets/3-quicksort-light-mode.png#only-light){width=80% }
 ![Exemple de tri rapide, le pivot est le dernier élément](assets/3-quicksort-dark-mode.png#only-dark){width=80%}
@@ -442,26 +443,43 @@ Tri Rapide d'un tableau `T[1, …, n]`
 
 |Etape|Description|
 |:--|:--|
-|**Diviser** |Découper le tableau `T[1, …, n]` de part et d'autre d'un pivot en deux sous-tableaux : le  premier contenant toutes les valeurs inférieures au pivot, le second celles qui lui sont supérieures |
-|**Régner**	 |Trier les deux sous-tableaux|
-|**Combiner**|Regrouper les deux sous tableaux triés|
+|**Diviser** |Découper le tableau `T[1, …, n]` de part et d'autre d'un pivot en trois sous-tableaux : le premier contenant toutes les valeurs inférieures au pivot, le second contenant celles égales au pivot et le dernier celles supérieures au pivot|
+|**Régner**	 |Trier les sous-tableaux des valeurs inférieures et des valeurs supérieures au pivot (celui des valeurs égales au pivot est déjà trié)|
+|**Combiner**|Regrouper les trois sous-tableaux triés|
 
 
 En pratique, le programme Python est construit en utilisant trois sous-tableaux contenant respectivement les valeurs inférieures, supérieures et égales au pivot. On trie les deux premiers et on combine les trois.
-from random import randint
+
 
 
 ``` py
+from random import randint
+
 def tri_rapide(T):
-    n = len(T)
-    if n == 0: return []
+    """ list[int]-> list[int]
+    Renvoie le tableau T trié par tri rapide
+    """
+    if len(T) == 0:    # si T est vide
+        return []        # il n'y a rien à trier
 
-    pivot = T[randint(0, n-1)]
-    egales = [x for x in T if x == pivot]
-    inferieures = tri_rapide([x for x in T if x < pivot])
-    superieures = tri_rapide([x for x in T if x > pivot])
-    return inferieures + egales + superieures
+    # Diviser
+    pivot = T[randint(0, len(T)-1)]  # pivot au hasard, on peut utiliser T[-1] pour prendre le dernier élement
+    val_inferieures = []
+    val_egales = []
+    val_superieures = []
 
+    for elem in T:
+        if elem < pivot: val_inferieures.append(elem)
+        elif elem > pivot: val_superieures.append(elem)
+        else: val_egales.append(elem)
+
+    # Regner
+    return tri_rapide(val_inferieures) + val_egales + tri_rapide(val_superieures)
+
+
+tab = [randint(0, 100) for i in range(10000)]
+print(tri_rapide(tab))
 ```
 
-Le *quicksort* est un tri dont la complexité moyenne est en $O(n \times log_2(n))$, mais dont la complexité dans le pire des cas est un comportement quadratique en $O(n^2)$. Malgré ce désavantage théorique, c'est en pratique un des tris les plus rapides pour des données réparties aléatoirement.
+Dans le pire des cas où à chaque itération toutes les valeurs se trouvent toutes du même côté du pivot, la complexité du tri rapide est quadratique en $O(n^2)$. 
+Cependant en pratique,  pour des données réparties aléatoirement, la complexité moyenne est en $O(n \times log_2(n))$, faisant du tri rapide un des tris les plus rapides.
