@@ -67,7 +67,7 @@ On peut observer deux choses dans la réalisation de cet algorithme :
 
 1.	Pour chaque case, il suffit de faire la somme du nombre chemins depuis la case de gauche et depuis la case de droite sur la rangée au-dessus : on **découpe le problème en sous-problèmes plus faciles à résoudre**.  
 
-2.	Le nombre de chemin calculé pour une case est utilisé pour calculer les nombres de chemins de plusieurs cases. Les sous-problèmes se recoupent. Il faut **garder en mémoire les résultats intermédiaires pour ne pas recalculer la même chose plusieurs fois**.
+2.	Le nombre de chemin calculé pour une case est utilisé pour calculer les nombres de chemins de plusieurs cases. Les sous-problèmes se chevauchent. Il faut **garder en mémoire les résultats intermédiaires pour ne pas recalculer la même chose plusieurs fois**.
 
 Ce sont les deux principes de la **programmation dynamique**.
 
@@ -91,7 +91,7 @@ Ce sont les deux principes de la **programmation dynamique**.
     Mario peut prendre 10 chemins différents.
 
 !!! abstract "Cours" 
-    La **programmation dynamique**[^4.1] résout un problème en combinant des solutions de **sous-problèmes qui se chevauchent**, c’est à dire qu’il possède des sous-sous-problèmes identiques.  
+    La **programmation dynamique**[^4.1] résout un problème en combinant des solutions de **sous-problèmes qui se chevauchent**, c'est à dire qu'il possède des sous-sous-problèmes identiques.  
     
     Afin d'éviter les calculs redondants, **chaque sous-sous-problème n'est résolu qu'une seule fois et sa réponse est gardée en mémoire**.
 
@@ -114,6 +114,7 @@ On a vu en classe de première une solution donnée par un algorithme glouton, q
 
     ``` py
     pieces = [10, 5, 2, 1]
+
     def rendu_monnaie_gouton(x):
         nombre_pieces = 0
         i = 0 # on commence par la plus grande pièce
@@ -123,11 +124,13 @@ On a vu en classe de première une solution donnée par un algorithme glouton, q
                 x = x - pieces[i]
             else:    # on passe à la pièce suivante
                 i = i + 1
-        return nombre_pieces	pieces = [10, 5, 2, 1]
+        return nombre_pieces	
     ```
 
 === "Programme récursif"
     ``` py
+    pieces = [10, 5, 2, 1]
+
     def rendu(x, i=0):
         if x == 0: 
         return 0
@@ -156,26 +159,26 @@ C'est le **propre des algorithmes gloutons : une fois qu'une décision a été p
 
 ### Programmation dynamique
 
-La programmation dynamique consiste à résoudre notre problème en combinant les solutions de sous-problèmes. Ici, rendre une somme x consiste à :
+La programmation dynamique consiste à résoudre notre problème en combinant les solutions de sous-problèmes. Ici, rendre une somme x peut se faire de plusieurs manières  :
 
 -	rendre x – 10 et rajouter une pièce de ⑩, ou
 -	rendre x – 5 et rajouter une pièce de ⑤, ou
 -	rendre x – 2 et rajouter une pièce de ②.
 
-Dans notre exemple, rendre 13 euros consiste à :
+Dans notre exemple, pour rendre 13 euros on peut :
 
 -	rendre 3 et rajouter une pièce de ⑩, ou
 -	rendre 8 et rajouter une pièce de ⑤, ou
 -	rendre 11 et rajouter une pièce de ②.
 
-![Arbre de rendu de monnaie pour 13 euros - première étape](assets/4-rendu-monnaie-1-light-mode.png#only-light){width=80% }
-![Arbre de rendu de monnaie pour 13 euros - première étape](assets/4-rendu-monnaie-1-dark-mode.png#only-dark){width=80% }
+![Graphe de rendu de monnaie pour 13 euros - première étape](assets/4-rendu-monnaie-1-light-mode.png#only-light){width=80% }
+![Graphe de rendu de monnaie pour 13 euros - première étape](assets/4-rendu-monnaie-1-dark-mode.png#only-dark){width=80% }
 
 
 Chacun de ces sous-problèmes peut être résolus de la même façon. Constituons l'arbre des possibilités :
 
-![Arbre de rendu de monnaie pour 13 euros - complet](assets/4-rendu-monnaie-2-light-mode.png#only-light){width=80% }
-![Arbre de rendu de monnaie pour 13 euros - complet](assets/4-rendu-monnaie-2-dark-mode.png#only-dark){width=80% }
+![Graphe de rendu de monnaie pour 13 euros - complet](assets/4-rendu-monnaie-2-light-mode.png#only-light){width=80% }
+![Graphe de rendu de monnaie pour 13 euros - complet](assets/4-rendu-monnaie-2-dark-mode.png#only-dark){width=80% }
 
 Certaines branches mènent à une solution, quand il reste 0 euros à rendre, d'autres pas. 
 
@@ -202,11 +205,11 @@ def rendu_monnaie_dynamique(x):
 Avec la programmation dynamique, tous les cas possibles ont été traités, et plusieurs cas ont renvoyé la même solution.
 
 
-### Récursivité et mémoïsation
+### Version descendante (*top-down*), récursivité et mémoïsation
 
 Testons le programme `rendu_monnaie_dynamique(113)` avec des pièces de ②, ⑤ et ⑩euros.  Le programme ne permet pas d'obtenir une solution, les appels récursifs sont trop nombreux, on dépasse la capacité de la pile.
 
-En programmation dynamique les sous-problèmes se recoupent et les mêmes calculs sont fait plusieurs fois. Dans notre exemple, on retrouve 2 fois la branche qui part de "6" même dans le cas simple du rendu de 13 euros :
+En programmation dynamique les sous-problèmes se chevauchent et les mêmes calculs sont fait plusieurs fois. Dans notre exemple, on retrouve 2 fois la branche qui part de "6" même dans le cas simple du rendu de 13 euros :
 
 ![Arbre de rendu de monnaie pour 13 euros - branche rendre 6](assets/4-rendu-monnaie-3-light-mode.png#only-light){width=80% }
 ![Arbre de rendu de monnaie pour 13 euros - branche rendre 6](assets/4-rendu-monnaie-3-dark-mode.png#only-dark){width=80% }
@@ -233,20 +236,9 @@ def rendu_monnaie_dynamique(x):
     return memoise[x] 
 ```
 
-### Versions descendante (*top-down*) et ascendante (*bottom-up*)
+### Version ascendante (*bottom-up*)
 
-La programmation dynamique peut prendre deux formes :
-
-- Une forme récursive descendante de haut en bas, ou *top-down*, avec mémoïsation : 
-	-On utilise directement la formule de récurrence.
-	- Lors d'un appel **récursif**, avant d'effectuer un calcul on regarde si son résultat n'est pas gardé en mémoire.
-    - Sinon, on fait le calcul et on le garde en mémoire.
-
--   Une forme itérative ascendante de bas en haut, ou *bottom-up* :
-	- On résout de façon **itérative** d'abord les sous-problèmes de la plus "petite taille", puis ceux de la taille "d'au dessus", etc. Au fur et à mesure on garde les résultats en mémoire.
-	- On continue jusqu'à la taille voulue.
-
-On a déjà vu dans l'exemple précédent l'approche descendante, regardons maintenant l'approche ascendante.
+On a déjà vu dans l'exemple précédent comment écrire un algorithme récursif en utilisant la mémoisation. Une autre approche consiste à calculer d'abord les sous-problèmes en partant d'un cas de base et à  « remonter » jusqu'à résoudre le problème initial :  c'est l'approche ascendante, ou *top-down*.
 
 ![Rendu de monnaie pour 13 euros bottom-up](assets/4-rendu-monnaie-bottom-up-light-mode.png#only-light){width=30% align=right}
 ![Rendu de monnaie pour 13 euros bottom-up](assets/4-rendu-monnaie-bottom-up-dark-mode.png#only-dark){width=30% align=right}
@@ -273,9 +265,21 @@ def rendu_bottom_up(x):
     return nb[x]
 ```
 
+!!! abstract "Cours" 
+    La programmation dynamique peut prendre deux formes :
+
+    - Une forme récursive descendante de haut en bas, ou *top-down*, avec mémoïsation : 
+        - On utilise directement la formule de récurrence.
+        - Lors d'un appel **récursif**, avant d'effectuer un calcul on regarde si son résultat n'est pas gardé en mémoire.
+        - Sinon, on fait le calcul et on le garde en mémoire.
+
+    -   Une forme itérative ascendante de bas en haut, ou *bottom-up* :
+        - On résout de façon **itérative** d'abord les sous-problèmes de la plus "petite taille", puis ceux de la taille "d'au dessus", etc. Au fur et à mesure on garde les résultats en mémoire.
+        - On continue jusqu'à la taille voulue.
+
 ##	Découpe de tiges d'acier
 
-Soit une tige d'acier qu'on découpe par morceau pour les revendre selon une grille de tarif suivante :
+Problème : Soit une tige d'acier qu'on découpe par morceau pour les revendre selon une grille de tarif suivante :
 
 |Longueur (m)| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 |:--     |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-: |
@@ -313,7 +317,6 @@ De façon générale, on peut calculer  `R[n]` avec la formule `R[n] = max(Prix[
 Traduisons cet algorithme de programmation dynamique en version descendante :
 
 
-
 ``` py
 from math import inf
 
@@ -327,7 +330,7 @@ def R(n):
     return q
 ```
 
-La complexité temporelle de la fonction est de l'ordre du nombre de nœud dans l'arbre, c'est-à-dire une complexité exponentielle en $O(2^n)$.  Cette solution n’est donc pas utilisable pratiquement, mais on constate que les sous-problèmes se chevauchent, on peut donc garder les résultats des sous-problèmes en mémoire pour améliorer cette situation. Appliquons la technique de memoisation :
+La complexité temporelle de la fonction est de l'ordre du nombre de nœud dans l'arbre, c'est-à-dire une complexité exponentielle en $O(2^n)$.  Cette solution n'est donc pas utilisable pratiquement, mais on constate une fois de plus que les sous-problèmes se chevauchent, on peut donc garder les résultats des sous-problèmes en mémoire pour améliorer cette situation. Appliquons cette technique de memoisation :
 
 ```py
 from math import inf
@@ -355,7 +358,7 @@ def R(n):
         #...
 ```
 
-Alors que la version descendante s'appelle 1024 fois pour le calcul de R(10) et 1 043 456 fois pour R(20), la version avec mémoisation s'appelle seulement 56 et 156 pour les mêmes calculs ! Mais cela se fait aux dépends de la complexité spatiale.
+Alors que la première fonction, sans mémoisation, s'appelle 1024 fois pour le calcul de R(10) et 1 043 456 fois pour R(20), la version avec mémoisation s'appelle seulement 56 et 156 pour les mêmes calculs ! Mais cela se fait aux dépends de la complexité spatiale.
 
 
 La version ascendante est une autre façon efficace de palier au problème de complexité temporelle :
@@ -377,3 +380,171 @@ def R(n):
 Ici, avec deux boucles imbriquées, la complexité est quadratique en $O(n^2)$.
 
 
+
+## Problème du sac à dos
+
+
+Problème : Sélectionner des objets à mettre dans le sac à dos de façon à maximiser la somme des valeurs des objets pris, de telle sorte que le poids total des objets pris ne dépasse pas la capacité du sac à dos. C'est un problème d'**optimisation avec contrainte**.
+
+Par exemple, on peut considérer les objets suivants et un sac dont le poids ne peut dépasser 15 kg.
+
+|Poids (kg)| 12 | 4 | 2 |1 | 1 | 
+|:--      |:-:|:-:|:-:|:-:|:-:|
+|Prix (€) |  4 | 10 | 2 | 1 | 1 | 
+
+<figure markdown="span">
+  ![IProblème du sac à dos avec divers objets et une capacité maximum de 15kg](assets/4-sac-a-dos.svg){ width="80%"}
+  <figcaption>CC BY-SA 2.5, https://commons.wikimedia.org/w/index.php?curid=985491</figcaption>
+</figure>
+
+On peut choisir plusieurs combinaisons d'objets, par exemple 12kg, 2kg, 1kg et 1kg font un poids total inférieur à la capacité du sac de 15kg pour une valeur de 9 $, ou encore  4kg, 2kg, 1kg et 1kg  pour un valeur de 15$. Mais comment trouver la combinaison optimale dans tous les situations ?
+
+![Exemples d'objets mis dans le sac à dos](assets/4-sac-a-dos-2-exemples-light-mode.png#only-light){width=60% }
+![Exemples d'objets mis dans le sac à dos](assets/4-sac-a-dos-2-exemples-dark-mode.png#only-dark){width=60% }
+
+
+
+Représentons les objets dans une liste de p-uplets nommés :
+
+```py
+liste_1 = [{'poids': 12, 'valeur': 4},
+           {'poids': 4, 'valeur': 10},
+           {'poids': 2, 'valeur': 2},
+           {'poids': 1, 'valeur': 2},
+           {'poids': 1, 'valeur': 1}]
+```
+
+
+### Algorithme glouton
+
+L'algorithme glouton le plus simple consiste à prendre les objets en ordre de valeur décroissante tant que leur poids ne fait pas dépasser la capacité du sac. On peut écrire le code suivant :
+
+!!! note inline end "" 
+    L'utilisation de la fonction `sorted()` permet de ne pas modifier la liste `liste_objets`.
+
+``` py linenums="1"
+def sac_glouton(poids_max, liste_objets):
+    """ int, list[dict] -> int
+    Renvoie la valeur maximale d'objets {'poids', 'valeur'}
+    qui peuvent être mis dans le sac sans que leur poids dépasse poids_max
+    """
+
+    poids_sac = 0
+    valeur_sac = 0
+    # objets pris en ordre de valeur décroissante
+    for objet in sorted(objets, key=lambda x: x['valeur'], reverse=True):
+        # si le poids de objet ne fait pas dépasser la capacité du sac
+        if objet['poids'] + poids_sac <= poids_max:
+            # on l'ajoute au sac
+            poids_sac += objet['poids']
+            valeur_sac += objet['valeur']
+    return valeur_sac
+
+assert sac_glouton(15, liste_1) == 15
+```
+
+L'algorithme glouton renvoie `15`, c'est bien la plus grande valeur d'objets de l'exemple précédant de la liste d'objets `liste_1` :
+
+![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-light-mode.png#only-light){width=30%}
+![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-dark-mode.png#only-dark){width=30%}
+
+
+
+Mais en favorisant les objets ayant la plus grande valeur, l'algorithme ne prend pas en compte leur poids ce qui conduit à une solution qui n'est pas optimale dans certains cas. 
+
+Regardons ce qu'il se passe avec la liste d'objets suivant :
+
+![Algorithme glouton par valeur dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-2-light-mode.png#only-light){width=30% align=right}
+![Algorithme glouton par valeur dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-2-dark-mode.png#only-dark){width=30% align=right}
+
+```py
+liste_2 = [{'poids': 12, 'valeur': 4},
+          {'poids': 15, 'valeur': 10},
+          {'poids': 1, 'valeur': 9}]
+```
+
+
+L'algorithme choisit l'objet de 15 kg et il n'est plus possible d'en ajouter d'autres, il renvoie donc `10`, alors que les objets de 12 kg et 1 kg avaient une valeur combinée de 13 $.
+
+
+
+Une approche plus fine consiste à prendre en priorité les objets ayant le meilleur ratio valeur/poids. Modifions la boucle `for` dans le programme pour trier les objets par ce ratio :
+
+```py linenums="9"
+    # objets pris en l'ordre de ratio valeur/poids décroissant
+    for objet in sorted(liste_objets, key=lambda x: x['valeur']/x['poids'], reverse=True):
+```
+
+
+Ce nouvel algorithme glouton renvoie aussi la valeur attendue `15`  avec l'exemple de la liste d'objets `liste_1` :
+
+
+![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-light-mode.png#only-light){width=40%}
+![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-dark-mode.png#only-dark){width=40%}
+
+Essayons maintenant cette nouvelle liste :
+
+![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-2-light-mode.png#only-light){width=30% align=right}
+![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-2-dark-mode.png#only-dark){width=30% align=right}
+
+
+``` py
+liste_3 = [{'poids': 12, 'valeur': 7},
+          {'poids': 9, 'valeur': 10},
+          {'poids': 7, 'valeur': 3},
+          {'poids': 5, 'valeur': 2},
+          {'poids': 2, 'valeur': 1}]
+```
+
+Les objets triés par ratio valeur/poids sont 9 kg, 12 kg, 2 kg, 7 kg puis 5kg . L'algorithme glouton commence par mettre l'objet de 9kg dans le sac et ensuite celui de 2kg, il renvoie donc la valeur `11`.  La solution n'est pas non plus optimale, le premier algorithme par valeur renvoyait `12` ! 
+
+
+###	Programmation dynamique
+
+
+Une fois de plus la programmation dynamique est offre une solution optimale au problème.
+
+Ici on prend une approche ascendante. L'idée est de construire un tableau de tableaux de valeurs`V[i][p`] contenant la valeur maximale du problème réduit aux premiers objets de la liste, jusqu'à `liste_objets[i]` inclus pour remplir un sac de capacité `p`. 
+
+On peut faire les constatations suivantes : 
+
+-	Si `i = 0`, alors seulement le premier objet de liste_objet est disponible pour remplir le sac, donc `V[0][p]` est égal à zéro pour toutes les valeurs de `p` inférieure au poids du premier objet et `V[0][p]` est égal au poids du premier objet pour les valeurs suivantes. 
+
+-	Calculer `V[i][p]` consiste à voir si on augmente la valeur maximale d'un sac de capacité `p` en ajoutant un objet supplémentaire de la liste qui se trouve en position `i`. Deux cas de figure se présentent :
+
+    -	Le poids de l'objet en position `i` est supérieur à `p`, il ne peut pas entrer dans le sac, dans ce cas `V[i][p]` garde la valeur `V[i-1][p]`, sinon
+
+    - 	Le poids de l'objet en position `i` est inférieur ou égal à `p`, dans ce cas on pourrait l'ajouter au sac et à nouveau deux cas se présentent, il faut prendre le cas le plus favorable entre les deux (c'est-à-dire celui qui donne la plus grande valeur de sac) :
+
+        -	Soit on n'ajoute pas l'objet `i`, la valeur est inchangée par rapport à celle calculée sans ce nouvel objet : `V[i][p] = V[i-1][p]`,
+
+        -   Soit on ajoute l'objet `i` au sac, et la nouvelle valeur maximale est égale à la valeur de l'objet `i` qui rentre dans le sac plus la valeur maximale d'un plus petit sac qui avait la capacité `p` réduite du poids de ce nouvel objet `i` : `V[i][p] = valeur_de_l_objet_i + V[i-1][p – poids_de_l_objet_i]`.
+
+
+
+
+
+
+
+
+
+
+## Alignement de séquences
+
+L'alignement de séquence est un problème courant en bioinformatique, en traitement du langage naturel, en sécurité informatique et dans d'autres domaines où l'on cherche à comparer et à aligner des séquences de données, telles que des séquences génétiques, des séquences de protéines, des séquences de mots dans des textes, ou des parties de code malveillant. L'algorithme le plus couramment utilisé pour résoudre le problème d'alignement de séquence est l'algorithme de Needleman-Wunsch, qui utilise la programmation dynamique. .
+
+Problème : Étant donné deux chaines e caractères `str1` et `str2`, on cherche la chaine `substr` la plus longue possible qui soit à la fois extraite de `str1` et `str2`. Dire que `substr` est un extrait de `str1` signifie qu'on peut obtenir `substr` à partir de `str1` en effaçant des lettres. On ne demande donc pas que les caractères de `substr` soient consécutifs dans
+`str1` et `str2`.
+
+Prenons l'exemple de deux séquences :
+
+``` py
+seq1 = "AGTACGCA" 
+seq2 = "TATGC"
+```
+L'alignement des séquences donne le résultat suivant :
+``` py
+seq1 = "AGTACGCA" 
+seq2 = "TATGC"
+substr = " 
+```
