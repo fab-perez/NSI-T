@@ -7,7 +7,7 @@ Le jeu de Dames se pratique sur un damier de 10 cases sur 10. Les pions sont pla
 
 La question est la suivante :  Sur le damier ci-contre, combien de chemins peut emprunter le pion blanc depuis cette case de départ pour arriver à la case vide sur la rangée du haut et être promu en dame ? 
 
-Si on essaie de compter tous les chemins on risque de vite perdre le compte. Une idée simple pour répondre à ce problème efficacement consiste à noter à chaque intersection le nombre de chemin en partant de la fin. Découpons le processus en plusieurs étapes.
+Si on essaie de compter tous les chemins on risque de vite perdre le compte. Une idée simple pour répondre à ce problème efficacement consiste à noter à chaque intersection le nombre de chemins en partant de la fin. Découpons le processus en plusieurs étapes.
 
 === "Etape 1"
 
@@ -28,7 +28,7 @@ Si on essaie de compter tous les chemins on risque de vite perdre le compte. Une
     
     Un pion sur la case à gauche ou celle à droite n'a qu'un seul chemin possible. 
     
-    Par contre un pion sur la case au milieu peut soit se déplacer vers le haut à droite soit vers le haut à gauche. Dans les deux cas, il n'a plus qu'un chemin possible ensuite. Il y a donc deux chemins possibles au départ de cette case.
+    Par contre un pion sur la case au milieu peut se déplacer soit vers le haut à droite, soit vers le haut à gauche. Dans les deux cas, il n'a plus qu'un chemin possible ensuite. Il y a donc deux chemins possibles au départ de cette case.
     
     ![Chemin d'un pion sur un damier-étape 3](assets/4-damier-3.png){width=30%}
 
@@ -36,7 +36,7 @@ Si on essaie de compter tous les chemins on risque de vite perdre le compte. Une
 === "Etape 4"
     Continuons à la rangée suivante. Comme dans la rangée précédente, un pion sur la case à gauche ou celle à droite n'a qu'un seul chemin possible.
 
-    Les deux pions placés au milieu peuvent soit se déplacer vers le haut à droite soit vers le haut à gauche. Selon le choix que l'on fait, ils pourront emprunter 1 ou 2 chemins différents. Au total, il y a donc 3 chemins possibles au départ de ces deux cases. On comprend que le nombre de chemins possibles à partir d'une case est égal à  la somme des nombres de chemins au départ des cases à gauche et à droite de la rangée du dessus.
+    Les deux pions placés au milieu peuvent se déplacer soit vers le haut à droite, soit vers le haut à gauche. Selon le choix que l'on fait, ils pourront emprunter 1 ou 2 chemins différents. Au total, il y a donc 3 chemins possibles au départ de ces deux cases. On comprend que le nombre de chemins possibles à partir d'une case est égal à  la somme des nombres de chemins au départ des cases à gauche et à droite de la rangée du dessus.
 
 
     **On a décomposé un problème en deux sous-problèmes plus simples**.
@@ -65,9 +65,9 @@ Si on essaie de compter tous les chemins on risque de vite perdre le compte. Une
 
 On peut observer deux choses dans la réalisation de cet algorithme : 
 
-1.	Pour chaque case, il suffit de faire la somme du nombre chemins depuis la case de gauche et depuis la case de droite sur la rangée au-dessus : on **découpe le problème en sous-problèmes plus faciles à résoudre**.  
+1.	Pour chaque case, il suffit de faire la somme du nombre de chemins depuis la case de gauche et depuis la case de droite sur la rangée au-dessus : on **découpe le problème en sous-problèmes plus faciles à résoudre**.  
 
-2.	Le nombre de chemin calculé pour une case est utilisé pour calculer les nombres de chemins de plusieurs cases. Les sous-problèmes se chevauchent. Il faut **garder en mémoire les résultats intermédiaires pour ne pas recalculer la même chose plusieurs fois**.
+2.	Le nombre de chemins calculé pour une case est utilisé pour calculer les nombres de chemins de plusieurs autres cases. Les sous-problèmes se chevauchent. Il faut **garder en mémoire les résultats intermédiaires pour ne pas recalculer la même chose plusieurs fois**.
 
 Ce sont les deux principes de la **programmation dynamique**.
 
@@ -82,7 +82,7 @@ Ce sont les deux principes de la **programmation dynamique**.
 
 
 ??? Success "Réponse"
-    Notons à chaque intersection le nombre de chemin en partant de la fin. Pour chaque intersection, il suffit de faire la somme du nombre chemins depuis l‘intersection à sa gauche et des chemins depuis l'intersection au dessus.   
+    Notons à chaque intersection le nombre de chemins en partant de la fin. Pour chaque intersection, il suffit de faire la somme du nombre de chemins depuis l‘intersection à sa gauche et des chemins depuis l'intersection au dessus.   
 
     ![Chemin de mario sur un quadrillage 3 x 4](assets/4-mario-answer-light-mode.png#only-light){width=50%}
     ![Chemin de mario sur un quadrillage 3 x 4](assets/4-mario-answer-dark-mode.png#only-dark){width=50%}
@@ -97,7 +97,7 @@ Ce sont les deux principes de la **programmation dynamique**.
 
 [^4.1]:   Cette méthode a été introduite au début des années 1950 par Richard Bellman.  Le terme "programmation" dans "programmation dynamique", ne doit pas s'entendre comme "utilisation d'un langage de programmation", mais comme synonyme de planification et ordonnancement.
 
-On peut voir la programmation dynamique comme une amélioration ou une adaptation de la méthode « diviser pour régner » puisqu'on divise un problème en sous problèmes, à la différence que la programmation dynamique s'applique quand les sous-problèmes se chevauchent, autrement dit un sous-problème peut être utilisé dans la solution de plusieurs sous-problèmes différents. Tandis que l'approche  « diviser pour régner » crée des sous-problèmes qui sont complètement séparés et peuvent être résolus indépendamment l'un de l'autre.
+On peut voir la programmation dynamique comme une amélioration ou une adaptation de la méthode « diviser pour régner » puisqu'on divise un problème en sous problèmes, à la différence que la programmation dynamique s'applique quand les sous-problèmes se chevauchent, autrement dit un sous-problème peut être utilisé dans la solution de plusieurs sous-problèmes différents. Tandis que l'approche  « diviser pour régner » crée des sous-problèmes qui sont complètement séparés et peuvent être résolus indépendamment les uns des autres.
 
 ![Graphe comparant la méthode diviser pour regner et la programmation dynamique](assets/4-diviser-regner-vs-prog-dynamique-light-mode.png#only-light){width=80% }
 ![Graphe comparant la méthode diviser pour regner et la programmation dynamique](assets/4-diviser-regner-vs-prog-dynamique-dark-mode.png#only-dark){width=80% }
@@ -119,7 +119,7 @@ On a vu en classe de première une solution donnée par un algorithme glouton, q
         nombre_pieces = 0
         i = 0 # on commence par la plus grande pièce
         while x > 0:
-            if x >= pieces[i]: # on peut la rendre
+            if x >= pieces[i]: # on peut rendre pieces[i]
                 nombre_pieces += 1
                 x = x - pieces[i]
             else:    # on passe à la pièce suivante
@@ -131,12 +131,12 @@ On a vu en classe de première une solution donnée par un algorithme glouton, q
     ``` py
     pieces = [10, 5, 2, 1]
 
-    def rendu(x, i=0):
+    def rendu_monnaie_gouton(x, i=0):
         if x == 0: 
-        return 0
-        if pieces[i] <= x: 
+           return 0  
+        if pieces[i] <= x:  # on peut rendre pieces[i]
             return 1 + rendu(x - pieces[i], i)
-        return rendu(x, i + 1)
+        return rendu(x, i + 1)   # on passe à la pièce suivante
     ```
 
 
@@ -207,15 +207,15 @@ Avec la programmation dynamique, tous les cas possibles ont été traités, et p
 
 ### Version descendante (*top-down*), récursivité et mémoïsation
 
-Testons le programme `rendu_monnaie_dynamique(113)` avec des pièces de ②, ⑤ et ⑩euros.  Le programme ne permet pas d'obtenir une solution, les appels récursifs sont trop nombreux, on dépasse la capacité de la pile.
+Testons le programme `rendu_monnaie_dynamique(13)` avec des pièces de ②, ⑤ et ⑩euros.  Le programme ne permet pas d'obtenir une solution, les appels récursifs sont trop nombreux, on dépasse la capacité de la pile.
 
-En programmation dynamique les sous-problèmes se chevauchent et les mêmes calculs sont fait plusieurs fois. Dans notre exemple, on retrouve 2 fois la branche qui part de "6" même dans le cas simple du rendu de 13 euros :
+En programmation dynamique les sous-problèmes se chevauchent et les mêmes calculs reviennent plusieurs fois. Dans un exemple aussi simple que celui de rendre 13 euros, on retrouve 2 fois la branche qui part de "6" :
 
 ![Arbre de rendu de monnaie pour 13 euros - branche rendre 6](assets/4-rendu-monnaie-3-light-mode.png#only-light){width=80% }
 ![Arbre de rendu de monnaie pour 13 euros - branche rendre 6](assets/4-rendu-monnaie-3-dark-mode.png#only-dark){width=80% }
 
 
-Une solution pour limiter le nombre de calcul consiste à ne calculer les termes de la suite qu'une seule fois et de les garder en mémoire. C'est la **mémoïsation**.
+La solution pour limiter les opérations inutiles consiste à ne calculer les solutions des sous-problèmes qu'une seule fois et de les garder en mémoire. C'est la **mémoïsation**.
 
 !!! abstract "Cours" 
     La mémoïsation consiste à garder en mémoire les valeurs déjà calculées.
@@ -384,7 +384,9 @@ Ici, avec deux boucles imbriquées, la complexité est quadratique en $O(n^2)$.
 ## Problème du sac à dos
 
 
-Problème : Sélectionner des objets à mettre dans le sac à dos de façon à maximiser la somme des valeurs des objets pris, de telle sorte que le poids total des objets pris ne dépasse pas la capacité du sac à dos. C'est un problème d'**optimisation avec contrainte**.
+![Un sac à dos avec des objets de poids et valeurs différents à mettre dans le sac à dos](assets/4-sac-a-dos.png){width=30%  align=right}
+
+Problème : Sélectionner des objets à mettre dans le sac à dos de façon à maximiser la somme des valeurs des objets pris sans que le poids total des objets ne dépasse la capacité du sac à dos. C'est un problème d'**optimisation avec contrainte**.
 
 Par exemple, on peut considérer les objets suivants et un sac dont le poids ne peut dépasser 15 kg.
 
@@ -392,12 +394,10 @@ Par exemple, on peut considérer les objets suivants et un sac dont le poids ne 
 |:--      |:-:|:-:|:-:|:-:|:-:|
 |Prix (€) |  4 | 10 | 2 | 1 | 1 | 
 
-<figure markdown="span">
-  ![IProblème du sac à dos avec divers objets et une capacité maximum de 15kg](assets/4-sac-a-dos.svg){ width="80%"}
-  <figcaption>CC BY-SA 2.5, https://commons.wikimedia.org/w/index.php?curid=985491</figcaption>
-</figure>
 
-On peut choisir plusieurs combinaisons d'objets, par exemple 12kg, 2kg, 1kg et 1kg font un poids total inférieur à la capacité du sac de 15kg pour une valeur de 9 $, ou encore  4kg, 2kg, 1kg et 1kg  pour un valeur de 15$. Mais comment trouver la combinaison optimale dans tous les situations ?
+
+
+On peut choisir plusieurs combinaisons d'objets, par exemple 12kg, 2kg, 1kg et 1kg font un poids total inférieur à la capacité du sac de 15kg pour une valeur de 9 €, ou encore 4kg, 2kg, 1kg et 1kg  pour un valeur de 15 €. Mais comment trouver la combinaison optimale dans toutes les situations ?
 
 ![Exemples d'objets mis dans le sac à dos](assets/4-sac-a-dos-2-exemples-light-mode.png#only-light){width=60% }
 ![Exemples d'objets mis dans le sac à dos](assets/4-sac-a-dos-2-exemples-dark-mode.png#only-dark){width=60% }
@@ -423,8 +423,8 @@ L'algorithme glouton le plus simple consiste à prendre les objets en ordre de v
     L'utilisation de la fonction `sorted()` permet de ne pas modifier la liste `liste_objets`.
 
 ``` py linenums="1"
-def sac_glouton(poids_max, liste_objets):
-    """ int, list[dict] -> int
+def sac_glouton(liste_objets, poids_max):
+    """ list[dict], int -> int
     Renvoie la valeur maximale d'objets {'poids', 'valeur'}
     qui peuvent être mis dans le sac sans que leur poids dépasse poids_max
     """
@@ -440,22 +440,23 @@ def sac_glouton(poids_max, liste_objets):
             valeur_sac += objet['valeur']
     return valeur_sac
 
-assert sac_glouton(15, liste_1) == 15
+assert sac_glouton(liste_1, 15) == 15
 ```
 
 L'algorithme glouton renvoie `15`, c'est bien la plus grande valeur d'objets de l'exemple précédant de la liste d'objets `liste_1` :
 
-![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-light-mode.png#only-light){width=30%}
-![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-dark-mode.png#only-dark){width=30%}
+![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-light-mode.png#only-light){width=50%}
+![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-dark-mode.png#only-dark){width=50%}
 
 
+![Algorithme glouton par valeur dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-2-light-mode.png#only-light){width=40% align=right}
+![Algorithme glouton par valeur dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-2-dark-mode.png#only-dark){width=40% align=right}
 
 Mais en favorisant les objets ayant la plus grande valeur, l'algorithme ne prend pas en compte leur poids ce qui conduit à une solution qui n'est pas optimale dans certains cas. 
 
+
 Regardons ce qu'il se passe avec la liste d'objets suivant :
 
-![Algorithme glouton par valeur dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-2-light-mode.png#only-light){width=30% align=right}
-![Algorithme glouton par valeur dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-2-dark-mode.png#only-dark){width=30% align=right}
 
 ```py
 liste_2 = [{'poids': 12, 'valeur': 4},
@@ -464,7 +465,7 @@ liste_2 = [{'poids': 12, 'valeur': 4},
 ```
 
 
-L'algorithme choisit l'objet de 15 kg et il n'est plus possible d'en ajouter d'autres, il renvoie donc `10`, alors que les objets de 12 kg et 1 kg avaient une valeur combinée de 13 $.
+L'algorithme choisit d'abord l'objet de 15 kg, il n'est plus possible d'en ajouter d'autres, ni de revenir en arrière pour enlever l'objet, c'est le principe des algorithmes gloutons, on ne revient pas en arrière sur une décision qui a été prise. L'algorithem renvoie donc `10`, ce n'est pas optimal, les objets de 12 kg et 1 kg avaient une valeur combinée de 13 €.
 
 
 
@@ -479,13 +480,13 @@ Une approche plus fine consiste à prendre en priorité les objets ayant le meil
 Ce nouvel algorithme glouton renvoie aussi la valeur attendue `15`  avec l'exemple de la liste d'objets `liste_1` :
 
 
-![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-light-mode.png#only-light){width=40%}
-![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-dark-mode.png#only-dark){width=40%}
+![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-light-mode.png#only-light){width=50%}
+![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-dark-mode.png#only-dark){width=50%}
 
 Essayons maintenant cette nouvelle liste :
 
-![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-2-light-mode.png#only-light){width=30% align=right}
-![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-2-dark-mode.png#only-dark){width=30% align=right}
+![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-2-light-mode.png#only-light){width=40% align=right}
+![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-2-dark-mode.png#only-dark){width=40% align=right}
 
 
 ``` py
@@ -504,22 +505,129 @@ Les objets triés par ratio valeur/poids sont 9 kg, 12 kg, 2 kg, 7 kg puis 5kg .
 
 Une fois de plus la programmation dynamique est offre une solution optimale au problème.
 
-Ici on prend une approche ascendante. L'idée est de construire un tableau de tableaux de valeurs`V[i][p`] contenant la valeur maximale du problème réduit aux premiers objets de la liste, jusqu'à `liste_objets[i]` inclus pour remplir un sac de capacité `p`. 
+Reprenons l'exemple d'un sac de capacité 15 kg avec les objets de la `liste_1` et essayons de calculer la valeur maximale  d'objets qui peuvent être mis dans ce sac. On la note `V[15]`.
 
-On peut faire les constatations suivantes : 
+Au début le sac est vide. On se pose la question de mettre un premier objet dans le sac, par exemple l'objet de 1kg avec une valeur d'1 €. Deux cas sont possibles :
 
--	Si `i = 0`, alors seulement le premier objet de liste_objet est disponible pour remplir le sac, donc `V[0][p]` est égal à zéro pour toutes les valeurs de `p` inférieure au poids du premier objet et `V[0][p]` est égal au poids du premier objet pour les valeurs suivantes. 
+1.	Cas 1 : On met l'objet d'1kg dans le sac, il reste à calculer la valeur maximale  d'un sac de 14kg, `V[14]` puis de lui ajouter la valeur de 1 € de l'objet.
+2.	Cas 2 : On ne met pas l'objet dans le sac, il reste à calculer la valeur maximale  d'un sac de 15kg, `V[15]`, sans lui ajouter aucune valeur ensuite.
 
--	Calculer `V[i][p]` consiste à voir si on augmente la valeur maximale d'un sac de capacité `p` en ajoutant un objet supplémentaire de la liste qui se trouve en position `i`. Deux cas de figure se présentent :
+Si on peut résoudre ces deux cas, il suffira ensuite de prendre la plus grande valeur entre les deux.
+On remarque que pour calculer `V[15]`, le deuxième cas consiste à calculer `V[15]` ! C'est circulaire. Alors quelle est la différence ? 
 
-    -	Le poids de l'objet en position `i` est supérieur à `p`, il ne peut pas entrer dans le sac, dans ce cas `V[i][p]` garde la valeur `V[i-1][p]`, sinon
+La différence réside dans la liste d'objets disponibles. Au début, tous les objets sont disponibles.  Ensuite l'objet pesant 1kg de valeur 1 euro n'est plus disponible, soit il a été mis dans le sac (cas 1), soit il a été écarté (cas 2) et on ne le mettra plus dans le sac.
 
-    - 	Le poids de l'objet en position `i` est inférieur ou égal à `p`, dans ce cas on pourrait l'ajouter au sac et à nouveau deux cas se présentent, il faut prendre le cas le plus favorable entre les deux (c'est-à-dire celui qui donne la plus grande valeur de sac) :
 
-        -	Soit on n'ajoute pas l'objet `i`, la valeur est inchangée par rapport à celle calculée sans ce nouvel objet : `V[i][p] = V[i-1][p]`,
+![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-light-mode.png#only-light){width=80% }
+![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-dark-mode.png#only-dark){width=80%}
 
-        -   Soit on ajoute l'objet `i` au sac, et la nouvelle valeur maximale est égale à la valeur de l'objet `i` qui rentre dans le sac plus la valeur maximale d'un plus petit sac qui avait la capacité `p` réduite du poids de ce nouvel objet `i` : `V[i][p] = valeur_de_l_objet_i + V[i-1][p – poids_de_l_objet_i]`.
+On en déduit que le calcul de la valeur maximale d'un sac de capacité $p$ ne dépend pas que de la valeur de $p$, mais aussi de la liste d'objets disponibles. On identifie les objets par leur indice $i$ dans la liste, et on notera $V_{i,p}$  la valeur maximale d'un sac de capacité $p$ disposant des objets d'indices $0$, $1$, $2$, …, $i-1$, $i$.
 
+Généralisons l'approche que l'on vient de faire sur l'exemple. Soit un sac de capacité p et une liste d'objet  d'indices $0$, $1$, $2$, …, $i-1$, $i$, et essayons de calculer  $V_{i,p}$. On se pose la question de mettre le dernier objet de la liste, de poids $poids_{i}$  et de valeur $valeur_{i}$ dans le sac ou pas. Plusieurs cas se présentent :
+
+- Si $poids_{i} > p$, alors l'objet est trop lourd pour le sac, il est écarté. On calculer la valeur maximale pour la même capacité de sac $p$, mais avec une liste d'objet qui s'arrête à $i-1$ : $V_{i, p}= V_{i-1, p}$.
+
+- Si $poids_{i} \leq p$, alors l'objet $i$ peut rentrer dans le sac. On retombe sur les deux cas de l'exemple précédant :
+
+    1. 	Cas 1 : On met l'objet $i$ dans le sac, il reste à calculer la valeur maximale d'un sac de capacité $p - poids_{i}$ avec les objets restants : $V_{i-1,p - poids_i}$  puis de lui ajouter la valeur de l'objet $valeur_{i}$.
+
+	2. Cas 2 : On ne met pas l'objet $i$ dans le sac, il reste à calculer la valeur maximale d'un sac de capacité $p - poids_{i}$ avec les objets restants, sans lui ajouter aucune valeur ensuite : $V_{i-1, p}$.
+
+    3. $V_{i, p}$ est le cas le plus favorable entre les deux : $V_{i, p} = \max(V_{i-1, p} , valeur_{i} + V_{i-1, p - poids_{i}})$
+    
+
+
+![Relation de récurence donnant Vi,p](assets/4-sac-a-dos-recurence-light-mode.png#only-light){width=80% }
+![Relation de récurence donnant Vi,p](assets/4-sac-a-dos-recurence-dark-mode.png#only-dark){width=80%}
+
+
+Cette relation de récurrence se traduit directement en Python en version dynamique descendante :
+
+```py
+def sac_dynamique_top_down(liste_objets, poids_max):
+    """ int, list[dict] -> int
+    Renvoie la valeur maximale d'objets {'poids', 'valeur'}
+    qui peuvent être mis dans le sac     sans que leur poids dépasse poids_max
+    """
+
+    # V[(i, p)] est la valeur max d'un sac de capacité p avec les premiers objets de liste_objets
+    # jusqu'à liste_objets[i] inclus
+
+    V = {(0, p): 0 for p in range(poids_max  + 1)}
+   # on remplit la premiere ligne avec la valeur du premier objet (i=0)
+    # pour tous les sac de capacité p >= poids de cet objet
+    for p in range(liste_objets[0]['poids'], poids_max + 1):
+        V[(0, p) ] = liste_objets[0]['valeur']
+
+
+
+    def sac_dynamique(i, p):
+        if (i, p) in V:
+            return V[(i, p)]
+
+        if p < liste_objets[i]['poids']:
+            # on ne le met pas dans le sac
+            V[(i, p)] = V[(i-1, p)]
+        else:
+            # on prend la plus grande valeur entre ne pas mettre i dans le sac
+            V[(i, p)] = max( sac_dynamique(i-1, p),
+                # et ajouter l'objet i au sac
+                sac_dynamique(i - 1, p - liste_objets[i]['poids']) + liste_objets[i]['valeur'])
+        return V[(i, p)]
+    return sac_dynamique(len(liste_objets) - 1 , poids_max)
+
+
+assert sac_dynamique_top_down(liste_3, 15) == 15
+```
+
+La version ascendante consiste à construire un tableau de tableaux contenant les valeurs maximales du problème réduit aux premiers objets de la liste `V[i][p]`, jusqu'à l'objet `liste_objets[i]` inclus et d'un sac de capacité `p`. 
+
+La première ligne du tableau est simple  : Si `i = 0`, alors seulement le premier objet de liste_objet est disponible pour remplir le sac, donc `V[0][p]` est égal à zéro pour toutes les valeurs de `p` inférieure au poids du premier objet et `V[0][p]` est égal au poids du premier objet pour les valeurs suivantes. 
+
+Les autres valeurs de `V[i][p]` sont calculées à partir de la relation de récurence précédente. La solution du problème se trouve sur la dernière ligne et la dernière colonne du tableau de tableau :
+
+
+![Construction du tableau de tableaux des Vi,p en bottom-up](assets/4-sac-a-dos-bottom-up-light-mode.png#only-light){width=80% }
+![Construction du tableau de tableaux des Vi,p en bottom-up](assets/4-sac-a-dos-bottom-up-dark-mode.png#only-dark){width=80%}
+
+
+
+``` py
+def sac_dynamique_bottom_up(liste_objets, poids_max):
+    """ int, list[dict] -> int
+    Renvoie la valeur maximale d'objets {'poids', 'valeur'}
+    qui peuvent être mis dans le sac     sans que leur poids dépasse poids_max
+    """
+    n = len(liste_objets)
+
+    V = [[0]*(poids_max + 1) for i in range(n)]
+    # V[i][p] est la valeur max d'un sac de capacité p avec les premiers objets de liste_objets
+    # jusqu'à liste_objets[i] inclus
+
+    # on remplit la premiere ligne avec la valeur du premier objet (i=0)
+    # pour tous les sac de capacité p >= poids de cet objet
+    for p in range(liste_objets[0]['poids'], poids_max + 1):
+        V[0][p] = liste_objets[0]['valeur']
+
+    # on remplit les lignes suivantes
+    for i in range(1, n):
+        for p in range(poids_max + 1):
+            # si l'objet i est plus lourd que p
+            if p < liste_objets[i]['poids']:
+                # on ne le met pas dans le sac
+                V[i][p] = V[i-1][p]
+            # sinon
+            else:
+                # on prend la plus grande valeur entre ne pas mettre i dans le sac
+                V[i][p] = max( V[i-1][p],
+                    # et ajouter l'objet i au sac
+                    V[i-1][p - liste_objets[i]['poids']] + liste_objets[i]['valeur'])
+##    print(V)
+    return V[n-1][poids_max]
+
+
+print (sac_dynamique_bottom_up(liste_3, 15))
+```
 
 
 
