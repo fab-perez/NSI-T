@@ -386,18 +386,17 @@ Ici, avec deux boucles imbriquées, la complexité est quadratique en $O(n^2)$.
 
 ![Un sac à dos avec des objets de poids et valeurs différents à mettre dans le sac à dos](assets/4-sac-a-dos.png){width=30%  align=right}
 
-Problème : Sélectionner des objets à mettre dans le sac à dos de façon à maximiser la somme des valeurs des objets pris sans que le poids total des objets ne dépasse la capacité du sac à dos. C'est un problème d'**optimisation avec contrainte**.
+Problème : On dispose d'un sac à dos avec une capacité maximum de poids à transporter. Parmi plusieurs objets de poids et de valeurs différents, lesquels peut-on mettre dans le sac à dos de façon à maximiser la somme des valeurs des objets choisis sans que leur poids total ne dépasse la capacité du sac. C'est un problème d'**optimisation avec contrainte**.
 
-Par exemple, on peut considérer les objets suivants et un sac dont le poids ne peut dépasser 15 kg.
+Par exemple, on peut considérer les objets suivants et un sac à dos avec une capacité maximum de 15 kg.
 
 |Poids (kg)| 12 | 4 | 2 |1 | 1 | 
 |:--      |:-:|:-:|:-:|:-:|:-:|
-|Prix (€) |  4 | 10 | 2 | 1 | 1 | 
+|Prix (€) |  4 | 10 | 2 | 2 | 1 | 
 
 
 
-
-On peut choisir plusieurs combinaisons d'objets, par exemple 12kg, 2kg, 1kg et 1kg font un poids total inférieur à la capacité du sac de 15kg pour une valeur de 9 €, ou encore 4kg, 2kg, 1kg et 1kg  pour un valeur de 15 €. Mais comment trouver la combinaison optimale dans toutes les situations ?
+On peut choisir plusieurs combinaisons d'objets, par exemple les objets de poids 12kg, 2kg, 1kg et 1kg ont un poids total inférieur à la capacité du sac de 15kg et une valeur totale de 9 €, ou encore les objets de poids 4kg, 2kg, 1kg et 1kg pour une valeur totale de 15 €. Mais comment trouver la combinaison optimale dans toutes les situations ?
 
 ![Exemples d'objets mis dans le sac à dos](assets/4-sac-a-dos-2-exemples-light-mode.png#only-light){width=60% }
 ![Exemples d'objets mis dans le sac à dos](assets/4-sac-a-dos-2-exemples-dark-mode.png#only-dark){width=60% }
@@ -435,7 +434,7 @@ def sac_glouton(liste_objets, poids_max):
     for objet in sorted(objets, key=lambda x: x['valeur'], reverse=True):
         # si le poids de objet ne fait pas dépasser la capacité du sac
         if objet['poids'] + poids_sac <= poids_max:
-            # on l'ajoute au sac
+            # on le met dans le sac
             poids_sac += objet['poids']
             valeur_sac += objet['valeur']
     return valeur_sac
@@ -443,7 +442,7 @@ def sac_glouton(liste_objets, poids_max):
 assert sac_glouton(liste_1, 15) == 15
 ```
 
-L'algorithme glouton renvoie `15`, c'est bien la plus grande valeur d'objets de l'exemple précédant de la liste d'objets `liste_1` :
+L'algorithme glouton renvoie `15` pour l'exemple précédant d'une liste d'objets `liste_1` et d'un sac de capacité 15 kg, c'est bien la plus grande valeur d'objets :
 
 ![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-light-mode.png#only-light){width=50%}
 ![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-dark-mode.png#only-dark){width=50%}
@@ -452,10 +451,10 @@ L'algorithme glouton renvoie `15`, c'est bien la plus grande valeur d'objets de 
 ![Algorithme glouton par valeur dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-2-light-mode.png#only-light){width=40% align=right}
 ![Algorithme glouton par valeur dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-2-dark-mode.png#only-dark){width=40% align=right}
 
-Mais en favorisant les objets ayant la plus grande valeur, l'algorithme ne prend pas en compte leur poids ce qui conduit à une solution qui n'est pas optimale dans certains cas. 
+Mais en favorisant les objets ayant la plus grande valeur, l'algorithme ne prend pas en compte leur poids ce qui conduit à une solution qui n'est pas optimale dans tous cas. 
 
 
-Regardons ce qu'il se passe avec la liste d'objets suivant :
+Regardons ce qu'il se passe avec la liste d'objets suivante :
 
 
 ```py
@@ -465,7 +464,7 @@ liste_2 = [{'poids': 12, 'valeur': 4},
 ```
 
 
-L'algorithme choisit d'abord l'objet de 15 kg, il n'est plus possible d'en ajouter d'autres, ni de revenir en arrière pour enlever l'objet, c'est le principe des algorithmes gloutons, on ne revient pas en arrière sur une décision qui a été prise. L'algorithem renvoie donc `10`, ce n'est pas optimal, les objets de 12 kg et 1 kg avaient une valeur combinée de 13 €.
+L'algorithme choisit d'abord l'objet de 15 kg, il n'est plus possible d'en ajouter d'autres, ni de revenir en arrière pour enlever l'objet. C'est le principe des algorithmes gloutons, on ne revient pas en arrière sur une décision qui a été prise. L'algorithe renvoie donc `10`, ce n'est pas optimal, les objets de 1 kg et 12 kg avaient une valeur totale de 13 €.
 
 
 
@@ -477,7 +476,7 @@ Une approche plus fine consiste à prendre en priorité les objets ayant le meil
 ```
 
 
-Ce nouvel algorithme glouton renvoie aussi la valeur attendue `15`  avec l'exemple de la liste d'objets `liste_1` :
+Ce nouvel algorithme glouton renvoie aussi la valeur attendue `15`  pour l'exemple précédant d'une liste d'objets `liste_1` et d'un sac de capacité 15 kg, c'est bien la plus grande valeur d'objets : 
 
 
 ![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-light-mode.png#only-light){width=50%}
@@ -492,46 +491,48 @@ Essayons maintenant cette nouvelle liste :
 ``` py
 liste_3 = [{'poids': 12, 'valeur': 7},
           {'poids': 9, 'valeur': 10},
-          {'poids': 7, 'valeur': 3},
           {'poids': 5, 'valeur': 2},
           {'poids': 2, 'valeur': 1}]
 ```
 
-Les objets triés par ratio valeur/poids sont 9 kg, 12 kg, 2 kg, 7 kg puis 5kg . L'algorithme glouton commence par mettre l'objet de 9kg dans le sac et ensuite celui de 2kg, il renvoie donc la valeur `11`.  La solution n'est pas non plus optimale, le premier algorithme par valeur renvoyait `12` ! 
+Les objets triés par ratio valeur/poids décroissants sont 9 kg, 12 kg, 2 kg puis 5 kg. L'algorithme glouton commence par mettre l'objet de 9 kg dans le sac et ensuite celui de 2 kg, il renvoie donc la valeur `11`.  La solution n'est encore pas optimale, le premier algorithme par valeur renvoyait `12` ! 
 
 
 ###	Programmation dynamique
 
 
-Une fois de plus la programmation dynamique est offre une solution optimale au problème.
+Une fois de plus la programmation dynamique offre une solution optimale au problème.
 
-Reprenons l'exemple d'un sac de capacité 15 kg avec les objets de la `liste_1` et essayons de calculer la valeur maximale  d'objets qui peuvent être mis dans ce sac. On la note `V[15]`.
+Reprenons l'exemple d'un sac de capacité 15 kg avec les objets de la `liste_1` et calculons la valeur maximale des objets qui peuvent être mis dans ce sac. On la note `V[15]`.
 
-Au début le sac est vide. On se pose la question de mettre un premier objet dans le sac, par exemple l'objet de 1kg avec une valeur d'1 €. Deux cas sont possibles :
+![Objet de poids 1 kg et valeur 1 euro](assets/4-sac-a-dos-objet-1kg-1euro.png){width=10% align=right}
 
-1.	Cas 1 : On met l'objet d'1kg dans le sac, il reste à calculer la valeur maximale  d'un sac de 14kg, `V[14]` puis de lui ajouter la valeur de 1 € de l'objet.
-2.	Cas 2 : On ne met pas l'objet dans le sac, il reste à calculer la valeur maximale  d'un sac de 15kg, `V[15]`, sans lui ajouter aucune valeur ensuite.
 
-Si on peut résoudre ces deux cas, il suffira ensuite de prendre la plus grande valeur entre les deux.
-On remarque que pour calculer `V[15]`, le deuxième cas consiste à calculer `V[15]` ! C'est circulaire. Alors quelle est la différence ? 
+Au début le sac est vide. On se pose la question de mettre un premier objet dans le sac, par exemple l'objet de 1kg avec une valeur d'1 €. Deux cas se présentent :
 
-La différence réside dans la liste d'objets disponibles. Au début, tous les objets sont disponibles.  Ensuite l'objet pesant 1kg de valeur 1 euro n'est plus disponible, soit il a été mis dans le sac (cas 1), soit il a été écarté (cas 2) et on ne le mettra plus dans le sac.
+1.	Cas 1 : On met l'objet d'1kg dans le sac, il restera à calculer la valeur maximale d'un sac de 14kg, `V[14]`, puis de lui ajouter la valeur de 1 € de l'objet.
+2.	Cas 2 : On ne met pas l'objet dans le sac, il restera à calculer la valeur maximale  d'un sac de 15kg, `V[15]`, sans lui ajouter aucune valeur ensuite.
+
+Si on peut trouver la solution de ces deux sous-problèmes, il suffira ensuite de prendre la plus grande valeur entre les deux.
+On remarque que pour calculer `V[15]`, le deuxième cas consiste à calculer `V[15]`, c'est circulaire ! Alors quelle est la différence ? 
+
+La différence réside dans la liste d'objets disponibles. Au début, tous les objets sont disponibles pour être mis, ou pas, dans la sac à dos.  Ensuite l'objet pesant 1kg de valeur 1 euro n'est plus disponible, soit il a été mis dans le sac (cas 1), soit il a été écarté (cas 2) et on ne le considère plus pour être mis dans le sac.
 
 
 ![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-light-mode.png#only-light){width=80% }
 ![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-dark-mode.png#only-dark){width=80%}
 
-On en déduit que le calcul de la valeur maximale d'un sac de capacité $p$ ne dépend pas que de la valeur de $p$, mais aussi de la liste d'objets disponibles. On identifie les objets par leur indice $i$ dans la liste, et on notera $V_{i,p}$  la valeur maximale d'un sac de capacité $p$ disposant des objets d'indices $0$, $1$, $2$, …, $i-1$, $i$.
+On en déduit que le calcul de la valeur maximale d'un sac de capacité $p$ ne dépend pas que de la valeur de $p$, mais aussi de la liste d'objets disponibles. On identifie les objets par leur indice $i$ dans la liste, et on notera $V_{i,p}$  la valeur maximale d'un sac de capacité $p$ en choisissant parmi les objets d'indices $0$, $1$, $2$, …, $i-1$, $i$.
 
-Généralisons l'approche que l'on vient de faire sur l'exemple. Soit un sac de capacité p et une liste d'objet  d'indices $0$, $1$, $2$, …, $i-1$, $i$, et essayons de calculer  $V_{i,p}$. On se pose la question de mettre le dernier objet de la liste, de poids $poids_{i}$  et de valeur $valeur_{i}$ dans le sac ou pas. Plusieurs cas se présentent :
+Généralisons cette approche. Soit un sac de capacité p et une liste d'objet  d'indices $0$, $1$, $2$, …, $i-1$, $i$, et essayons de calculer $V_{i,p}$. On se pose la question de mettre le dernier objet de la liste, de poids $poids_{i}$  et de valeur $valeur_{i}$ dans le sac, ou pas. Plusieurs cas se présentent :
 
-- Si $poids_{i} > p$, alors l'objet est trop lourd pour le sac, il est écarté. On calculer la valeur maximale pour la même capacité de sac $p$, mais avec une liste d'objet qui s'arrête à $i-1$ : $V_{i, p}= V_{i-1, p}$.
+- Si $poids_{i} > p$, alors l'objet est trop lourd pour le sac, il est écarté. On calculera la valeur maximale pour la même capacité de sac $p$, mais avec une liste d'objet qui s'arrête à $i-1$ : $V_{i, p}= V_{i-1, p}$.
 
 - Si $poids_{i} \leq p$, alors l'objet $i$ peut rentrer dans le sac. On retombe sur les deux cas de l'exemple précédant :
 
-    1. 	Cas 1 : On met l'objet $i$ dans le sac, il reste à calculer la valeur maximale d'un sac de capacité $p - poids_{i}$ avec les objets restants : $V_{i-1,p - poids_i}$  puis de lui ajouter la valeur de l'objet $valeur_{i}$.
+    1. 	Cas 1 : On met l'objet $i$ dans le sac, il reste à calculer la valeur maximale d'un sac de capacité $p - poids_{i}$ avec les objets restants, $V_{i-1,p - poids_i}$,  puis de lui ajouter la valeur de l'objet $valeur_{i}$.
 
-	2. Cas 2 : On ne met pas l'objet $i$ dans le sac, il reste à calculer la valeur maximale d'un sac de capacité $p - poids_{i}$ avec les objets restants, sans lui ajouter aucune valeur ensuite : $V_{i-1, p}$.
+	2. Cas 2 : On ne met pas l'objet $i$ dans le sac, il reste à calculer la valeur maximale d'un sac de capacité $p$ avec les objets restants, sans lui ajouter aucune valeur ensuite : $V_{i-1, p}$.
 
     3. $V_{i, p}$ est le cas le plus favorable entre les deux : $V_{i, p} = \max(V_{i-1, p} , valeur_{i} + V_{i-1, p - poids_{i}})$
     
@@ -577,7 +578,9 @@ def sac_dynamique_top_down(liste_objets, poids_max):
     return sac_dynamique(len(liste_objets) - 1 , poids_max)
 
 
-assert sac_dynamique_top_down(liste_3, 15) == 15
+assert sac_dynamique_top_down(liste_1, 15) == 15
+assert sac_dynamique_top_down(liste_2, 15) == 13
+assert sac_dynamique_top_down(liste_3, 15) == 12
 ```
 
 La version ascendante consiste à construire un tableau de tableaux contenant les valeurs maximales du problème réduit aux premiers objets de la liste `V[i][p]`, jusqu'à l'objet `liste_objets[i]` inclus et d'un sac de capacité `p`. 
@@ -622,11 +625,11 @@ def sac_dynamique_bottom_up(liste_objets, poids_max):
                 V[i][p] = max( V[i-1][p],
                     # et ajouter l'objet i au sac
                     V[i-1][p - liste_objets[i]['poids']] + liste_objets[i]['valeur'])
-##    print(V)
     return V[n-1][poids_max]
 
-
-print (sac_dynamique_bottom_up(liste_3, 15))
+assert sac_dynamique_bottom_up(liste_1, 15) == 15
+assert sac_dynamique_bottom_up(liste_2, 15) == 13
+assert sac_dynamique_bottom_up(liste_3, 15) == 12
 ```
 
 
