@@ -377,7 +377,199 @@ def R(n):
         p.append(q)
     return p[n]
 ```
+
 Ici, avec deux boucles imbriquées, la complexité est quadratique en $O(n^2)$.
+
+
+
+
+## Alignement de séquences
+
+Un problème utile aux généticiens est celui de l'alignement de séquences, qui se décline en de nombreux sous-problèmes, dont plusieurs peuvent être abordés à l'aide de la programmation dynamique.
+
+Nous nous intéressons ici à la recherche d'une plus longue sous-chaîne commune. Étant donné deux chaine de caractères `str1`  et `str2`, on cherche une chaine de caractères, la plus longue possible, qui soit à la fois extraite de `str1`  et de `str2`. Dire qu'une sous-chaîne est extraite de `str1` signifie que l'on peut obtenir cette sous-chaîne en effaçant certains caractères de `str1`. Autrement dit, tous les caractères de la sous-chaîne commune doivent apparaître dans l'ordre dans `str1` et `str2`, même s'ils ne sont pas consécutifs dans ces deux chaînes, seul l'ordre des caractères compte.
+
+Prenons l'exemple de :
+``` py
+str1 = 'CGCATA'
+str2 = 'GACT'
+```
+
+Une plus longue sous-chaîne commune est  `'GAT'`. En effet, tous les caractères de `'GAT'` apparaîssent dans l'odre dans `str1` :
+
+``` py
+CGCATA
+-G-AT-
+```
+
+de même dans `str2` :
+
+``` py
+G-ACT 
+G-A-T
+```
+On peut aligner les deux chaines l'uns sous l'autre et faire apparaître la sous-chaîne commune dans la troisième ligne :
+``` py
+CGCA-TA
+-G-ACT- 
+-G-A-T-
+```
+
+Les caractères `G`, `A` et `T` sont alignés, on peut donc extraire la sous-chaine `'GAT'` à la fois de `str1` et `str2`
+
+Notons bien qu'il n'y a pas unicité de la plus longue sous-chaine commune ! `'GCT'` est également une plus longue sous-chaîne commune, de même longueur 3 :
+``` py
+CG-CATA
+-GAC-T-
+```
+
+Abordons ce problème sous l'approche de programmation dynamique. Pour trouver la plus longue sous-chaine commune entre `'CGCATA'` et `'GACT'` , on commence par aligner les deux chaines en partant de la fin et à comparer les deux derniers caractères :
+
+![Alignement séquences - Etape 1](assets/4-alignement-sequence-1-light-mode.png#only-light){width=100% }
+![Alignement séquences - Etape 1](assets/4-alignement-sequence-1-dark-mode.png#only-dark){width=100% }
+
+
+Les caractères `A` et le `T` sont différents, ils ne pourront pas être alignés dans une plus longue sous-chaine commune. On peut avancer dans notre recherche en cherchant ces deux sous-problèmes: 
+
+1.	la plus longue sous-chaine commune entre la première chaine, `'CGCATA'`, et la seconde chaine réduite de son dernier caractère,  `'GAC'`, ou 
+2.	la plus longue sous-chaine commune entre la première chaine réduite de son dernier caractère, `'CGCAT'`, et la seconde chaine, `'GACT'`.
+
+![Alignement séquences - Etape 2](assets/4-alignement-sequence-2-light-mode.png#only-light){width=100% }
+![Alignement séquences - Etape 2](assets/4-alignement-sequence-2-dark-mode.png#only-dark){width=100% }
+
+
+La  plus longue sous-chaine commune entre `str1` et `str2` sera la solution trouvée la plus longue à ces deux sous-problèmes.
+ 
+Commençons par le premier sous-problème : trouver la plus longue sous-chaine commune entre `'CGCATA'` et `'GAC'`. A nouveau, les deux derniers caractères sont différents, ils ne pourront pas être alignés dans la plus longue sous-chaine commune, on peut partager ce problème en deux sous problèmes.
+
+Abordons ensuite, le second sous-problème : trouver la plus longue sous-chaine commune entre `'CGCAT'` et `'GACT'`. Cette fois-ci, les deux derniers caractères sont identiques, ils pourront être alignés dans la plus longue sous-chaine commune. On garde en mémoire le caractère `'T'` qu'on rajoutera au résultat de la plus longue sous-chaine commune entre ces deux dernière chaines réduites de ce `'T'`  :   `'CGCA'` et `'GAC'`.
+
+![Alignement séquences - Etape 3](assets/4-alignement-sequence-3-light-mode.png#only-light){width=100% }
+![Alignement séquences - Etape 3](assets/4-alignement-sequence-3-dark-mode.png#only-dark){width=100% }
+
+Passons à l'étape suivante. Les chaînes `'CGCATA'` et `'GA'`  ont le même dernier caractère, ils pourront être alignés dans la plus longue sous-chaine commune. On garde en mémoire le caractère `'A'` qu'on rajoutera au résultat de la plus longue sous-chaine commune entre ces deux dernière chaines réduites de ce `'A'`  :  `'CGCAT'` et `'G'`.
+
+Par contre, les chaînes `'CGCAT'` et `'GAC'`  ont un dernier caractère différent, on va donc chercher les plus longues chaines communes entre `'CGCAT'` et `'GA'` d'une part  et `'CGCAT'` et `'GA'` d'autre part. Notons que le sous problème de la plus longue chaine commune entre `'CGCA'` et `'GAC'` a déjà été rencontré. C'est le propre de la programmation dynamique, les sous-problèmes se chevauchent, il ne faut pas les recalculer plusieurs fois !
+
+![Alignement séquences - Etape 4](assets/4-alignement-sequence-4-light-mode.png#only-light){width=100% }
+![Alignement séquences - Etape 4](assets/4-alignement-sequence-4-dark-mode.png#only-dark){width=100% }
+
+On continue ainsi jusqu'à trouver des sous-chaines vide, il n'y a alors plus de sous-chaine commune à chercher.
+
+![Alignement séquences - Etape 5](assets/4-alignement-sequence-5-light-mode.png#only-light){width=100% }
+![Alignement séquences - Etape 5](assets/4-alignement-sequence-5-dark-mode.png#only-dark){width=100% }
+
+On trouve ici deux chemins qui permettent d'aligner 3 caractères entre les deux chaines : `'GAT'`et `'GCT'`.
+
+Généralisons l'approche que l'on vient de faire sur l'exemple. Soit deux sous-chaines `str1` et `str2` et essayons de calculer  la plus longue sous-chaîne commune entre les deux, que l'on note `T(str1, str2)`. Deux cas se présentent :
+
+-	Si l'une des deux sous-chaîne est vide, alors il n'y a pas de plus longue sous-chaine commune : `T(str1, str2) = ''`.
+
+-	Si les deux sous-chaîne ont un ou plusieurs caractères, alors :
+
+    1.	Si les deux sous-chaînes ont le même dernier caractère, `str1[-1] == str2[-1]`, alors ces caractères pourront être alignés, la plus longue chaine commune est la plus longue chaîne commune entre les deux sous-chaînes réduite de leur dernier caractère, à laquelle on ajoute ce caractère commune : `T(str1, str2) = T(str1[:-1], str2 [:-1]) + str[-1]`. 
+
+    2.	Si les derniers caractères sont différents, `str1[-1] != str2[-1]`, alors ces caractères ne  pourront pas être alignés, la plus longue chaine commune est la chaîne qui a le plus de caractères entre :
+
+        -	la plus longue chaîne commune de la première chaîne et de la seconde réduite de son dernier caractère d'une part, et
+
+        -	La plus longue chaîne commune de la seconde chaîne et de la première réduite de son dernier caractère d'autre part,
+
+        Donc   `T(str1, str2) =  max_len(T(str1, str2[:-1]), T(str1[:-1], str2))`, où `max_len` renvoie la chaîne qui a le plus de caractères entre les deux.
+
+Cette relation de récurrence se traduit directement en Python en version dynamique descendante :
+
+``` py
+str1 = 'CGCATA'
+str2 = 'GACT'
+
+def maxi(str1, str2):
+    """ str, str -> str
+    Renvoie la plus longue chaine des deux
+    ou la premiere si les deux chaines on la même longueur
+    """
+    if len(str1) >= len(str2):
+        return str1
+    else:
+        return str2
+
+
+memo = {}
+def alignement_sequence_top_down(str1, str2):
+    """ str, str -> str
+    Renvoie une plus longue chaine commune
+    """
+    if (str1, str2) in memo: return memo[(str1, str2)]
+    if str1 =='' or str2 == '': memo[(str1, str2)] = ''
+    elif str1[-1] == str2[-1]:
+        memo[(str1, str2)] = alignement_sequence_top_down(str1[:-1], str2[:-1]) + str1[-1]
+    else:
+        # on garde str1 et enlève le dernier car de str2
+        lsc1 = alignement_sequence_top_down(str1, str2[:-1])
+        # on garde str2 et enlève le dernier car de str1
+        lsc2 = alignement_sequence_top_down(str1[:-1], str2)
+        if len(lsc1) >= len(lsc2):
+            memo[(str1, str2)] = lsc1
+        else:
+            memo[(str1, str2)] = lsc2
+    return memo[(str1, str2)]
+
+
+print(alignement_sequence_top_down(str1, str2))
+```
+
+La version ascendante utilise la même relation de récurrence mais de façon un peu plus complexe que les exemples précédents. L'idée est de construire un tableau de tableaux `T` rempli des résultats des sous-problèmes rencontrés, c'est-à-dire des  plus longue sous-chaînes commune entre les chaines `str1[ :i+1]` et `str[j+1]` pour les valeurs de `i` allant et `j` allant de `0` à `len(str1)` et `len(str2)` respectivement.
+
+On peut faire les constatations suivantes : 
+
+-	Pour `i = 0` on remplit la première ligne pour les valeur de `j` avec `''` si `str1[0]`  n'est pas présent dans  `str2[:j+1]` car il n'y a pas d'alignement possible ; ou sinon avec `str1[0]` s'il est présent. 
+
+-	Pour  `j = 0`, alors on remplit la première colonne pour les valeur de `i` avec `''` si `str2[0]`  n'est pas présent dans  `str1[:i+1]` car il n'y a pas d'alignement possible ; ou sinon  avec `str2[0]` s'il est présent. 
+
+-	Ensuite pour chaque valeur de `i` et `j` à partir de `1`, deux cas de figure se présentent :
+
+    -	Si les deux dernier caractères de `str1[:i+1]` et `str2[:j+1]` sont identiques ,  c'est-à-dire `str1[i] == str2[j]`, alors ils peuvent être alignés :  
+    `T[i][j] = T[i-1][j-1] + str[i]`
+
+    - S'ils sont différents, c'est-à-dire `str1[i] != str2[j]`, alors ils ne peuvent pas être alignés, il faut prendre la plus longue sous-chaîne entre les deux sous-chaînes calculées en enlevant l'un des dernier caractère :   
+    `T[i][j] = max_len(T[i][j-1], T[i-1][j])`
+
+    La plus longue sous-chaine commune est calculée dans la dernière ligne dernière colonne du tableau de tableaux.
+
+![Alignement séquences - tableau de tableaux](assets/4-alignement-sequence-tableau-light-mode.png#only-light){width=100% }
+![Alignement séquences - tableau de tableaux](assets/4-alignement-sequence-tableau-dark-mode.png#only-dark){width=100% }
+
+
+Traduite en Python, on obtient le code suivant :
+
+``` py
+def alignement_sequence_bottom_up(str1, str2):
+    """ str, str -> str
+    Renvoie une plus longue chaine commune
+    """
+    n1, n2 = len(str1), len(str2)
+    T = [['' for j in range(n2)] for i in range(n1)]
+    for i in range(n1):
+        if str2[0] in str1[:i+1]:
+            T[i][0] = str2[0]
+    for j in range(n2):
+        if str1[0] in str2[:j+1]:
+            T[0][j] = str1[0]
+
+    for i in range(1, n1):
+        for j in range(1, n2):
+            if str1[i] == str2[j]:
+                T[i][j] = T[i-1][j-1] + str1[i]
+            else:
+                T[i][j] = maxi(T[i][j-1], T[i-1][j])
+
+    return T[n1-1][n2-1]
+
+print(alignement_sequence_bottom_up(str1, str2))
+
+```
+
+
 
 
 
@@ -519,8 +711,8 @@ On remarque que pour calculer `V[15]`, le deuxième cas consiste à calculer `V[
 La différence réside dans la liste d'objets disponibles. Au début, tous les objets sont disponibles pour être mis, ou pas, dans la sac à dos.  Ensuite l'objet pesant 1kg de valeur 1 euro n'est plus disponible, soit il a été mis dans le sac (cas 1), soit il a été écarté (cas 2) et on ne le considère plus pour être mis dans le sac.
 
 
-![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-light-mode.png#only-light){width=80% }
-![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-dark-mode.png#only-dark){width=80%}
+![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-light-mode.png#only-light){width=100% }
+![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-dark-mode.png#only-dark){width=100%}
 
 On en déduit que le calcul de la valeur maximale d'un sac de capacité $p$ ne dépend pas que de la valeur de $p$, mais aussi de la liste d'objets disponibles. On identifie les objets par leur indice $i$ dans la liste, et on notera $V_{i,p}$  la valeur maximale d'un sac de capacité $p$ en choisissant parmi les objets d'indices $0$, $1$, $2$, …, $i-1$, $i$.
 
@@ -639,23 +831,3 @@ assert sac_dynamique_bottom_up(liste_3, 15) == 12
 
 
 
-
-## Alignement de séquences
-
-L'alignement de séquence est un problème courant en bioinformatique, en traitement du langage naturel, en sécurité informatique et dans d'autres domaines où l'on cherche à comparer et à aligner des séquences de données, telles que des séquences génétiques, des séquences de protéines, des séquences de mots dans des textes, ou des parties de code malveillant. L'algorithme le plus couramment utilisé pour résoudre le problème d'alignement de séquence est l'algorithme de Needleman-Wunsch, qui utilise la programmation dynamique. .
-
-Problème : Étant donné deux chaines e caractères `str1` et `str2`, on cherche la chaine `substr` la plus longue possible qui soit à la fois extraite de `str1` et `str2`. Dire que `substr` est un extrait de `str1` signifie qu'on peut obtenir `substr` à partir de `str1` en effaçant des lettres. On ne demande donc pas que les caractères de `substr` soient consécutifs dans
-`str1` et `str2`.
-
-Prenons l'exemple de deux séquences :
-
-``` py
-seq1 = "AGTACGCA" 
-seq2 = "TATGC"
-```
-L'alignement des séquences donne le résultat suivant :
-``` py
-seq1 = "AGTACGCA" 
-seq2 = "TATGC"
-substr = " 
-```
