@@ -115,13 +115,13 @@ On a vu en classe de première une solution donnée par un algorithme glouton, q
     ``` py
     pieces = [10, 5, 2, 1]
 
-    def rendu_monnaie_gouton(x):
+    def rendu_monnaie_gouton(n):
         nombre_pieces = 0
         i = 0 # on commence par la plus grande pièce
-        while x > 0:
-            if x >= pieces[i]: # on peut rendre pieces[i]
+        while n > 0:
+            if n >= pieces[i]: # on peut rendre pieces[i]
                 nombre_pieces += 1
-                x = x - pieces[i]
+                n = n - pieces[i]
             else:    # on passe à la pièce suivante
                 i = i + 1
         return nombre_pieces	
@@ -131,12 +131,12 @@ On a vu en classe de première une solution donnée par un algorithme glouton, q
     ``` py
     pieces = [10, 5, 2, 1]
 
-    def rendu_monnaie_gouton(x, i=0):
-        if x == 0: 
+    def rendu_monnaie_gouton(n, i=0):
+        if n == 0: 
            return 0  
-        if pieces[i] <= x:  # on peut rendre pieces[i]
-            return 1 + rendu(x - pieces[i], i)
-        return rendu(x, i + 1)   # on passe à la pièce suivante
+        if pieces[i] <= n:  # on peut rendre pieces[i]
+            return 1 + rendu(n - pieces[i], i)
+        return rendu(n, i + 1)   # on passe à la pièce suivante
     ```
 
 
@@ -159,11 +159,11 @@ C'est le **propre des algorithmes gloutons : une fois qu'une décision a été p
 
 ### Programmation dynamique
 
-La programmation dynamique consiste à résoudre notre problème en combinant les solutions de sous-problèmes. Ici, rendre une somme x peut se faire de plusieurs manières  :
+La programmation dynamique consiste à résoudre notre problème en combinant les solutions de sous-problèmes. Ici, rendre une somme $n$ peut se faire de plusieurs manières  :
 
--	rendre x – 10 et rajouter une pièce de ⑩, ou
--	rendre x – 5 et rajouter une pièce de ⑤, ou
--	rendre x – 2 et rajouter une pièce de ②.
+-	rendre $n – 10$ et rajouter une pièce de ⑩, ou
+-	rendre $n – 5$ et rajouter une pièce de ⑤, ou
+-	rendre $n – 2$ et rajouter une pièce de ②.
 
 Dans notre exemple, pour rendre 13 euros on peut :
 
@@ -184,19 +184,26 @@ Certaines branches mènent à une solution, quand il reste 0 euros à rendre, d'
 
 Implémentons cet algorithme en considérant trois cas :
 
--	Si x est égal à 0, alors on a rendu x, il n'y a pas de pièces supplémentaires à rendre, on renvoie 0.
--	Si x < la plus petite pièce, on ne pourra pas rendre x de cette façon, on renvoie une valeur infinie (`from math import inf`) afin de ne pas impacter une autre branche qui ménerait à une solution.
--	Sinon, on renvoie  1 + le plus petit nombre de pièces de tous les rendus de x – p, pour toutes les pièces p telles que p <= x. 
+-	Si $n$ est égal à 0, alors on a rendu $n$, il n'y a pas de pièces supplémentaires à rendre, on renvoie 0.
+-	Si $n$ est plus petit que la valeur de la plus petite pièce, on ne pourra pas rendre $n$, on renvoie une très grande valeur, par exemple en utilisant `inf` la valeur infinie du module avec ` math`, afin de ne pas impacter une autre branche qui ménerait à une solution.
+-	Sinon, on renvoie 1 plus le plus petit nombre de pièces de tous les rendus de $n – p$, pour toutes les pièces de valeur $p$ telles que $p <= n$. 
 
-Traduit en Python, on obtient la fonction suivante :
+Traduisons cet algorithme en Python :
+
 ```py
-from math import inf
+from math import inf     # valeur infinie du module math
 
 pieces = [10, 5, 2]
-def rendu_monnaie_dynamique(x):
-    if x == 0: return 0
-    if x < min(pieces): return inf
-    return 1 + min([rendu_monnaie_dynamique(x - p) for p in pieces if p <= x]) 
+
+def rendu_monnaie_dynamique(n):
+    if n == 0:  # Il faut 0 piece pour rendre 0 euro
+        return 0                
+    if n < min(pieces):   # n est plus petit que la plus petite piece
+        return inf          # on ne peut pas rendre n avec ces pieces
+    # Tableau de tous les rendus possibles de n - p
+    rendus = [rendu_monnaie_dynamique(n - p) for p in pieces if p <= n]
+    # On rend 1 piece + le plus petit nombre de pieces de tous les rendus
+    return 1 + min(rendus)  
 
 >>> rendu_monnaie_dynamique(13)
 5
@@ -207,19 +214,15 @@ Avec la programmation dynamique, tous les cas possibles ont été traités, et p
 
 Mais testons maintenant cette fonction avec quelques valeurs plus grandes que `13`. Très vite la fonction prend beaucoup de temps pour s'exécuter. Quelques secondes pour exécuter `rendu_monnaie_dynamique(60)`, dizaines de secondes pour `  rendu_monnaie_dynamique(70)`, plusieurs minutes pour `  rendu_monnaie_dynamique(80)`, etc.  Le programme devient vite trop lent, même pour des rendus très simples de quelques pièces de ⑩ euros !
 
-Essayons d'estimer la complexité temporelle de cette fonction. Le nombre d'opérations pour rendre un montant $n$ avec des pieces de 10, 5 et 2 est le nombre d'opérations pour rendre $n-10$, plus le nombre d'opérations pour rendre $n-5$, plus celui pour rendre $n-2$, plus quelques opérations élémentaires. 
-
-Si on appelle $T(n)$ le nombre d'opérations pour rendre $n$, alors on peut donc écrire que :
+Essayons d'estimer la complexité temporelle de cette fonction. Le nombre d'opérations pour rendre un montant $n$ avec des pieces de 10, 5 et 2 est le nombre d'opérations pour rendre $n-10$, plus le nombre d'opérations pour rendre $n-5$, plus celui pour rendre $n-2$, plus quelques opérations élémentaires. Si on appelle $T(n)$ le nombre d'opérations pour rendre $n$, alors on peut donc écrire que :
 
 $T(n) = T(n-10) + T(n-5) + T(n-2) + O(1)$,
 
-avec $O(1)$ pour les quelques opérations supplémentaires. Pour de grandes valeurs de $n$, on peut faire l'approximation que retirer 10, 5, 2 ou 1 euro à $n$ ne change pas grand chose, donc que $T(n-10)$, $T(n-5)$, et $T(n-2)$ sont du même ordre de grandeur que $T(n-1)$,  donc que  $T(n) \approx 3 \times T(n-1) + O(1)$. A chaque fois que $n$ augmente de 1, le nombre d'opérations est mutliplié par 3, plus quelques opérations, la complexité est donc exponentielle en $O(3^n)$ ici, ou de façon générale en $O({nbPieces}^n)$ pour un rendu avec $nbPieces$ pieces.  
+avec $O(1)$ pour les quelques opérations supplémentaires. Pour de grandes valeurs de $n$, on peut faire l'approximation que retirer 10, 5, 2 ou 1 euro à $n$ ne change pas grand chose, donc que $T(n-10)$, $T(n-5)$, et $T(n-2)$ sont du même ordre de grandeur que $T(n-1)$, autrement dit  $T(n) \approx 3 \times T(n-1) + O(1)$. A chaque fois que $n$ augmente de 1, le nombre d'opérations est multiplié par 3, plus quelques opérations. La complexité est donc exponentielle en $O(3^n)$ ici, ou de façon générale en $O({nbPieces}^n)$ pour un rendu avec $nbPieces$ pieces.  
 
 ### Version descendante (*top-down*), récursivité et mémoïsation
 
 Les appels récursifs sont trop nombreux, la complexité est trop importante pour calculer un solution en temps raisonnable.
-
-
 
 En programmation dynamique les sous-problèmes se chevauchent et les mêmes calculs reviennent plusieurs fois. Dans un exemple aussi simple que celui de rendre 13 euros, on retrouve 2 fois la branche qui part de "6" :
 
@@ -235,20 +238,25 @@ La solution pour limiter le nombre d'opérations consiste à ne calculer les sol
 Par exemple, avec un dictionnaire déclaré en variable globale :
 
 ```py
-from math import inf
+from math import inf     # valeur infinie du module mathf
 
-memoise = {0: 0}       # on peut déjà mettre 0 pieces pour rendre 0 euros
+memoise = {0: 0}       # Il faut 0 piece pour rendre 0 euro
 pieces = [10, 5, 2]
 
-def rendu_monnaie_dynamique(x):
-    if x in memoise:
-        return memoise[x]
-    if x < min(pieces) : return inf     # on ne peut pas mettre inf dans le dictionnaire memoise
-    memoise[x] = 1 + min([rendu_monnaie_dynamique(x - p) for p in pieces if p <= x])
-    return memoise[x] 
+def rendu_monnaie_dynamique(n):
+    if n in memoise:             # Si on a déjà calculé le nombre de pièces pour n
+        return memoise[n]
+    if n < min(pieces):   # n est plus petit que la plus petite piece
+        return inf          # On ne peut pas rendre n avec ces pieces
+
+    # Tableau de tous les rendus possibles de n - p
+    rendus = [rendu_monnaie_dynamique(n - p) for p in pieces if p <= n]
+    # On rend 1 piece + le plus petit nombre de pieces de tous les rendus
+    memoise[n] = 1 + min(rendus)
+    return memoise[n] 
 ```
 
-Cette fois ci, le résultat est immédiat, même avec des valeurs de `x` de quelques milliers (dans la limite de la pile d'appels récursifs).
+Cette fois ci, le résultat est immédiat, même avec des valeurs de `n` de quelques milliers (dans la limite de la pile d'appels récursifs).
 
 
 ### Version ascendante (*bottom-up*)
@@ -258,30 +266,35 @@ On a déjà vu dans l'exemple précédent comment écrire un algorithme récursi
 ![Rendu de monnaie pour 13 euros bottom-up](assets/4-rendu-monnaie-bottom-up-light-mode.png#only-light){width=30% align=right}
 ![Rendu de monnaie pour 13 euros bottom-up](assets/4-rendu-monnaie-bottom-up-dark-mode.png#only-dark){width=30% align=right}
 
-Appelons $nb_i$ le nombre de pièces pour rendre une somme $i$. Comme dans l'approche *top-down*,  $nb_i$ est égal à 1 + le plus petit nombre de pièces de tous les rendus de i – p, pour toutes les pièces p telles que p <= i. Si aucune pièce p ne convient, alors il n'est pas possible de rendre $i$, on peut représenter $nb_i$ par l'infini[^4.3].
+Appelons $nb_i$ le nombre de pièces pour rendre une somme $i$. Comme dans l'approche *top-down*,  $nb_i$ est égal à 1 + le plus petit nombre de pièces de tous les rendus de $i – p$, pour toutes les pièces $p$ telles que $p <= i$. Si aucune pièce p ne convient, alors il n'est pas possible de rendre $i$, on peut représenter $nb_i$ par l'infini[^4.3].
 
 [^4.3]:  $nb_i$ est donné par la formule de récurrence $nb_i = \underset{p \leq i}{\min}⁡ (1+ nb_{i-p})$.
 
 
-On va créer le même dictionnaire que celui utilisé pour la mémoïsation, mais en le remplissant itérativement en partant cette fois de 0 et en incrémentant jusqu'à x.
+On va créer le même dictionnaire que celui utilisé pour la mémoïsation, mais en le remplissant itérativement en partant cette fois de 0 et en incrémentant jusqu'à n.
 
 ``` py
 from math import inf
-nb = {0: 0}
+
+nb = {0: 0}       # dictionnaire {montant i: nombres de pieces pour rendre i}
 pieces = [10, 5, 2]
 
-def rendu_bottom_up(x):
-    for i in range(1, x + 1):
-        q = inf                     # on cherche le minimum pour rendre i
-        for p in pieces:             # on essaie chaque piece p
-            if p <= i:               
-                 q = min(q, 1 + nb[i-p])
-        nb[i] = q
-    return nb[x]
+def rendu_bottom_up(n):
+    # On remplit le dictonnaire pour tous les montants i allant de 1 à n
+    for i in range(1, n + 1):   
+        # Tableau de tous les rendus possibles de i - p
+        rendus = [nb[i - p] for p in pieces if p <= i]
+
+        if rendus == []:   # Si c'est impossible de rendre i 
+            nb[i] = inf
+        else:           # Sinon on prend le plus petit nombre de pieces des i - p et on ajoute 1 
+            nb[i] = 1 + min(rendus)
+    return nb[n]              # On renvoie la valeur pour la clé correspondant au montant n
+
 ```
 
-Ici, aucun soucis avec la complexité de la fonction (ni de limite de pile d'appels récursifs), la fonction s'exécute instantanément même avec de très grandes valeurs de `x`. En effet, la fonction fait une double boucle imbriquée, sur la valeur à rendre $n$, et sur le nombre de pièces disponibles. La complexité est donc simplement linéaire en $O(n \times nbPieces)$.
 
+Ici, aucun soucis avec la complexité de la fonction (ni de limite de pile d'appels récursifs), la fonction s'exécute instantanément même avec de très grandes valeurs de `n`. En effet, la fonction fait une double boucle imbriquée, sur la valeur à rendre $n$, et sur le nombre de pièces disponibles. La complexité est donc simplement linéaire en $O(n \times nbPieces)$, ou plus simplement en $O(n)$ si on considère un nombre limité de pièces disponibles.
 
 
 !!! abstract "Cours" 
@@ -298,72 +311,109 @@ Ici, aucun soucis avec la complexité de la fonction (ni de limite de pile d'app
 
 ##	Découpe de tiges d'acier
 
-Problème : Soit une tige d'acier qu'on découpe par morceau pour les revendre selon une grille de tarif suivante :
+Problème : Soit une tige d'acier qu'on découpe par morceau pour les revendre selon une grille de prix suivante :
 
 |Longueur (m)| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 |:--     |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-: |
 |Prix (€)   | 0 | 1 | 5 | 8 | 9 | 10| 17| 17| 20| 24| 30 |
 
-L'objectif est donc de découper la tige de façon optimale pour en tirer un prix maximum.
+L'objectif est de découper la tige de façon optimale pour en tirer un revenu maximum.
 
 Prenons, l'exemple d'une tige de longueur 4 m. On peut la découper de 8 façons différentes :
 
 ![Découpe d'une tige de 4 m](assets/4-decoupe-tige-light-mode.png#only-light){width=80% }
 ![Découpe d'une tige de 4 m](assets/4-decoupe-tige-dark-mode.png#only-dark){width=80% }
 
-Le meilleur revenu est le découpage en 2 tiges de 2 m, pour un prix de 10 €. Mais comment le calculer de façon systématique ? 
- 
-Appelons `R[n]` le revenu maximum d'une tige de longueur `n` et prenons un exemple. 
+Le meilleur revenu est 10 € avec un découpage en 2 tiges de 2 m. Mais comment le calculer de façon systématique ? 
+
+Un algorithme glouton simple qui consiste à choisir en priorité les longueurs de tige les plus chères ne donnerait pas le meilleur revenu puisqu'il ne proposerait de ne faire aucune découpe afin de garder les tiges les plus longues qui sont les plus chères selon la grille de prix. Une approche plus fine consisterait à prendre en compte le prix linéaire (ratio prix/longueur) pour optimiser les découpes. Regardons la grille de prix dans notre exemple pour une tige de 4 m :
+
+|Longueur (m)       | 0 | 1 |  2 | 3   | 4   |
+|:--                |:-:|:-:|:--:|:---:|:---:|
+|Prix (€)           | 0 | 1 |  5 | 8   | 9   |
+|Prix linéaire (€/m)| 0 | 1 | 2,5| 2,67| 2,25|
+
+L'algorithme glouton commence par choisir le meilleur ratio prix/longueur, c'est une découpe de 3 m, mais ensuite il ne reste qu'un morceau de 1 m qui a un faible valeur linéaire ! C'est trop tard, l'algorithme ne peut pas revenir en arrière sur la découpe de 3m, il ne donne pas le revenu maximum.
+
+ici encore, la programmation dynamique nous permet de trouver la solution optimale. Appelons `R[n]` le revenu maximum d'une tige de longueur `n`, `Prix` une grille de prix pour différentes longueurs de tige et prenons un exemple.
+
+Comment calculer `R[4]`, le revenu maximum pour découper une tige de longueur `4` ? C'est bien la plus grande valeur entre :
+
+-	Le prix d'une tige de longueur `1`  + le revenu maximum d'un tige de longueur `3` : `Prix[1] + R[3]`
+-	Le prix d'une tige de longueur `2`  + le revenu maximum d'un tige de longueur `2` : `Prix[2] + R[2]`
+-	Le prix d'une tige de longueur `3`  + le revenu maximum d'un tige de longueur `1` : `Prix[3] + R[1]`
+-	Le prix d'une tige de longueur `4`  + le revenu maximum d'un tige de longueur `0`:  `Prix[4] + R[0]`
+
+![Découpe d'une tige de 4 m - éape 1](assets/4-decoupe-tige-arbre-1-light-mode.png#only-light){width=100% }
+![Découpe d'une tige de 4 m - étape 1](assets/4-decoupe-tige-arbre-1-dark-mode.png#only-dark){width=100% }
+
+La valeur de `R[0]` est immédiate, c'est le revenu maximum d'une tige de longeur de zéro, c'est-à-dire `0`. Mais comment calculer `R[1]`, `R[2]` et `R[3]` ? On applique le même principe.
+
+![Découpe d'une tige de 4 m - arbre complet](assets/4-decoupe-tige-arbre-2-light-mode.png#only-light){width=100% }
+![Découpe d'une tige de 4 m - arbre complet](assets/4-decoupe-tige-arbre-2-dark-mode.png#only-dark){width=100% }
+
+On a découpé le problème en plusieurs sous-problèmes. Par ailleurs, les résultats de certains sous-problèmes, par exemple le calcul de `R[2]`, sont réutilisés plusieurs fois. Les sous-problèmes se chevauchent.
 
 
-Le revenu maximum pour découper une barre de longueur 4 est le maximum de :
+Généralisons cet algorithme à une tige de longueur `n ` pour écrire `R[n]` en considérant les deux cas :
 
--	Le prix d'une barre de longueur 1  + le revenu maximum d'un barre de longueur 3 : Prix [1] + R[3]
--	Le prix d'une barre de longueur 2  + le revenu maximum d'un barre de longueur 2 : Prix [2] + R[2]
--	Le prix d'une barre de longueur 3  + le revenu maximum d'un barre de longueur 1 : Prix [3] + R[1]
--	Le prix d'une barre de longueur 4 
+-	Si `n` est égal à `0`, alors la tige a une longueur de `0`, son revenu maximum est `0`.
+-   Sinon, `R[n]` est égal à la plus grande valeur entre tous les prix d'une tige de longueur `i` (`prix[i]`) auxquels on ajoute le revenu maximum d'une tige de longeur `n - i` (`R[n-i]`), calculés pour toutes les découpes de longueur `i` possibles, c'est-à-dire toutes les valeurs de `i` comprises entre `1` et `n` sans dépasser la taille de la grille des prix :  `1 <= i < min(len(Prix), n + 1)`.
 
-![Découpe d'une tige de 4 m - éape 1](assets/4-decoupe-tige-arbre-1-light-mode.png#only-light){width=80% }
-![Découpe d'une tige de 4 m - étape 1](assets/4-decoupe-tige-arbre-1-dark-mode.png#only-dark){width=80% }
+On peut écrire la formule :  `R[n] = max(Prix[i] + R[n - i] pour 1 ≤ i  < min(len(Prix), n + 1)`  et `R[0] = 0`. 
 
-La valeur de `R[0]` est immédiate, c'est le revenu maximumune d'une barre de longeur de zéro, c'est-à-dire 0. Mais comment calculer `R[1]`, `R[2]` et `R[3]` ? On applique le même principe.
 
-![Découpe d'une tige de 4 m - arbre complet](assets/4-decoupe-tige-arbre-2-light-mode.png#only-light){width=80% }
-![Découpe d'une tige de 4 m- arbre complet](assets/4-decoupe-tige-arbre-2-dark-mode.png#only-dark){width=80% }
-
-De façon générale, on peut calculer  `R[n]` avec la formule `R[n] = max(Prix[i] + R[n-i] pour 1 ≤ i  ≤ n )`  et `R[0] = 0`. On a découpé le problème en plusieurs sous-problèmes. Par ailleurs, les résultats de certains sous-problèmes, par exemple le calcul de  `R[2]`, sont réutilisés plusieurs fois.
-
-Traduisons cet algorithme de programmation dynamique en version descendante :
-
+Traduisons maintenant cet algorithme de programmation dynamique en version descendante :
 
 ``` py
-from math import inf
-
-prix = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+Prix = [0, 1 ,5, 8, 9, 10, 17, 17, 20, 24, 30]
 
 def R(n):
-    if n == 0: return 0
-    q = -inf
-    for i in range(1, min(n + 1, len(prix))):
-        q = max(q, prix[i] + R(n-i))
-    return q
+    if n == 0: # Le revenu d'une tige de longueur 0 est 0
+        return 0
+
+    # Tableau des revenus max toutes les découpes possibles de la grille de prix
+    decoupes = [Prix[i] + R(n - i) for i in range(1, min(len(Prix), n + 1))]
+
+    # On renvoie le plus grand revenu de toutes les découpes possibles
+    return max(decoupes)
 ```
 
-La complexité temporelle de la fonction est de l'ordre du nombre de nœud dans l'arbre, c'est-à-dire une complexité exponentielle en $O(2^n)$.  Cette solution n'est donc pas utilisable pratiquement, mais on constate une fois de plus que les sous-problèmes se chevauchent, on peut donc garder les résultats des sous-problèmes en mémoire pour améliorer cette situation. Appliquons cette technique de mémoïsation :
+
+Avec la programmation dynamique, tous les cas possibles ont été traités, et plusieurs cas ont renvoyé la même solution. On obtient donc une solution optimale au problème. 
+
+```
+>>> R(4)
+10
+```
+
+Mais testons maintenant cette fonction avec quelques valeurs plus grandes que `4`. Très vite la fonction prend beaucoup de temps pour s'exécuter. Essayons encore d'estimer la complexité temporelle de cette fonction.
+
+Si on appelle $T(n)$ le nombre d'opérations pour calculer le revenu maximum pour une tige de longueur $n$, il est égal aux nombres d'opérations de toutes les découpes de tiges de longeurs $n - i$, $T(n - i)$, pour toutes les valeurs de $i$ de la grille de prix, plus quelques opérations élémentaires.
+
+$T(n) = T(n-1) + T(n-2) + T(n-3) + ..T(n-i)+... + T(n - 10) + O(1)$,
+
+Si on suppose que pour les grandes valeurs de $n$, $i$ reste très petit en comparaison, par exemple ici il vaut entre 1 et 10, alors on peut écrire que :
+
+$T(n) \approx 10 \times T(n-1) + O(1)$
+
+A chaque fois que $n$ augmente de 1, le nombre d'opérations est mutliplié par la taille de la grille de prix, plus quelques opérations. La complexité est donc exponentielle en $O(10^n)$ ici, ou de façon générale en $O({tailleGrillePrix}^n)$ pour une grille de prix de longueur $tailleGrillePrix$ . 
+
+Cette solution n'est donc pas utilisable pratiquement, mais on constate une fois de plus que les sous-problèmes se chevauchent, on peut donc garder les résultats des sous-problèmes en mémoire pour améliorer cette situation. Appliquons la technique de mémoïsation :
 
 ```py
-from math import inf
+Prix = [0, 1 ,5, 8, 9, 10, 17, 17, 20, 24, 30]
 
-prix = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
-memoise = {0 : 0}
-
+memo = {0: 0}    # Le revenu d'une tige de longueur 0 est 0
 def R(n):
-    if n in memoise: return memoise[n]
-    q = -inf
-    for i in range(1, min(n + 1, len(prix))):
-        q = max(q, prix[i] + R(n-i))
-    memoise[n] = q
-    return q
+    if n in memo:  return memo[n]
+        
+    # Tableau des revenus max toutes les découpes possibles de la grille de prix
+    decoupes = [Prix[i] + R(n - i) for i in range(1, min(len(Prix), n + 1))]
+    
+    # On renvoie le plus grand revenu de toutes les découpes possibles
+    memo[n] = max(decoupes)
+    return memo[n]
 ```
 
 L'ajout d'une variable globale dans la fonction permet de se convaincre facilement de l'effet sur la complexité temporelle :
@@ -383,24 +433,24 @@ Alors que la première fonction, sans mémoïsation, s'appelle 1024 fois pour le
 La version ascendante est une autre façon efficace de palier au problème de complexité temporelle :
 
 ```py
-from math import inf
+Prix = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
 
-prix = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
-p = [0]
+revenus = {0: 0}    # dictionnaire {longueur m :  revenu max pour une tige de longueur m}
 
 def R(n):
-    for j in range(1, n + 1):
-        q = -inf
-        for i in range(1, min(j + 1, len(prix))):
-            q =  max(q, prix[i] + p[j - i])
-        p.append(q)
-    return p[n]
+    # On remplit le dictonnaire pour toutes les longueurs m allant de 1 à n
+    for m in range(1, n + 1):
+        
+        # Tableau des revenus max toutes les découpes possibles de m
+        decoupes = [Prix[i] + revenus[m - i] for i in range(1, min(len(Prix), m + 1))]
+        revenus[m] = max(decoupes)
+
+    return revenus[n]          # On renvoie la valeur pour la clé correspondant au montant n
+
 ```
 
-Ici, avec deux boucles imbriquées, la complexité est quadratique en $O(n^2)$.
 
-
-
+Ici, aucun soucis avec la complexité de la fonction (ni de limite de pile d'appels récursifs), la fonction s'exécute instantanément même avec de très grandes valeurs de `n`. En effet, la fonction fait une double boucle imbriquée, sur la valeur à rendre $n$, et sur la longueur de la grille des prix. La complexité est donc simplement linéaire en $O(n \times tailleGrillePrix)$, ou plus simplement en $O(n)$ si on considère une grille de prix de petite taille.
 
 ## Alignement de séquences
 
