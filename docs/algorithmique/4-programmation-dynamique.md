@@ -238,7 +238,7 @@ La solution pour limiter le nombre d'opérations consiste à ne calculer les sol
 Par exemple, avec un dictionnaire déclaré en variable globale :
 
 ```py
-from math import inf     # valeur infinie du module mathf
+from math import inf     # valeur infinie du module math
 
 memoise = {0: 0}       # Il faut 0 piece pour rendre 0 euro
 pieces = [10, 5, 2]
@@ -261,7 +261,7 @@ Cette fois ci, le résultat est immédiat, même avec des valeurs de `n` de quel
 
 ### Version ascendante (*bottom-up*)
 
-On a déjà vu dans l'exemple précédent comment écrire un algorithme récursif en utilisant la mémoïsation. Une autre approche de la programmation dynamique consiste à calculer d'abord les sous-problèmes en partant d'un cas de base et à  « remonter » jusqu'à résoudre le problème initial : c'est la version ascendante, ou *top-down*.
+On a déjà vu dans l'exemple précédent comment écrire un algorithme récursif en utilisant la mémoïsation. Une autre approche de la programmation dynamique consiste à calculer d'abord les sous-problèmes en partant d'un cas de base et à  « remonter » jusqu'à résoudre le problème initial : c'est la version ascendante, ou *bottom-up*.
 
 ![Rendu de monnaie pour 13 euros bottom-up](assets/4-rendu-monnaie-bottom-up-light-mode.png#only-light){width=30% align=right}
 ![Rendu de monnaie pour 13 euros bottom-up](assets/4-rendu-monnaie-bottom-up-dark-mode.png#only-dark){width=30% align=right}
@@ -280,7 +280,7 @@ nb = {0: 0}       # dictionnaire {montant i: nombres de pieces pour rendre i}
 pieces = [10, 5, 2]
 
 def rendu_bottom_up(n):
-    # On remplit le dictonnaire pour tous les montants i allant de 1 à n
+    # On remplit le dictionnaire pour tous les montants i allant de 1 à n
     for i in range(1, n + 1):   
         # Tableau de tous les rendus possibles de i - p
         rendus = [nb[i - p] for p in pieces if p <= i]
@@ -440,7 +440,7 @@ Prix = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
 revenus = {0: 0}    # dictionnaire {longueur m :  revenu max pour une tige de longueur m}
 
 def R(n):
-    # On remplit le dictonnaire pour toutes les longueurs m allant de 1 à n
+    # On remplit le dictionnaire pour toutes les longueurs m allant de 1 à n
     for m in range(1, n + 1):
         
         # Tableau des revenus max de toutes les découpes possibles de m
@@ -555,10 +555,10 @@ Cette relation de récurrence se traduit directement en Python en version dynami
 str1 = 'CGCATA'
 str2 = 'GACT'
 
-def maxi(str1, str2):
+def max_len(str1, str2):
     """ str, str -> str
     Renvoie la plus longue chaine des deux
-    ou la premiere si les deux chaines on la même longueur
+    ou la premiere si les deux chaines ont la même longueur
     """
     if len(str1) >= len(str2):
         return str1
@@ -633,7 +633,7 @@ def alignement_sequence_bottom_up(str1, str2):
             if str1[i] == str2[j]:
                 T[i][j] = T[i-1][j-1] + str1[i]
             else:
-                T[i][j] = maxi(T[i][j-1], T[i-1][j])
+                T[i][j] = max_len(T[i][j-1], T[i-1][j])
 
     return T[n1-1][n2-1]
 
@@ -656,11 +656,11 @@ Par exemple, on peut considérer les objets suivants et un sac à dos avec une c
 
 |Poids (kg)| 12 | 4 | 2 |1 | 1 | 
 |:--      |:-:|:-:|:-:|:-:|:-:|
-|Prix (€) |  4 | 10 | 2 | 2 | 1 | 
+|Prix (€) |  40 | 100 | 20 | 20 | 10 | 
 
 
 
-On peut choisir plusieurs combinaisons d'objets, par exemple les objets de poids 12kg, 2kg, 1kg et 1kg ont un poids total inférieur à la capacité du sac de 15kg et une valeur totale de 9 €, ou encore les objets de poids 4kg, 2kg, 1kg et 1kg pour une valeur totale de 15 €. Mais comment trouver la combinaison optimale dans toutes les situations ?
+On peut choisir plusieurs combinaisons d'objets, par exemple les objets de poids 12 kg, 2 kg, 1 kg et 1 kg ont un poids total inférieur à la capacité du sac de 15kg et une valeur totale de 90 €, ou encore les objets de poids 4 kg, 2 kg, 1 kg et 1 kg pour une valeur totale de 150 €. Mais comment trouver la combinaison optimale dans toutes les situations ?
 
 ![Exemples d'objets mis dans le sac à dos](assets/4-sac-a-dos-2-exemples-light-mode.png#only-light){width=60% }
 ![Exemples d'objets mis dans le sac à dos](assets/4-sac-a-dos-2-exemples-dark-mode.png#only-dark){width=60% }
@@ -670,11 +670,11 @@ On peut choisir plusieurs combinaisons d'objets, par exemple les objets de poids
 Représentons les objets dans une liste de p-uplets nommés :
 
 ```py
-liste_1 = [{'poids': 12, 'valeur': 4},
-           {'poids': 4, 'valeur': 10},
-           {'poids': 2, 'valeur': 2},
-           {'poids': 1, 'valeur': 2},
-           {'poids': 1, 'valeur': 1}]
+objets = [{'poids': 12, 'valeur': 40},
+           {'poids': 4, 'valeur': 100},
+           {'poids': 2, 'valeur': 20},
+           {'poids': 1, 'valeur': 20},
+           {'poids': 1, 'valeur': 10}]
 ```
 
 
@@ -683,12 +683,12 @@ liste_1 = [{'poids': 12, 'valeur': 4},
 L'algorithme glouton le plus simple consiste à prendre les objets en ordre de valeur décroissante tant que leur poids ne fait pas dépasser la capacité du sac. On peut écrire le code suivant :
 
 !!! note inline end "" 
-    L'utilisation de la fonction `sorted()` permet de ne pas modifier la liste `liste_objets`.
+    L'utilisation de la fonction `sorted()` permet de ne pas modifier la liste `objets`.
 
 ``` py linenums="1"
-def sac_glouton(liste_objets, poids_max):
-    """ list[dict], int -> int
-    Renvoie la valeur maximale d'objets {'poids', 'valeur'}
+def sac_glouton(poids_max):
+    """ int -> int
+    Renvoie la valeur maximale d'une liste d'objets [{'poids', 'valeur'}]
     qui peuvent être mis dans le sac sans que leur poids dépasse poids_max
     """
 
@@ -703,10 +703,10 @@ def sac_glouton(liste_objets, poids_max):
             valeur_sac += objet['valeur']
     return valeur_sac
 
-assert sac_glouton(liste_1, 15) == 15
+assert sac_glouton(15) == 150
 ```
 
-L'algorithme glouton renvoie `15` pour l'exemple précédant d'une liste d'objets `liste_1` et d'un sac de capacité 15 kg, c'est bien la plus grande valeur d'objets :
+L'algorithme glouton renvoie `150` pour l'exemple précédent, c'est bien la valeur maximale que l'on peut mettre dans le sac :
 
 ![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-light-mode.png#only-light){width=50%}
 ![Algorithme glouton par valeur dans l'exemple précédant](assets/4-sac-a-dos-glouton-valeur-1-dark-mode.png#only-dark){width=50%}
@@ -722,13 +722,13 @@ Regardons ce qu'il se passe avec la liste d'objets suivante :
 
 
 ```py
-liste_2 = [{'poids': 12, 'valeur': 4},
-          {'poids': 15, 'valeur': 10},
-          {'poids': 1, 'valeur': 9}]
+objets = [{'poids': 12, 'valeur': 40},
+          {'poids': 15, 'valeur': 100},
+          {'poids': 1, 'valeur': 90}]
 ```
 
 
-L'algorithme choisit d'abord l'objet de 15 kg, il n'est plus possible d'en ajouter d'autres, ni de revenir en arrière pour enlever l'objet. C'est le principe des algorithmes gloutons, on ne revient pas en arrière sur une décision qui a été prise. L'algorithe renvoie donc `10`, ce n'est pas optimal, les objets de 1 kg et 12 kg avaient une valeur totale de 13 €.
+L'algorithme choisit d'abord l'objet de 15 kg, il n'est plus possible d'en ajouter d'autres, ni de revenir en arrière pour enlever l'objet. C'est le principe des algorithmes gloutons, on ne revient pas en arrière sur une décision qui a été prise. L'algorithme renvoie donc `100`, ce n'est pas optimal, les objets de 1 kg et 12 kg avaient une valeur totale de 130 €.
 
 
 
@@ -736,30 +736,30 @@ Une approche plus fine consiste à prendre en priorité les objets ayant le meil
 
 ```py linenums="9"
     # objets pris en l'ordre de ratio valeur/poids décroissant
-    for objet in sorted(liste_objets, key=lambda x: x['valeur']/x['poids'], reverse=True):
+    for objet in sorted(objets, key=lambda x: x['valeur']/x['poids'], reverse=True):
 ```
 
 
-Ce nouvel algorithme glouton renvoie aussi la valeur attendue `15`  pour l'exemple précédant d'une liste d'objets `liste_1` et d'un sac de capacité 15 kg, c'est bien la plus grande valeur d'objets : 
+Ce nouvel algorithme glouton renvoie aussi la valeur attendue `150` pour le premier exemple, c'est à nouveau la valeur maximale : 
 
 
 ![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-light-mode.png#only-light){width=50%}
 ![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-1-dark-mode.png#only-dark){width=50%}
 
-Essayons maintenant cette nouvelle liste :
+Essayons maintenant cette nouvelle liste d'objets :
 
 ![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-2-light-mode.png#only-light){width=40% align=right}
 ![Algorithme glouton par valeur/poids dans un autre exemple](assets/4-sac-a-dos-glouton-valeur-poids-2-dark-mode.png#only-dark){width=40% align=right}
 
 
 ``` py
-liste_3 = [{'poids': 12, 'valeur': 7},
-          {'poids': 9, 'valeur': 10},
-          {'poids': 5, 'valeur': 2},
-          {'poids': 2, 'valeur': 1}]
+objets = [{'poids': 12, 'valeur': 70},
+          {'poids': 9, 'valeur': 100},
+          {'poids': 5, 'valeur': 20},
+          {'poids': 2, 'valeur': 10}]
 ```
 
-Les objets triés par ratio valeur/poids décroissants sont 9 kg, 12 kg, 2 kg puis 5 kg. L'algorithme glouton commence par mettre l'objet de 9 kg dans le sac et ensuite celui de 2 kg, il renvoie donc la valeur `11`.  La solution n'est encore pas optimale, le premier algorithme par valeur renvoyait `12` ! 
+Les objets triés par ratio valeur/poids décroissants sont 9 kg, 12 kg, 2 kg puis 5 kg. L'algorithme glouton commence par mettre l'objet de 9 kg dans le sac et ensuite celui de 2 kg, il renvoie donc la valeur `110`.  La solution n'est encore pas optimale, le premier algorithme glouton par valeur décroissante renvoyait `120` ! 
 
 
 ###	Programmation dynamique
@@ -767,26 +767,26 @@ Les objets triés par ratio valeur/poids décroissants sont 9 kg, 12 kg, 2 kg pu
 
 Une fois de plus la programmation dynamique offre une solution optimale au problème.
 
-Reprenons l'exemple d'un sac de capacité 15 kg avec les objets de la `liste_1` et calculons la valeur maximale des objets qui peuvent être mis dans ce sac. On la note `V[15]`.
+Reprenons l'exemple d'un sac de capacité 15 kg avec les objets du premier exemple et calculons la valeur maximale des objets qui peuvent être mis dans ce sac. On la note `V[15]`.
 
-![Objet de poids 1 kg et valeur 1 euro](assets/4-sac-a-dos-objet-1kg-1euro.png){width=10% align=right}
+![Objet de poids 1 kg et valeur 10 euro](assets/4-sac-a-dos-objet-1kg-10euro.png){width=10% align=right}
 
 
-Au début le sac est vide. On se pose la question de mettre un premier objet dans le sac, par exemple l'objet de 1kg avec une valeur d'1 €. Deux cas se présentent :
+Au début le sac est vide. On se pose la question de mettre un premier objet dans le sac, par exemple l'objet de 1 kg avec une valeur de 10 €. Deux cas se présentent :
 
-1.	Cas 1 : On met l'objet d'1kg dans le sac, il restera à calculer la valeur maximale d'un sac de 14kg, `V[14]`, puis de lui ajouter la valeur de 1 € de l'objet.
-2.	Cas 2 : On ne met pas l'objet dans le sac, il restera à calculer la valeur maximale  d'un sac de 15kg, `V[15]`, sans lui ajouter aucune valeur ensuite.
+1.	Cas 1 : On met l'objet d'1 kg dans le sac, il restera à calculer la valeur maximale d'un sac de 14 kg, `V[14]`, puis de lui ajouter la valeur de 10 € de cet objet.
+2.	Cas 2 : On ne met pas l'objet dans le sac, il restera à calculer la valeur maximale  d'un sac de 15 kg, `V[15]`, sans lui ajouter aucune valeur ensuite.
 
 Si on peut trouver la solution de ces deux sous-problèmes, il suffira ensuite de prendre la plus grande valeur entre les deux.
 On remarque que pour calculer `V[15]`, le deuxième cas consiste à calculer `V[15]`, c'est circulaire ! Alors quelle est la différence ? 
 
-La différence réside dans la liste d'objets disponibles. Au début, tous les objets sont disponibles pour être mis, ou pas, dans la sac à dos.  Ensuite l'objet pesant 1kg de valeur 1 euro n'est plus disponible, soit il a été mis dans le sac (cas 1), soit il a été écarté (cas 2) et on ne le considère plus pour être mis dans le sac.
+La différence réside dans la liste d'objets disponibles. Au début, tous les objets sont disponibles pour être mis, ou pas, dans la sac à dos. Ensuite l'objet pesant 1 kg de valeur 10 € n'est plus disponible, soit il a été mis dans le sac (cas 1), soit il a été écarté (cas 2) et on ne le considère plus pour être mis dans le sac.
 
 
 ![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-light-mode.png#only-light){width=100% }
 ![Le calcul de la valeur maximum dépend du poids max p et de la liste d'objet indicée jusqu'à i](assets/4-sac-a-dos-v(i,p)-dark-mode.png#only-dark){width=100%}
 
-On en déduit que le calcul de la valeur maximale d'un sac de capacité $p$ ne dépend pas que de la valeur de $p$, mais aussi de la liste d'objets disponibles. On identifie les objets par leur indice $i$ dans la liste, et on notera $V_{i,p}$  la valeur maximale d'un sac de capacité $p$ en choisissant parmi les objets d'indices $0$, $1$, $2$, …, $i-1$, $i$.
+On en déduit que le calcul de la valeur maximale d'un sac de capacité $p$ ne dépend pas que de la valeur de $p$, mais aussi de la liste d'objets disponibles. On identifie les objets par leur indice $i$ dans la liste, et on notera $V_{i,p}$ la valeur maximale d'un sac de capacité $p$ en choisissant parmi les objets d'indices $0$, $1$, $2$, …, $i-1$, $i$.
 
 Généralisons cette approche. Soit un sac de capacité p et une liste d'objet  d'indices $0$, $1$, $2$, …, $i-1$, $i$, et essayons de calculer $V_{i,p}$. On se pose la question de mettre le dernier objet de la liste, de poids $poids_{i}$  et de valeur $valeur_{i}$ dans le sac, ou pas. Plusieurs cas se présentent :
 
@@ -800,58 +800,66 @@ Généralisons cette approche. Soit un sac de capacité p et une liste d'objet  
 
     3. $V_{i, p}$ est le cas le plus favorable entre les deux : $V_{i, p} = \max(V_{i-1, p} , valeur_{i} + V_{i-1, p - poids_{i}})$
     
-
+Bien sûr, une fois qu'on a considéré tous les objets de la liste les uns après les autres pour les mettre dans le sac, ou pas, et qu'il ne reste plus que le premier objet de la liste, la solution est immédiate car il suffit de vérifier si son poids est inférieur à la capacité du sac ou pas. Si c'est le cas, on met l'objet dans le sac et la valeur maximale du sac est donc la valeur de l'objet. Sinon, on ne peut pas prendre l'objet, la valeur maximale est 0. 
 
 ![Relation de récurence donnant Vi,p](assets/4-sac-a-dos-recurence-light-mode.png#only-light){width=80% }
 ![Relation de récurence donnant Vi,p](assets/4-sac-a-dos-recurence-dark-mode.png#only-dark){width=80%}
 
 
-Cette relation de récurrence se traduit directement en Python en version dynamique descendante :
+Cette relation de récurrence se traduit directement en Python en version dynamique descendante (noter l'ordre des paramètres inversé, `i` est après `p_max` car les paramètres par mots clés sont toujours placés après les positionnels) :
 
 ```py
-def sac_dynamique_top_down(liste_objets, poids_max):
-    """ int, list[dict] -> int
-    Renvoie la valeur maximale d'objets {'poids', 'valeur'}
-    qui peuvent être mis dans le sac     sans que leur poids dépasse poids_max
+objets = [{'poids': 12, 'valeur': 40},
+           {'poids': 4, 'valeur': 100},
+           {'poids': 2, 'valeur': 20},
+           {'poids': 1, 'valeur': 20},
+           {'poids': 1, 'valeur': 10}]
+           
+V = {}   # dictionnaire {(capacité du sac, objets jusqu'à i): valeur maximale} de memoisation
+
+def sac_dynamique_top_down(poids_max, i=len(objets)-1):
+    """ int, int -> int
+    Renvoie la valeur maximale d'une liste d'objets [{'poids', 'valeur'}]
+    qui peuvent être mis dans le sac sans que leur poids dépasse poids_max
+    Note : on ne considere que premiers objets de la liste jusqu'à l'indice i (inclus)
     """
-
-    # V[(i, p)] est la valeur max d'un sac de capacité p avec les premiers objets de liste_objets
-    # jusqu'à liste_objets[i] inclus
-
-    V = {(0, p): 0 for p in range(poids_max  + 1)}
-   # on remplit la premiere ligne avec la valeur du premier objet (i=0)
-    # pour tous les sac de capacité p >= poids de cet objet
-    for p in range(liste_objets[0]['poids'], poids_max + 1):
-        V[(0, p) ] = liste_objets[0]['valeur']
-
-
-
-    def sac_dynamique(i, p):
-        if (i, p) in V:
-            return V[(i, p)]
-
-        if p < liste_objets[i]['poids']:
-            # on ne le met pas dans le sac
-            V[(i, p)] = V[(i-1, p)]
+    # s'il ne reste plus qu' objets[0] à considerer dans la liste 
+    if i == 0:
+        # s'il est moins lourd que la capacité du sac, on le met dans le sac
+        if objets[i]['poids'] <= poids_max:
+            val_max = objets[i]['valeur']
+        # sinon il est trop lourd pour le sac
         else:
-            # on prend la plus grande valeur entre ne pas mettre i dans le sac
-            V[(i, p)] = max( sac_dynamique(i-1, p),
-                # et ajouter l'objet i au sac
-                sac_dynamique(i - 1, p - liste_objets[i]['poids']) + liste_objets[i]['valeur'])
-        return V[(i, p)]
-    return sac_dynamique(len(liste_objets) - 1 , poids_max)
+              val_max = 0
+
+    # s'il reste plusieurs objets, on considère objets[i]
+    # soit il est plus lourd que la capacité du sac, on ne le met pas dans le sac
+    elif objets[i]['poids'] > poids_max:
+        val_max = sac_a_dos_dynamique(poids_max, i-1)
+    else:   # soit il est moins lourd  et
+        # on garde la plus grande valeur entre ne pas prendre objets[i] 
+        val_max = max(sac_dynamique_top_down(poids_max, i-1),
+        # et ajouter objets[i] dans le sac
+     objets[i]['valeur'] + sac_dynamique_top_down(poids_max - objets[i]['poids'], i-1))
+
+    # on met à jour le disctionnaire et on renvoie la valeur maximale pour poids_max
+    V[(poids_max, i)] = val_max
+    return val_max
 
 
-assert sac_dynamique_top_down(liste_1, 15) == 15
-assert sac_dynamique_top_down(liste_2, 15) == 13
-assert sac_dynamique_top_down(liste_3, 15) == 12
+assert sac_dynamique_top_down(15) == 150
 ```
 
-La version ascendante consiste à construire un tableau de tableaux contenant les valeurs maximales du problème réduit aux premiers objets de la liste `V[i][p]`, jusqu'à l'objet `liste_objets[i]` inclus et d'un sac de capacité `p`. 
+La version ascendante consiste à construire un tableau de tableaux `V` dont les éléments `V[i][p]` sont les valeurs maximales du problème pour un sac de capacité `p` en ne considérant que les premiers objets de la liste jusqu'à l'objet `objets[i]` inclus . 
 
-La première ligne du tableau est simple  : Si `i = 0`, alors seulement le premier objet de liste_objet est disponible pour remplir le sac, donc `V[0][p]` est égal à zéro pour toutes les valeurs de `p` inférieure au poids du premier objet et `V[0][p]` est égal au poids du premier objet pour les valeurs suivantes. 
 
-Les autres valeurs de `V[i][p]` sont calculées à partir de la relation de récurence précédente. La solution du problème se trouve sur la dernière ligne et la dernière colonne du tableau de tableau :
+La première ligne du tableau, quand `i` est égal à `0`, donne la valeur du sac en ne considérant que le premier objet de la liste, `objet[0]`. Deux cas se présentent :
+
+- si `objet[0]` est plus lourd que la capacité du sac (`objet[0][poids] > p`), alors on ne peut pas le mettre dans le sac et la valeur maximale du sac est 0.
+
+- si `objet[0]` est moins lourd que la capacité du sac (`objet[0][poids] <= p`), alors on le met dans le sac et la valeur maximale du sac est la valeur de l'objet : `objet[0][valeur]`.
+
+Les autres valeurs de `V[i][p]` sur les autres lignes sont calculées à partir de la relation de récurence précédente. La solution du problème se trouve sur la dernière ligne et la dernière colonne de `V`:
 
 
 ![Construction du tableau de tableaux des Vi,p en bottom-up](assets/4-sac-a-dos-bottom-up-light-mode.png#only-light){width=80% }
@@ -860,40 +868,48 @@ Les autres valeurs de `V[i][p]` sont calculées à partir de la relation de réc
 
 
 ``` py
-def sac_dynamique_bottom_up(liste_objets, poids_max):
-    """ int, list[dict] -> int
-    Renvoie la valeur maximale d'objets {'poids', 'valeur'}
-    qui peuvent être mis dans le sac     sans que leur poids dépasse poids_max
+def sac_dynamique_bottom_up(poids_max):
+    """ int -> int
+    Renvoie la valeur maximale d'une liste d'objets [{'poids', 'valeur'}]
+    qui peuvent être mis dans le sac sans que leur poids dépasse poids_max
     """
-    n = len(liste_objets)
 
-    V = [[0]*(poids_max + 1) for i in range(n)]
-    # V[i][p] est la valeur max d'un sac de capacité p avec les premiers objets de liste_objets
-    # jusqu'à liste_objets[i] inclus
+    # on crée le tableau de tableau, une ligne par objet ajouté (ou pas)
+    # une colonne pour chaque capcacité de sac
+    V = [[None]*(poids_max + 1) for i in range(len(objets))]
 
-    # on remplit la premiere ligne avec la valeur du premier objet (i=0)
-    # pour tous les sac de capacité p >= poids de cet objet
-    for p in range(liste_objets[0]['poids'], poids_max + 1):
-        V[0][p] = liste_objets[0]['valeur']
+
+    # V[i][p] est la valeur max d'un sac de capacité p
+    # avec les premiers objets jusqu'à objets[i] inclus
+
+    # s'il n'y a qu' objets[0] à considerer dans la liste
+    for p in range(poids_max + 1):
+        # s'il est moins lourd que la capacité du sac, on le met dans le sac
+        if objets[0]['poids'] <= p:
+            V[0][p] = objets[0]['valeur']
+        # sinon il est trop lourd pour le sac
+        else:
+            V[0][p] = 0
+
+
+    # s'il reste plusieurs objets, on regarde l'objet d'indice i
+    for i in range(1, len(objets)):
 
     # on remplit les lignes suivantes
-    for i in range(1, n):
         for p in range(poids_max + 1):
-            # si l'objet i est plus lourd que p
-            if p < liste_objets[i]['poids']:
+            # soit il est plus lourd que la capacité du sac
+            if p < objets[i]['poids']:
                 # on ne le met pas dans le sac
                 V[i][p] = V[i-1][p]
-            # sinon
+            # soit il est moins lourd
             else:
-                # on prend la plus grande valeur entre ne pas mettre i dans le sac
-                V[i][p] = max( V[i-1][p],
-                    # et ajouter l'objet i au sac
-                    V[i-1][p - liste_objets[i]['poids']] + liste_objets[i]['valeur'])
-    return V[n-1][poids_max]
+                # on prend la plus grande valeur entre ne pas prendre objets[i]
+                V[i][p] = max(V[i-1][p],
+                    # et ajouter objets[i] au sac
+                    V[i-1][p - objets[i]['poids']] + objets[i]['valeur'])
+    return V[len(objets)-1][poids_max]
 
-assert sac_dynamique_bottom_up(liste_1, 15) == 15
-assert sac_dynamique_bottom_up(liste_2, 15) == 13
-assert sac_dynamique_bottom_up(liste_3, 15) == 12
+assert sac_dynamique_bottom_up(15) == 150
 ```
 
 
