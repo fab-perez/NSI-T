@@ -5,9 +5,9 @@
 
 On a vu dans le chapitre sur les [structures de données](../structures-de-donnees/8-graphes.md#liste-ou-dictionnaire-dadjacence) plusieurs implémentations possibles d'un graphe : avec une matrice d'adjacente ou avec une liste ou dictionnaire d'adjacence. 
 
-Nous utilisons la seconde mettant en œuvre un dictionnaire d'adjacence dans ce chapitre où les voisins sont stockés dans des ensembles [^2.1].
+Nous utilisons la seconde mettant en œuvre un dictionnaire d'adjacence dans ce chapitre où les voisins sont stockés dans des tableaux.
 
-[^2.1]: Les ensembles Python, de type `set`, ne sont pas au programme de NSI. Un ensemble est une collection d'éléments non ordonnés, non indexés, qui n'accepte pas de contenir plusieurs fois le même élément. Les éléments d'un ensemble sont écrits entre accolades mais un ensemble est défini par la fonction `set()` (et pas par `{}` qui permet de définir un dictionnaire vide). On peut ajouter un élément avec la méthode `.add()` et supprimer un élément avec `.remove()`. On peut utiliser la fonction `len()` et le mot clé `in` comme pour les autres types construits.
+
 
 ``` py
 class Graphe:
@@ -25,17 +25,23 @@ class Graphe:
     def __repr__(self):
         return str(self.A)
 
-    def ajouter_sommet(self, x):
+  def ajouter_sommet(self, x):
+        """ Ajoute un sommet x """
         if not x in self.A:
-            self.A[x] = set()
+            self.A[x] = []
 
     def ajouter_arete(self, x, y):
         """ Ajoute une arête entre les sommets x et y """
         self.ajouter_sommet(x)
         self.ajouter_sommet(y)
-        self.A[x].add(y)
+        self.A[x].append(y)
         if not self.oriente:
-            self.A[y].add(x)
+            self.A[y].append(y)
+
+    def voisins(self, x):
+        """ Renvoie le tableau des voisins de x"""
+        return self.A[x]
+
 ``` 
 
 
@@ -163,7 +169,7 @@ de même pour la distance:
         return distance
 ``` 
 
-Une autre utilisation typique du parcours en largeur est la coloration d'un graphe: comment attribuer une « couleur » à chacun de ses sommets de manière que deux sommets reliés par une arête soient de couleurs différentes?  On cherche souvent à utiliser le nombre minimal de couleurs, appelé nombre chromatique.
+Une autre utilisation typique du parcours en largeur est la coloration d'un graphe: comment attribuer une « couleur » à chacun de ses sommets de manière que deux sommets reliés par une arête soient de couleurs différentes ?  On cherche souvent à utiliser le nombre minimal de couleurs, appelé nombre chromatique.
 
 ##	Parcours en profondeur (DFS)
 
@@ -174,18 +180,15 @@ Une autre utilisation typique du parcours en largeur est la coloration d'un grap
     L'exploration s'arrête quand tous les sommets ont été visités.
 
 
-
-
-Les arêtes étant choisies arbitrairement[^2.4], il faut s'attendre à des visites dans des ordres complétements différents !
-
-[^2.4]: On peut aussi faire quelque chose de plus « fin » en utilisant un algorithme glouton qui va sélectionner le sommet non visité minimisant ou maximisant une fonction de score ou de coût. C'est le cas de A*, par exemple.
-
-
 ![Parcours en profondeur dans le graphe de l'exemple](assets/2-graphe-dfs-light-mode.png#only-light){width="80%" }
 ![Parcours en profondeur dans le graphe de l'exemple](assets/2-graphe-dfs-dark-mode.png#only-dark){width="80%" }
 
-Le parcours en profondeur du graphe ci-dessus est A-B-C-E-F-D, mais les arêtes étant choisies arbitrairement, il faut s'attendre à des visites dans des ordres complétements différents on peut aussi avoir A-B-C-F-E-D ou A-D-E-B-C-F.
+Le parcours en profondeur du graphe ci-dessus est A-B-C-F-E-D, mais les arêtes étant choisies arbitrairement[^2.4], il faut s'attendre à des visites dans des ordres complétements différents. Ici, on pourrait tout aussi bien obtenir A-B-C-E-F-D ou A-D-E-B-C-F.
 
+[^2.4]: On peut aussi faire quelque chose de plus « fin » en utilisant un algorithme glouton qui va sélectionner le sommet non visité minimisant ou maximisant une fonction de score ou de coût. C'est le cas de A*, par exemple.
+
+![Parcours en profondeur dans le graphe de l'exemple qui tourne en rond](assets/2-graphe-dfs-tourne-en-rond-light-mode.png#only-light){width="40%" align=right }
+![Parcours en profondeur dans le graphe de l'exemple qui tourne en rond](assets/2-graphe-dfs-tourne-en-rond-dark-mode.png#only-dark){width="40%" align=right }
 Comme pour les arbres, le parcours en  profondeur d'un graphe s'exprime naturellement de façon récursive, à la différence qu'**il faut marquer les sommets déjà visités** afin de ne pas y retourner depuis un autre sommet et risquer de « tourner en rond ». Le parcours se termine lorsqu'il n'y a plus de sommets à parcourir.
 
 ``` py
