@@ -1,6 +1,6 @@
 ﻿site_name: "Ressources de Terminale NSI"
 site_author: Fabrice Perez
-site_url: https://eipaca.fab-perez.io/NSI-T/
+site_url: https://eipaca.github.io/NSI-T/
 
 site_description: >-
   Ressources pour le cours de Terminale NSI de l'Ecole Internationale PACA
@@ -125,7 +125,8 @@ markdown_extensions:
 extra_javascript:
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  #- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 
   # Page tree
@@ -155,11 +156,11 @@ nav:
     - Arbres: structures-de-donnees/7-arbres.md
     - Graphes: structures-de-donnees/8-graphes.md
   - Architectures matérielles, systèmes d'exploitation et réseaux:
-    - architecture-materielles-et-systemes-d-exploitation/index.md
-    - Système sur puce: architecture-materielles-et-systemes-d-exploitation/1-systeme-sur-puce.md
- # -Gestion des processus et des ressources par un système d'exploitation
-    - Protocoles de routage: architecture-materielles-et-systemes-d-exploitation/4-routage.md
-    - Sécurisation des communications: architecture-materielles-et-systemes-d-exploitation/3-securisation-des-communications.md
+    - architectures-materielles-et-systemes-d-exploitation/index.md
+    - Composants intégrés d'un système sur puce: architectures-materielles-et-systemes-d-exploitation/1-systeme-sur-puce.md
+    # -Gestion des processus et des ressources par un système d'exploitation
+    - Protocoles de routage: architectures-materielles-et-systemes-d-exploitation/4-routage.md
+    - Sécurisation des communications: architectures-materielles-et-systemes-d-exploitation/3-securisation-des-communications.md
   - Algorithmique:
     - algorithmique/index.md
     - Algorithmes sur les arbres binaires et sur les arbres binaires de recherche: algorithmique/1-arbres-binaires.md
