@@ -74,7 +74,7 @@ def impair(n):
 !!! abstract "Cours" 
     Il arrive aussi qu'une fonction s'appelle plusieurs fois, c'est une **récursivité multiple**.
 
-Par exemple la suite de Fibonacci est définie par $u_0 = 0$, $u_1 = 1$ et pour $n > 1 : u_n = u_(n-1) + u_(n-2)$.
+Par exemple la suite de Fibonacci est définie par $u_0 = 0$, $u_1 = 1$ et pour $n > 1 : u_n = u_{n-1} + u_{n-2}$.
 
 ``` py
 def fib(n):
