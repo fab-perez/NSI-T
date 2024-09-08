@@ -40,7 +40,7 @@ On peut toujours transformer une fonction récursive en itérative et vice versa
 ##	Importance de la clause d'arrêt
 
 !!! abstract "Cours" 
-        Une fonction récursive doit toujours comporter **une clause d'arrêt**, pour ne pas « boucler ». 
+    Une fonction récursive doit toujours comporter **une clause d'arrêt**, pour ne pas « boucler ». 
 
 La fonction suivante :
 
@@ -58,7 +58,7 @@ En pratique un appel récursif doit obligatoirement comporter une **instruction 
 ## Récursivité croisée, multiple
 
 !!! abstract "Cours" 
-        Dans certains cas, une fonction appelle une autre fonction qui elle-même appelle la première. C'est une **récursivité croisée**.
+    Dans certains cas, une fonction appelle une autre fonction qui elle-même appelle la première. C'est une **récursivité croisée**.
 
 Par exemple pour tester si un nombre est pair ou impair (sans utiliser l'opérateur `%2`)
 
@@ -72,9 +72,9 @@ def impair(n):
 ```
 
 !!! abstract "Cours" 
-        Il arrive aussi qu'une fonction s'appelle plusieurs fois, c'est une **récursivité multiple**.
+    Il arrive aussi qu'une fonction s'appelle plusieurs fois, c'est une **récursivité multiple**.
 
-Par exemple la suite de Fibonacci est définie par  u_0=0 , u_1=1 et pour n > 1 : u_n=u_(n-1)+ u_(n-2) .
+Par exemple la suite de Fibonacci est définie par $u_0 = 0$, $u_1 = 1$ et pour $n > 1 : u_n = u_(n-1) + u_(n-2)$.
 
 ``` py
 def fib(n):
