@@ -105,13 +105,14 @@ Pour gérer des fonctions qui appellent d'autres fonctions, le système utilise 
 
 La pile pour calculer `fact(4)` est la suivante :
 
-- 1er appel de la fonction `fact` avec n = 4 : n n'est pas égal à 1, la fonction "empile" 4 et appelle `fact(3)`.
-- 2ème appel de la fonction `fact` avec n = 3 : n n'est pas égal à 1, la fonction "empile" 3 et appelle `fact(2)`.
-- 3ème appel de la fonction `fact` avec n = 2 : n n'est pas égal à 1, la fonction "empile" 2 et appelle `fact(1)`.
-- 4ème appel de la fonction `fact` avec n = 1 : n est égal à 1, la fonction renvoie 1.
-- on "dépile" 2 : `fact(2)` renvoie 2 x 1 = 2.
-- on "dépile" 3 : `fact(3)` renvoie 3 x 2  = 6.
-- on "dépile" 4 : `fact(4)` renvoie 4 x 6  = 24.
+- 1er appel de la fonction `fact` avec n = 4 : n n'est pas égal à 1, la fonction "empile" `fact(4)` et appelle `fact(3)`.
+- 2ème appel de la fonction `fact` avec n = 3 : n n'est pas égal à 1, la fonction "empile" `fact(3)` et appelle `fact(2)`.
+- 3ème appel de la fonction `fact` avec n = 2 : n n'est pas égal à 1, la fonction "empile" `fact(2)` et appelle `fact(1)`.
+- 4ème appel de la fonction `fact` avec n = 1 : n est égal à 1, la fonction renvoie `1`.
+- `fact(2)` est "dépilé", il renvoie 2 x 1 = 2.
+- `fact(3)` est "dépilé", il renvoie 3 x 2 = 6.
+- `fact(4)` est "dépilé" et peut enfin être calculé, il renvoie 4 x 6 = 26.
+
 
 ![Pile d'appel de fact(4)](assets/2-pile-execution-fact4-light-mode.png#only-light)
 ![Pile d'appel de fact(4)](assets/2-pile-execution-fact4-dark-mode.png#only-dark)
