@@ -409,7 +409,7 @@ Note : « supérieur » et   « inférieur » peuvent être au sens strict ou la
  
 Considèrons l'arbre binaire de recherche précédent qui servira comme support pour illustrer la suite.
 
-Plutôt que de dupliquer la classe `AB` précédente en `ABR` et de la modifier, nous allons créer une sous-classe par héritage[^7.65] et lui ajouter les spécificités d'un ABR. 
+Plutôt que de dupliquer la classe `AB` précédente en `ABR` et de la modifier, nous allons créer une sous-classe par héritage[^7.6] et lui ajouter les spécificités d'un ABR. 
 
 
 [^7.6]: L'héritage est un des grands principes de la programmation orientée objet (POO) permettant de créer une nouvelle classe à partir d'une classe existante. La sous classe hérite des attributs et des méthodes de la classe mère et en ajoute de nouveaux.
