@@ -1,11 +1,11 @@
 ﻿site_name: "Ressources de Terminale NSI"
 site_author: Fabrice Perez
-site_url: https://eipaca.github.io/NSI-T/
+site_url: https://fab-perez.github.io/NSI-T/
 
 site_description: >-
   Ressources pour le cours de Terminale NSI de l'Ecole Internationale PACA
 
-repo_url: https://github.com/eipaca/NSI-T
+repo_url: https://github.com/fab-perez/NSI-T
 
 copyright: |
   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a> Mise à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International</a>.
