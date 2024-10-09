@@ -145,6 +145,7 @@ nav:
     - Conception logique - le modèle relationnel: bases-de-donnees/2-conception-logique-modele-relationnel.md
     - Conception physique - SGBD relationnel: bases-de-donnees/3-conception-physique-sgbd-relationnel.md
     - Langage SQL: bases-de-donnees/4-langage-sql.md
+    - Utiliser un base de données en Python:  bases-de-donnees/5-en-python.md
   - Structures de données:
     - structures-de-donnees/index.md
     - Vocabulaire de la programmation objet: structures-de-donnees/1-poo.md
