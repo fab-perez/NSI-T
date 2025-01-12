@@ -115,7 +115,7 @@ def recherche(x, T) :
         
     return False    # ou return None par exemple si on veut la position dans T 
 ```
-:warning: Un bug classique est d'écrire  `while debut < fin:` à la ligne 4, alors qu'on a vu que la recherche doit se poursuivre jusqu'à ce que `debut` soit plus grand que `fin`, c'est-à-dire quand le tableau est vide. 
+:warning: Un bug classique est d'écrire  `while debut < fin:` à la ligne 4, alors qu'on a vu dans l'exemple précédant (en recherchant la valeur 35 dans le tableau) que la recherche doit se poursuivre **même quand `debut` est égal à `fin`**, on peut encore trouver la valeur. On ne s'arrête que quand `debut > fin`, c'est seulement alors qu'il n'y a plus aucune valeur possible dans le tableau. 
 
 Ce programme contient une boucle `while`, il faut donc s'assurer qu'il se termine. Ici le variant de boucle est `fin - debut`. A chaque itération de boucle, on voit qu'il y a trois cas :
 
@@ -183,8 +183,8 @@ On a vu en classe de première plusieurs algorithmes de tri simples comme le tri
         for i in range(n-1):
             mini = i
             for j in range(i+1, n):
-            if T[j] < T[mini]:
-                mini = j
+                if T[j] < T[mini]:
+                    mini = j
             T[i], T[mini] = T[mini], T[i]
         return T
     ```
@@ -197,12 +197,12 @@ On a vu en classe de première plusieurs algorithmes de tri simples comme le tri
     def tri_insertion(T):
         n = len(T)
         for i in range(1, n):
-            elt = T[i]
+            valeur_insertion = T[i]
             j = i
-            while j > 0 and elt < T[j-1]:
+            while j > 0 and valeur_insertion < T[j-1]:
                 T[j] = T[j-1]
                 j = j - 1
-            T[j] = elt
+            T[j] = valeur_insertion
         return T	
     ```
 
@@ -215,8 +215,8 @@ On a vu en classe de première plusieurs algorithmes de tri simples comme le tri
         n = len(T)
         for i in range(n):
             for j in range(n-i-1):
-            if T[j] > T[j+1]:
-                T[j], T[j+1] = T[j+1], T[j]
+                if T[j] > T[j+1]:
+                    T[j], T[j+1] = T[j+1], T[j]
         return T
     ```
 
