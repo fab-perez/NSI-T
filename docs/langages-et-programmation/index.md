@@ -2,7 +2,7 @@
 
 Connaître les fondements théoriques de l'informatique permet à la fois de résoudre des problèmes complexes et de comprendre les limites de ce que les ordinateurs peuvent accomplir.
 
-La [**calculabilité**](1-calculabilite-programme-en-tant-que-donnee-probleme-arret.md) répond à la question fondamentale de ce qui peut être calculé et ce qui ne le peut pas, pilier sur lequel repose toute la théorie de l'informatique. 
+La [**calculabilité**](1-programme-en-tant-que-donnee-calculabilite-probleme-arret.md) répond à la question fondamentale de ce qui peut être calculé et ce qui ne le peut pas, pilier sur lequel repose toute la théorie de l'informatique. 
 
 La **récursivité**, quant à elle, est une approche de résolution de problèmes où une fonction se définit en s'appelant elle-même. Nous explorerons la puissance et la beauté de la récursivité, tout en apprenant à l'utiliser de manière efficace et élégante dans nos programmes.
 

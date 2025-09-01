@@ -182,7 +182,7 @@ Par exemple, la fonction précédente `parfait(nombre)` pourrait se présenter s
 
 ```py linenums="1"
 def parfait(nombre):
-    """ (int) -> bool
+    """ int -> bool
     Renvoie True si nombre est parfait, False sinon
     """
 
@@ -222,7 +222,7 @@ La fonction `help` affiche la *docstring* d’une fonction :
 Help on function parfait in module __main__:
 
 est_premier(nombre)
-    (int) -> bool
+    int -> bool
     Renvoie True si un nombre est parfait, False sinon
 ```
 
@@ -255,7 +255,7 @@ TypeError: 'float' object cannot be interpreted as an integer
 
 ```py
 def parfait(nombre):
-    """ (int) -> bool
+    """ int -> bool
     Precondition : nombre est de type int et positif
     Fonction qui renvoie True si nombre est parfait, False sinon
     """
@@ -434,7 +434,7 @@ Reprenons la fonction `est_premier(nombre)` vue précédemment. Le paramètre `n
 
 ```py linenums="1"
 def est_premier(nombre):
-    """ (int) -> bool
+    """ int -> bool
     Precondition : nombre est de type int et positif
     Renvoie True si nombre est premier, False sinon
     """
@@ -511,7 +511,7 @@ Mais `0` et `1` ne sont pas des nombres premiers ! Il faut donc corriger la fonc
 
 ```py linenums="1"
 def est_premier(nombre):
-    """ (int) -> bool
+    """ int -> bool
     Precondition : nombre est de type int et positif
     Renvoie True si nombre est premier, False sinon
     """
@@ -561,7 +561,7 @@ Par exemple :
 import doctest
 
 def est_premier(nombre):
-    """ (int) -> bool
+    """ int -> bool
     Precondition : nombre est de type int et positif
     Renvoie True si nombre est premier, False sinon
     >>> est_premier(3)

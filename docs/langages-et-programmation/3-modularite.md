@@ -4,7 +4,7 @@
     La **modularité** consiste à découper un projet en plus petit programmes afin de :
 
     - Faciliter la réutilisation de bouts de codes sans avoir à les réécrire  ou dupliquer.
-    - Faciliter la réalisation d’un gros projet en sous projets plus simples.
+    - Faciliter la réalisation d'un gros projet en sous projets plus simples.
     - Donner une structure pour faciliter la compréhension du code et sa maintenance.
 
 
@@ -36,7 +36,7 @@ n = int(input('Entrez un nombre '))
 print(mesfonctions.est_premier(n)) 
 ```
 
-:warning: Prendre soin d’enregistrer ce programme dans le même répertoire que le fichier « mesfonctions.py ».
+:warning: Prendre soin d'enregistrer ce programme dans le même répertoire que le fichier « mesfonctions.py ».
 
 Il est aussi possible donner un alias à un module pour le renommer avec un nom plus simple à écrire, par exemple pour utiliser `mf` au lieu de `mesfonctions` :
 
@@ -50,7 +50,7 @@ print(mf.est_premier(n))
 
 !!! abstract "Cours"
     === "Sans alias"
-        Pour importer un module `nom_module`, il faut écrire en début de programme l’instruction : 
+        Pour importer un module `nom_module`, il faut écrire en début de programme l'instruction : 
 
         `import nom_module`	
         
@@ -59,7 +59,7 @@ print(mf.est_premier(n))
         `nom_module.nom_fonction()`
 
     === "Avec alias"
-        Pour importer un module `nom_module` en lui donnant un alias `nom_alias`, il faut écrire en début de programme l’instruction :
+        Pour importer un module `nom_module` en lui donnant un alias `nom_alias`, il faut écrire en début de programme l'instruction :
 
         `import nom_module as nom_alias`	
         
@@ -99,7 +99,7 @@ et utiliser ensuite la fonction `estprems()`.
    
     === "Sans alias"
 
-        Pour importer une fonction `nom_fonction()` depuis le module `nom_module`, il faut écrire en début de programme l’instruction :
+        Pour importer une fonction `nom_fonction()` depuis le module `nom_module`, il faut écrire en début de programme l'instruction :
         
         `from nom_module import nom_fonction`		
         
@@ -112,7 +112,7 @@ et utiliser ensuite la fonction `estprems()`.
     === "Avec alias"
 
 
-        Pour importer une fonction `nom_fonction()` en lui donnant un alias `nom_alias` depuis le module `nom_module`, il faut écrire en début de programme l’instruction :
+        Pour importer une fonction `nom_fonction()` en lui donnant un alias `nom_alias` depuis le module `nom_module`, il faut écrire en début de programme l'instruction :
         
         `from nom_module import nom_fonction as nom_alias`		
         
@@ -122,7 +122,7 @@ et utiliser ensuite la fonction `estprems()`.
 
 
 
-Il est aussi possible d'importer plusieurs fonctions d’un même module séparées par des virgules :
+Il est aussi possible d'importer plusieurs fonctions d'un même module séparées par des virgules :
 
 ``` py
 from mesfonctions import est_premier, une_autre_fonction
@@ -133,16 +133,16 @@ voire même toutes les fonctions d'un module en tapant « `*` » à la place du 
 from mesfonctions import *
 ```
 
-Mais cette dernière utilisation est vivement déconseillée, hormis dans des cas très particuliers par exemple des programmes très courts, car il peut y avoir des conflits entre des fonctions qui ont le même nom. Pour s’en convaincre, imaginons un programme écrit en utilisant l'instruction `pow(1, 2, 3)` qui fonctionnerait parfaitement jusqu'à ce qu'une modification necessitant le module `math` ajoute l'instruction `from math import *` en début de programme et génère une erreur inattendue [^3.2] là où il n'y en avait pas.
+Mais cette dernière utilisation est vivement déconseillée, hormis dans des cas très particuliers par exemple des programmes très courts, car il peut y avoir des conflits entre des fonctions qui ont le même nom. Pour s'en convaincre, imaginons un programme écrit en utilisant l'instruction `pow(1, 2, 3)` qui fonctionnerait parfaitement jusqu'à ce qu'une modification necessitant le module `math` ajoute l'instruction `from math import *` en début de programme et génère une erreur inattendue [^3.2] là où il n'y en avait pas.
 
 [^3.2]: La fonction standard Python `pow()` prend trois paramètres alors que la fonction `pow()` du module `math` n'en a que deux ! L'import de `from math import *` a importé la seconde fonction probablement à l'insu du programmeur.
 
 
 Python offre des centaines de modules avec des milliers de fonctions déjà programmées. Il y a différents types de modules :
 
-- ceux que l’on peut faire soi-même (comme `mesfonctions`).
+- ceux que l'on peut faire soi-même (comme `mesfonctions`).
 - ceux qui sont inclus dans la bibliothèque standard de Python comme `random` ou `math`,
-- ceux que l’on peut rajouter en les installant séparemment comme `numpy` ou `matplotlib`.
+- ceux que l'on peut rajouter en les installant séparemment comme `numpy` ou `matplotlib`.
 
 ###	De l'utilité de la fonction 'main()'
 
@@ -155,17 +155,17 @@ if __name__ == '__main__':
 
 Cette instruction conditionnelle vérifie si une variable appelée `__name__` est égale à `'__main__'` et dans ce cas exécute la fonction `main()`. 
 
-L’interpréteur Python définit la variable `__name__` selon la manière dont le code est exécuté :
+L'interpréteur Python définit la variable `__name__` selon la manière dont le code est exécuté :
 
 - directement en tant que script, dans ce cas Python affecte `'__main__'` à  `__name__`, l'instruction conditionnelle est vérifiée et la fonction `main()` est appelée ; ou alors 
 
-- en important le code dans un autre script et dans ce cas la fonction `main()` n’est pas appelée.
+- en important le code dans un autre script et dans ce cas la fonction `main()` n'est pas appelée.
 
 En bref, la variable `__name__` détermine si le fichier est exécuté directement ou s'il a été importé.[^3.3] 
 
 
 [^3.3]:
-    On peut facilement se convaincre de l’utilité de la fonction `main()` en écrivant le programme qui affiche la décomposition d’un nombre en facteurs premiers sans `main()` dans le fichier « mesfonctions.py » :
+    On peut facilement se convaincre de l'utilité de la fonction `main()` en écrivant le programme qui affiche la décomposition d'un nombre en facteurs premiers sans `main()` dans le fichier « mesfonctions.py » :
     ``` py linenums="1"
     def est_premier(nombre):
         for div in range(2, nombre):
@@ -184,15 +184,15 @@ En bref, la variable `__name__` détermine si le fichier est exécuté directeme
                 while not(est_premier(premier)):
                     premier += 1
     ```
-    Lorsque pour utiliser la fonction `est_premier` le module est importé dans un autre programme avec `import  mesfonctions`, toute la suite du programme de la décomposition d’un nombre en facteurs premiers est exécuté automatiquement.
+    Lorsque pour utiliser la fonction `est_premier` le module est importé dans un autre programme avec `import  mesfonctions`, toute la suite du programme de la décomposition d'un nombre en facteurs premiers est exécuté automatiquement.
 
 
 
 ###	Modules Python
 Python offre des centaines de modules avec des milliers de fonctions déjà programmées. Il y a différents types de modules :
--	ceux que l’on peut faire soi-même (comme `mesfonctions`).
+-	ceux que l'on peut faire soi-même (comme `mesfonctions`).
 -	ceux qui sont inclus dans la bibliothèque standard de Python comme `random` ou `math`,
--	ceux que l’on peut rajouter en les installant comme `numpy` ou `matplotlib`,
+-	ceux que l'on peut rajouter en les installant comme `numpy` ou `matplotlib`,
 
 
 |module|Description|
@@ -204,9 +204,9 @@ Python offre des centaines de modules avec des milliers de fonctions déjà prog
 |`numpy`|Permet de faire du calcul scientifique.|
 |`time`|Fonctions permettant de travailler avec le temps.|
 |`turtle`|Fonctions de dessin.|
-|`doctest`|Execute des tests ecrits dans la docstring d’une fonction.|
+|`doctest`|Execute des tests ecrits dans la docstring d'une fonction.|
 
-La fonction `dir` permet d’explorer le contenu d’un module :
+La fonction `dir` permet d'explorer le contenu d'un module :
 
 ``` py
 >>> import math
@@ -222,7 +222,7 @@ La fonction `dir` permet d’explorer le contenu d’un module :
 …
 ```
 
-En plus de la documentation en ligne, la fonction `help` donne les spécifications d’une fonction.
+En plus de la documentation en ligne, la fonction `help` donne les spécifications d'une fonction.
 
 ``` py
 >>> help(math.cos)
@@ -261,19 +261,19 @@ Les API jouent un rôle essentiel dans le développement de logiciels car elles 
 
 Prenons pour exemple l'utilisation de l'API Web fournie par le Studio Ghibli pour récupérer des données sur ses films : [https://ghibliapi.vercel.app/ ](https://ghibliapi.vercel.app/ ). 
 
-Observons la documentation : La section FILMS fournit l'URL du point d’accès à l’API, [https://ghibliapi.vercel.app/films](https://ghibliapi.vercel.app/films) et trois exemples de requêtes faites en curl, Ruby et Python.
+Observons la documentation : La section FILMS fournit l'URL du point d'accès à l'API, [https://ghibliapi.vercel.app/films](https://ghibliapi.vercel.app/films) et trois exemples de requêtes faites en curl, Ruby et Python.
 
 
 
 
-Juste en dessous (ou en  cliquant sur le lien donné),  on peut observer les données qui vont être envoyées par l’API. Elles sont au format JSON.
+Juste en dessous (ou en  cliquant sur le lien donné),  on peut observer les données qui vont être envoyées par l'API. Elles sont au format JSON.
 
 !!! info inline end "Rappel" 
     JSON (JavaScript Object Notation) est un format de données textuelles dérivé de la notation des objets en JavaScript. 
-    Comme XML, JSON permet de représenter de l’information structurée.
+    Comme XML, JSON permet de représenter de l'information structurée.
     Un fichier JSON se présente sous forme de listes et de dictionnaires (clé/valeur).
 
-Commençons par importer ces données dans un fichier (noter que la fonction `urllib.request.urlopen()` remplace l’ancienne fonction `urllib2.urlopen()` donnée dans l’exemple de requête[^3.4]).
+Commençons par importer ces données dans un fichier (noter que la fonction `urllib.request.urlopen()` remplace l'ancienne fonction `urllib2.urlopen()` donnée dans l'exemple de requête[^3.4]).
 
 [^3.4]: Voir [https://docs.python.org/3/library/urllib.request.html](https://docs.python.org/3/library/urllib.request.html).
 
@@ -302,7 +302,7 @@ url = 'https://ghibliapi.vercel.app/films'
 request = urllib.request.urlopen(url).read()
 data = json.loads(request.decode())
 print(data)
-Cette fois on a obtenu un tableau de dictionnaire. On peut facilement l’exploiter, par exemple :
+Cette fois on a obtenu un tableau de dictionnaire. On peut facilement l'exploiter, par exemple :
 for movie in data:
     print(movie['title'])
 
