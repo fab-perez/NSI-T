@@ -132,6 +132,7 @@ extra_javascript:
   # Page tree
 nav:
   - A propos: index.md
+  
   - Langages et programmation: 
     - langages-et-programmation/index.md
     - Programme en tant que donnée, Calculabilité, Problème de l'arrêt: langages-et-programmation/1-programme-en-tant-que-donnee-calculabilite-probleme-arret.md
@@ -139,6 +140,7 @@ nav:
     - Modularité: langages-et-programmation/3-modularite.md
     - Paradigmes de programmation: langages-et-programmation/4-paradigmes-de-programmation.md
     - Mise au point des programmes et gestion des bugs: langages-et-programmation/5-mise-au-point-gestion-bugs.md
+    
   - Bases de données: 
     - bases-de-donnees/index.md
     - Modélisation conceptuelle: bases-de-donnees/1-modelisation-conceptuelle.md
@@ -146,6 +148,7 @@ nav:
     - Conception physique - SGBD relationnel: bases-de-donnees/3-conception-physique-sgbd-relationnel.md
     - Langage SQL: bases-de-donnees/4-langage-sql.md
     - Utiliser un base de données en Python:  bases-de-donnees/5-en-python.md
+    
   - Structures de données:
     - structures-de-donnees/index.md
     - Vocabulaire de la programmation objet: structures-de-donnees/1-poo.md
@@ -156,12 +159,14 @@ nav:
     - Dictionnaires: structures-de-donnees/6-dictionnaires.md
     - Arbres: structures-de-donnees/7-arbres.md
     - Graphes: structures-de-donnees/8-graphes.md
+    
   - Architectures matérielles, systèmes d'exploitation et réseaux:
     - architectures-materielles-et-systemes-d-exploitation/index.md
     - Composants intégrés d'un système sur puce: architectures-materielles-et-systemes-d-exploitation/1-systeme-sur-puce.md
     - Gestion des processus et des ressources par un système d'exploitation: architectures-materielles-et-systemes-d-exploitation/2-processus.md
     - Sécurisation des communications: architectures-materielles-et-systemes-d-exploitation/3-securisation-des-communications.md
     - Protocoles de routage: architectures-materielles-et-systemes-d-exploitation/4-routage.md
+    
   - Algorithmique:
     - algorithmique/index.md
     - Algorithmes sur les arbres binaires et sur les arbres binaires de recherche: algorithmique/1-arbres-binaires.md
@@ -169,3 +174,4 @@ nav:
     - Méthode « diviser pour régner »: algorithmique/3-diviser-pour-regner.md
     - Programmation dynamique: algorithmique/4-programmation-dynamique.md
     - Recherche textuelle: algorithmique/5-recherche-textuelle.md
+
