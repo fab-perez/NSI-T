@@ -58,6 +58,7 @@ Prenons par exemple une liste vide implémentée par le tuple `()`, et insérons
 
 Ecrivons en Python ces premières primitives de liste qui permettent de créer une liste vide puis d'insérer un élément en tête de liste :
 
+
 ``` py
 def creer():
     return ()  # renvoie une tuple vide
@@ -68,11 +69,11 @@ def est_vide(L):
 def inserer_tete(L, e):
     return (e, L)
 
-L = creer()
-L = inserer_tete(L, 'a')
-L = inserer_tete(L, 'b')
-L = inserer_tete(L, 'c')
-L = inserer_tete(L, 'd')
+ma_liste = creer()
+ma_liste = inserer_tete(ma_liste, 'a')
+ma_liste = inserer_tete(ma_liste, 'b')
+ma_liste = inserer_tete(ma_liste, 'c')
+ma_liste = inserer_tete(ma_liste, 'd')
 ```
 
 Ajoutons quelques primitives supplémentaires :
@@ -109,21 +110,25 @@ def afficher(L):
 ainsi que la recherche d'un élément dans la liste :
 
 ``` py
-def chercher(L, e):
+def chercher(L, elem):
     if est_vide(L):
         return False 
-    elif tete(L) == e:
+    elif tete(L) == elem:
         return True 
     else:
-        return chercher(queue(L) , e) 
+        return chercher(queue(L) , elem) 
 ```
+
+
+
+
 
 ###	Avec un tableau de taille fixe
 
 Un **tableau** en informatique est en général représenté par une suite de "cases mémoire", toutes de mêmes tailles, contenant les différents éléments du tableau.  Une plage d'adresses mémoire est réservée afin de stocker tous les éléments.
 
-![Cases memoire d'un tableau](assets/3-liste-tableau-cases-memoire-light-mode.png#only-light){width="50%"}
-![Cases memoire d'un tableau](assets/3-liste-tableau-cases-memoire-dark-mode.png#only-dark){width="50%"}
+![Cases mémoire d'un tableau](assets/3-liste-tableau-cases-memoire-light-mode.png#only-light){width="50%"}
+![Cases mémoire d'un tableau](assets/3-liste-tableau-cases-memoire-dark-mode.png#only-dark){width="50%"}
 
 Cette représentation présente deux avantages :
 
@@ -143,11 +148,6 @@ Créons l'interface d'une telle liste :
 
 ``` py
 def creer_liste(longueur):
-    '''(int) - > list
-    Cree une liste sous forme de tableau de taille fixe
-    La première case du tableau contient le nombre d'éléments de la liste
-    Les cases suivantes (d'indice 1 à n) contiennent les éléments de la liste ou None
-    '''
     L = [None] * (longueur + 1)
     L[0] = 0
     return L
@@ -157,11 +157,6 @@ La primitive pour insérer un élément en tête de liste est alors :
 
 ``` py
 def inserer_tete(L, elem):
-    ''' Ajoute elem en tete de la liste L
-    - L est une liste implémentée sous forme de tableau de taille fixe
-    - elem est un element ajouté à la liste (de n'importe quel type)
-    la fonction ne renvoie rien car L est modifé (le type list est muable)
-    '''
     # verifions si la liste est pleine
     if L[0] == len(L) - 1: raise IndexError('La liste est déjà pleine')
     else:
@@ -183,8 +178,6 @@ Une fonction pour afficher la liste s'écrit :
 
 ``` py
 def afficher(L):
-    ''' affiche la liste L
-    '''
     for i in range(1, L[0] + 1):
         print(L[i], end = "-")
     print("")
@@ -194,10 +187,7 @@ Ajoutons une primitive permettant de supprimer la tête de la liste :
 
 ``` py
 def supprimer_tete(L):
-    ''' supprime la tete de la liste L
-    la fonction ne renvoie rien car L est modifé (le type list est muable)
-    '''
-    # verifions si la liste est vide
+    # vérifions d'abord que la liste n'est pas vide
     if L[0] == 0: raise IndexError('La liste est déjà vide')
     else:
         for i in range(1, L[0] ):
@@ -224,9 +214,9 @@ afficher(L)
 
 Il est aussi possible de rajouter quelques primitives pour :
 
--	accéder au ième élément de la liste (*get*) ; 
+-	accéder au i-ème élément de la liste (*get*) ; 
 -	insérer un élément en tête d'une liste ;
-- 	insére un élément en ième position ;
+- 	insérer un élément en i-ème position ;
 -	etc.
 
 Pour aller plus loin, il est aussi possible d'écrire une classe `Liste` avec des méthodes similaire.
@@ -300,7 +290,7 @@ C'est donc la même chose que d'écrire :
 Le nombre d'opérations est proportionnel à la taille du tableau. Ajouter ou supprimer le premier élément d'un tableau d'un million d'éléments nécessite près d'un million d'opérations. C'est une complexité en $O(n)$ [^3.5].
 
 [^3.5]: 
-    Le coût d'insertion d'un élement en début de tableau est proportionnel à la taille du tableau, ce qui peut être observé avec le module `time`: 
+    Le coût d'insertion d'un élément en début de tableau est proportionnel à la taille du tableau, ce qui peut être observé avec le module `time`: 
     ``` py
     import time
 
@@ -354,7 +344,7 @@ Commençons par la classe d'objets `Cellule` dont les instances ont deux attribu
 
 ``` py
 class Cellule:
-    ''' une cellule de liste chainee
+    ''' une cellule de liste chainée
     '''
 
     def __init__(self, v, s):
@@ -393,7 +383,7 @@ On retrouve la défintion **récursive** d'une liste.
 
 ``` py
 class ListeChainee:
-    ''' liste chainee    '''
+    ''' liste chainée    '''
     def __init__(self):
         self.tete = None
 ```
@@ -468,7 +458,7 @@ Une primitive `get` permet de lire l'élément en position `n` :
         return cellule
 ```
 
-En moyenne, s'il est immédiat de trouver l'élément de tête, il faut $n$ opérations pour trouver le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$, la complexité est en $O(n)$ ce qui est très couteux en comparaison d'un tableau dynamique.  
+En moyenne, s'il est immédiat de trouver l'élément de tête, il faut $n$ opérations pour trouver le dernier élément dans une liste de longueur $n$, donc en moyenne $n/2$, la complexité est en $O(n)$ ce qui est très coûteux en comparaison d'un tableau dynamique.  
 
 Ajoutons une assertion sur la valeur de `n` dans le cas où `n` est supérieur à `_longueur`  :
 ``` py
@@ -507,7 +497,7 @@ Complétons l'interface avec une primitive pour ajouter un élément en position
         self._longueur += 1
 ```
 
-En moyenne, comme pour la recherche , un élément est ajouté immédiatement en tête de liste, et après $n$ opérations en dernère position dans une liste de longueur $n$, donc en moyenne après $n/2$ opérations. La complexité est en $O(n)$ est comparable au tableau dynamique, mais le nombre d'écritures est grandement réduit.
+En moyenne, comme pour la recherche , un élément est ajouté immédiatement en tête de liste, et après $n$ opérations en dernière position dans une liste de longueur $n$, donc en moyenne après $n/2$ opérations. La complexité est en $O(n)$ est comparable au tableau dynamique, mais le nombre d'écritures est grandement réduit.
 
 Pour aller plus loin,  il est possible de définir une méthode pour supprimer l'élément en position `n`, vérifier la présence d'une valeur dans la liste, trier une liste, concaténer deux listes, etc.
 

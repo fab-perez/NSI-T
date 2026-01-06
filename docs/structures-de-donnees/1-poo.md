@@ -16,7 +16,7 @@ Exemple de langages orientés objets : Java et C++, mais aussi les langages mult
 
     Une fois une classe d'objet définie, il est possible de créer des objets sur le modèle de cette classe, c'est  **l'instanciation**. **Les objets sont des instances de la classe**. 
 
-Prenons l'exemple d'un programme pour aider un collectionneur de vielles voitures qui possède une Citroen 2CV avec 152 000 km, une Peugeot Dauphine avec 75 000 km, etc. Une classe `Voiture`, décrivant les attributs et les méthodes d'une voiture, permet d'instancier plusieurs objets, chaque objet représentant une voiture : la Citroen 2CV (`voiture_1`), la Peugeot Dauphine (`voiture_2`), etc.
+Prenons l'exemple d'un programme pour aider un collectionneur de vieilles voitures qui possède une Citroen 2CV avec 152 000 km, une Renault Dauphine avec 75 000 km, etc. Une classe `Voiture`, décrivant les attributs et les méthodes d'une voiture, permet d'instancier plusieurs objets, chaque objet représentant une voiture : la Citroen 2CV (`voiture_1`), la Renault Dauphine (`voiture_2`), etc.
 
 ![Instanciation d'une classe d'objets Voiture](assets/1-instanciation-classe-voiture-light-mode.png#only-light){width="80%"}
 ![Instanciation d'une classe d'objets Voiture](assets/1-instanciation-classe-voiture-dark-mode.png#only-dark){width="80%"}
@@ -51,7 +51,7 @@ voiture_2 = Voiture()
 
 ##	Les attributs
 
-Pour l'instant notre classe `Voiture` est une coquille vide et les deux objets instanciés à partir de cette classe, `voiture_1` et `voiture_2`, ne contiennent aucne information concernant ces voitures. Il est possible de leur rajouter des caractéristiques les décrivant avec des **attributs**, par exemple les attributs `marque`, `modele` et `km` pour l'instance `voiture_1` : 
+Pour l'instant notre classe `Voiture` est une coquille vide et les deux objets instanciés à partir de cette classe, `voiture_1` et `voiture_2`, ne contiennent aucune information concernant ces voitures. Il est possible de leur rajouter des caractéristiques les décrivant avec des **attributs**, par exemple les attributs `marque`, `modele` et `km` pour l'instance `voiture_1` : 
 
 ``` py
 >>> voiture_1 = Voiture()
@@ -84,7 +84,7 @@ AttributeError: 'Voiture' object has no attribute 'marque'
 La création d'un nouvel objet avec l'instruction `voiture_1 = Voiture()` appelle une méthode particulière nommée `__init__`. C'est le **constructeur** de la classe. Il est possible de le modifier pour définir des attributs pour toutes les instances de `Voiture` dès leur instanciation :
 
 !!! tip inline end "" 
-    :warning: Attention aux deux blancs soulignés (ou tirets bas) au début et à la fin d'`init`, c'est souvent une erreur diffile à déceler quand il en manque un !
+    :warning: Attention aux deux blancs soulignés (ou tirets bas) au début et à la fin d'`init`, c'est souvent une erreur difficile à déceler quand il en manque un !
 
 ``` py
 class Voiture:
@@ -96,7 +96,7 @@ class Voiture:
 
 Noter le paramètre `self` de la fonction qui représente l'objet qui est instancié par la méthode `__init__`.
 
-Toutes les instances de `Voiture` possèderont ces attributs, mais les valeurs peuvent être différentes pour chaque instance et évoluer différemment.
+Toutes les instances de `Voiture` posséderont ces attributs, mais les valeurs peuvent être différentes pour chaque instance et évoluer différemment.
 
 ``` py
 >>> voiture_1 = Voiture()
@@ -107,7 +107,7 @@ Toutes les instances de `Voiture` possèderont ces attributs, mais les valeurs p
 '2 CV'
 ```
 
-Avec ce constructeur, tous les objets sont créés avec les attributs initiés à la même valeur (`""` ou `0`). Ce n'est pas pratique. La méthode `__init__` est une méthode comme les autres, elle peut avoir des paramètres, par exemple la marque et le modèle de la voiture, ainsi que le nombre de kilomètre (assigné à la valeur 0 par défaut s'il n'est pas renseigné).
+Avec ce constructeur, tous les objets sont créés avec les attributs initiés à la même valeur (`""` ou `0`). Ce n'est pas pratique. La méthode `__init__` est une méthode comme les autres, elle peut avoir des paramètres, par exemple la marque et le modèle de la voiture, ainsi que le nombre de kilomètres (assigné à la valeur 0 par défaut s'il n'est pas renseigné).
 
 !!! tip inline end "PEP 8" 
     Comme les fonctions et les modules, les classes et les méthodes publiques comportent une docstring. Voir [https://peps.python.org/pep-0008/#documentation-strings](https://peps.python.org/pep-0008/#documentation-strings)
@@ -250,7 +250,7 @@ Les paires de blancs soulignés (ou tirets bas) indiquent que ces méthodes ne s
 Lorsqu'un objet est assigné à une variable, par exemple  `voiture_1 = Voiture('Citroen', '2 CV')`, la variable est une référence à cet objet, c'est-à-dire son adresse mémoire. Dès lors, deux variables peuvent faire référence au même objet, ce sont des **alias**. On peut accéder ou modifier l'objet par l'une ou l'autre. :warning: Cela mène à de nombreuses erreurs de programmation.
 
 ``` py
->>> voiture_2 = Voiture('Peugeot','Dauphine', 75254)
+>>> voiture_2 = Voiture('Renault','Dauphine', 75254)
 >>> v = voiture_2
 ```
 
@@ -303,7 +303,7 @@ puis `NomClasse.nom_variable_de_classe` permet d'utiliser cette variable de clas
 >>> voiture_1 = Voiture('Citroen', '2 CV', 152000)
 >>> Voiture.total_voiture
 1
->>> voiture_1 = Voiture('Peugeot','Dauphine', 75000)
+>>> voiture_1 = Voiture('Renault','Dauphine', 75000)
 >>> Voiture.total_voiture
 2
 >>>
@@ -336,7 +336,7 @@ puis créons deux voitures et faisons rouler une des deux :
 >>> Voiture.total_km
 0
 >>> voiture_1 = Voiture('Citroen', '2 CV', 125000)
->>> voiture_2 = Voiture('Peugeot','Dauphine', 75000)
+>>> voiture_2 = Voiture('Renault','Dauphine', 75000)
 >>> Voiture.total_km
 200000
 >>> voiture_2.roule(10000)
@@ -354,7 +354,7 @@ Jusqu'ici tout va bien. Mais que se passe-t-il si on change la valeur de l'attri
 
 L'attribut `km` de `voiture_2` a changé mais pas la valeur de la variable de classe `total_km`, elle n'est plus correcte ! C'est un problème. 
 
-Pour éviter ce genre de problème, il faut « protéger » la variable de classe `total_km` pour que sa valeur ne soit pas modifiée directement. C'est comme si cette variable `total_km` était mise à « l'intérieur d'une boîte interne » à l'objet, cachée de « l'exterieur », afin qu'elle ne soit lue et modifiée qu'en utilisant des méthodes qui garantissent que sa valeur reste correcte. C'est le méchanisme d'encapsulation.
+Pour éviter ce genre de problème, il faut « protéger » la variable de classe `total_km` pour que sa valeur ne soit pas modifiée directement. C'est comme si cette variable `total_km` était mise à « l'intérieur d'une boîte interne » à l'objet, cachée de « l’extérieur », afin qu'elle ne soit lue et modifiée qu'en utilisant des méthodes qui garantissent que sa valeur reste correcte. C'est le mécanisme d'encapsulation.
 
 
 !!! abstract "Cours" 
@@ -386,7 +386,7 @@ class Voiture:
     ...
 ```
 
-Pour respecter le principe de l'encapsulation, il faut éviter de lire ou écrire la valeur de l'attribut `_km` d'une instance de `Voiture` directement depuis « l'exterieur » de l'objet. 
+Pour respecter le principe de l'encapsulation, il faut éviter de lire ou écrire la valeur de l'attribut `_km` d'une instance de `Voiture` directement depuis « l’extérieur » de l'objet. 
 
 !!! abstract "Cours" 
     Une classe doit fournir des méthodes (publiques) qui font l'**interface** avec l'extérieur :
@@ -410,7 +410,7 @@ class Voiture:
         return self._km
 
     def set_km(self, k):
-        Voiture.total_km -= self.km        # on soustrait l'ancienne valeur de km
+        Voiture.total_km -= self._km        # on soustrait l'ancienne valeur de km
         self._km = k
         Voiture.total_km += k               # on rajoute la nouvelle valeur
 
@@ -550,7 +550,7 @@ class Epave(Voiture):
         pass
 ```
 
-La méthode `roule()` d'une instance d'`Epave` n'est plus héritée de celle de la classe mère `Voiture`, elle se comporte différement :
+La méthode `roule()` d'une instance d'`Epave` n'est plus héritée de celle de la classe mère `Voiture`, elle se comporte différemment :
 
 ``` py
 >>> voiture_4 = Epave('Trabant','601', 150000)
