@@ -89,7 +89,7 @@ Comme pour le parcours en largeur d'un arbre binaire, l'implémentation nécessi
 
 
 
-![Exemple de parcours en largeur d'un graphe avec une file](assets/2-graphe-bfs.gif){width="80%"}
+![Exemple de parcours en largeur d'un graphe avec une file](assets/2-graphe-bfs.gif){width="100%"}
 
 
 Voilà un exemple d'implémentation avec une file de type Python list.
@@ -210,7 +210,7 @@ En cas d'un très grand nombre de sommets, la méthode récursive peut vite atte
 [^2.6]: 1000 par défaut en Python.
 
 
-![Exemple de parcours en profondeur d'un graphe avec une pile](assets/2-graphe-dfs.gif){width="80%"}
+![Exemple de parcours en profondeur d'un graphe avec une pile](assets/2-graphe-dfs.gif){width="100%"}
 
 
 Voilà un exemple d'implémentation avec une pile de type Python list[^2.7]. 
